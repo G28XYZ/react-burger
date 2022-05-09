@@ -1,0 +1,31 @@
+.header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.interface {
+  display: flex;
+  list-style-type: none;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+.interface__item {
+  display: flex;
+  align-items: center;
+}
+
+.profile {
+  display: flex;
+  text-decoration: none;
+  color: white;
+  align-items: center;
+}
+
+.logo {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
