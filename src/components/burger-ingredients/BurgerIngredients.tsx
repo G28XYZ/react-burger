@@ -5,23 +5,33 @@ import style from "./burger-ingredients.module.css";
 function BurgerIngredients() {
   const [current, setCurrent] = React.useState("one");
 
-  function handleTabClick(value: string): void {
+  function handleTabClick(value: string) {
     console.log(value);
     setCurrent(value);
   }
 
   return (
-    <div style={{ display: "flex" }} className="p-10">
-      <Tab value="one" active={current === "one"} onClick={handleTabClick}>
-        One
-      </Tab>
-      <Tab value="two" active={current === "two"} onClick={handleTabClick}>
-        Two
-      </Tab>
-      <Tab value="three" active={current === "three"} onClick={handleTabClick}>
-        Three
-      </Tab>
-    </div>
+    <>
+      <div style={{ display: "flex" }} className="p-10">
+        <Tab value="bun" active={current === "bun"} onClick={handleTabClick}>
+          Булки
+        </Tab>
+        <Tab
+          value="sauce"
+          active={current === "sauce"}
+          onClick={handleTabClick}
+        >
+          Соусы
+        </Tab>
+        <Tab
+          value="filling"
+          active={current === "filling"}
+          onClick={handleTabClick}
+        >
+          Начинки
+        </Tab>
+      </div>
+    </>
   );
 }
 
