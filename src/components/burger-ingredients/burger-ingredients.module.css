@@ -8,5 +8,22 @@
 }
 
 .ingredients {
-  width: 50%;
+  max-width: 50%;
+}
+
+.container {
+  display: flex;
+  max-height: 70vh;
+  flex-direction: column;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }

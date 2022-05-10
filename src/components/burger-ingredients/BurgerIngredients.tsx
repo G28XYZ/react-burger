@@ -14,15 +14,15 @@ interface Names {
   [key: string]: string;
 }
 
-const ingredietsName: Names = {
+const ingredientsName: Names = {
   bun: "Булки",
   sauce: "Соусы",
   main: "Начинки",
 };
 
 const sortedIngredients = data.reduce((p: any, c) => {
-  p[ingredietsName[c.type]] = p[ingredietsName[c.type]]
-    ? [...p[ingredietsName[c.type]], c]
+  p[ingredientsName[c.type]] = p[ingredientsName[c.type]]
+    ? [...p[ingredientsName[c.type]], c]
     : [c];
   return p;
 }, {});
@@ -36,31 +36,26 @@ function BurgerIngredients() {
   }
 
   return (
-    <section className="ingredients p-10">
+    <section className={style.ingredients + " p-10"}>
       <h2 className="text text_type_main-large">Соберите бургер</h2>
-      <div style={{ display: "flex" }} className="pt-5">
-        {Object.keys(ingredietsName).map((name, i) => {
+      <div style={{ display: "flex" }} className="pt-5 pb-10">
+        {Object.keys(ingredientsName).map((name, i) => {
           return (
-            <Tab
-              key={i}
-              value={name}
-              active={current === name}
-              onClick={handleTabClick}
-            >
-              {ingredietsName[name]}
+            <Tab key={i} value={name} active={current === name} onClick={handleTabClick}>
+              {ingredientsName[name]}
             </Tab>
           );
         })}
       </div>
-      <div>
-        {Object.keys(ingredietsName).map((name, i) => {
-          const title = ingredietsName[name];
+      <div className={style.container}>
+        {Object.keys(ingredientsName).map((name, i) => {
+          const title = ingredientsName[name];
           return (
-            <div key={i}>
-              <h3>{title}</h3>
-              <ul>
+            <div key={i} className="pb-10">
+              <h3 className="text text_type_main-medium">{title}</h3>
+              <ul className={style.list}>
                 {sortedIngredients[title].map((ingredient: any) => {
-                  return <li key={ingredient._id}>{ingredient.name}</li>;
+                  return <BurgerIngredient {...ingredient} />;
                 })}
               </ul>
             </div>

@@ -1,0 +1,8 @@
+.item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 45%;
+  box-sizing: border-box;
+}
