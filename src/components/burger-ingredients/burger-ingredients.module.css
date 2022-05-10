@@ -9,6 +9,7 @@
 
 .ingredients {
   max-width: 50%;
+  box-sizing: border-box;
 }
 
 .container {

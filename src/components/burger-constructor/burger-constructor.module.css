@@ -1,0 +1,24 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 70vh;
+  justify-content: space-between;
+  max-width: 50%;
+}
+
+.elements {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 15px;
+}
+
+.middle {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  overflow-y: scroll;
+  height: 70%;
+  gap: 15px;
+}

@@ -1,13 +1,13 @@
 import AppHeader from "./components/app-header/AppHeader";
 import BurgerIngredients from "./components/burger-ingredients/BurgerIngredients";
-import "./App.css";
-import BurgerConstructor from "./components/BurgerConstructor";
+import appStyle from "./App.module.css";
+import BurgerConstructor from "./components/burger-constructor/BurgerConstructor";
 
 function App() {
   return (
-    <div className="page">
+    <div className={appStyle.page}>
       <AppHeader />
-      <main style={{ display: "flex" }}>
+      <main className={appStyle.main} style={{}}>
         <BurgerIngredients />
         <BurgerConstructor />
       </main>

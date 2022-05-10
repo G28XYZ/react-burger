@@ -36,7 +36,7 @@ function BurgerIngredients() {
   }
 
   return (
-    <section className={style.ingredients + " p-10"}>
+    <section className={style.ingredients}>
       <h2 className="text text_type_main-large">Соберите бургер</h2>
       <div style={{ display: "flex" }} className="pt-5 pb-10">
         {Object.keys(ingredientsName).map((name, i) => {
