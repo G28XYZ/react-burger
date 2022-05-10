@@ -12,11 +12,11 @@ function AppHeader() {
       <ul className={appHeaderStyle.interface}>
         <li className={appHeaderStyle.interface__item}>
           <BurgerIcon type="primary" />
-          <span className="pl-3">Конструктор</span>
+          <p className="pl-3 text text_type_main-default">Конструктор</p>
         </li>
         <li className={appHeaderStyle.interface__item}>
           <ListIcon type="secondary" />
-          <span className="pl-3">Лента заказов</span>
+          <p className="pl-3 text text_type_main-default text_color_inactive">Лента заказов</p>
         </li>
       </ul>
       <a href="/#" className={appHeaderStyle.logo}>
@@ -24,7 +24,7 @@ function AppHeader() {
       </a>
       <a href="/#" className={appHeaderStyle.profile}>
         <ProfileIcon type="secondary" />
-        <span className="pl-3">Личный кабинет</span>
+        <p className="pl-3 text text_type_main-default text_color_inactive">Личный кабинет</p>
       </a>
     </header>
   );
