@@ -6,3 +6,7 @@
   content: "Булки";
   position: absolute;
 }
+
+.ingredients {
+  width: 50%;
+}
