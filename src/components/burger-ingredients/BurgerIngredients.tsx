@@ -13,13 +13,13 @@ function BurgerIngredients() {
   return (
     <div style={{ display: "flex" }} className="p-10">
       <Tab value="one" active={current === "one"} onClick={handleTabClick}>
-        <>One</>
+        One
       </Tab>
       <Tab value="two" active={current === "two"} onClick={handleTabClick}>
-        <>Two</>
+        Two
       </Tab>
       <Tab value="three" active={current === "three"} onClick={handleTabClick}>
-        <>Three</>
+        Three
       </Tab>
     </div>
   );

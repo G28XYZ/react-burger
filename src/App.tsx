@@ -4,9 +4,11 @@ import "./App.css";
 
 function App() {
   return (
-    <div className="page" style={{ display: "flex", flexDirection: "column" }}>
+    <div className="page">
       <AppHeader />
-      <BurgerIngredients />
+      <main>
+        <BurgerIngredients />
+      </main>
     </div>
   );
 }

@@ -16,7 +16,9 @@ function AppHeader() {
         </li>
         <li className={appHeaderStyle.interface__item}>
           <ListIcon type="secondary" />
-          <p className="pl-3 text text_type_main-default text_color_inactive">Лента заказов</p>
+          <p className="pl-3 text text_type_main-default text_color_inactive">
+            Лента заказов
+          </p>
         </li>
       </ul>
       <a href="/#" className={appHeaderStyle.logo}>
@@ -24,7 +26,9 @@ function AppHeader() {
       </a>
       <a href="/#" className={appHeaderStyle.profile}>
         <ProfileIcon type="secondary" />
-        <p className="pl-3 text text_type_main-default text_color_inactive">Личный кабинет</p>
+        <p className="pl-3 text text_type_main-default text_color_inactive">
+          Личный кабинет
+        </p>
       </a>
     </header>
   );
