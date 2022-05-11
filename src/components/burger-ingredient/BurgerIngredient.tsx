@@ -1,5 +1,8 @@
 import PropTypes from "prop-types";
-import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import {
+  Counter,
+  CurrencyIcon,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-ingredient.module.css";
 export interface ingredientProp {
   _id: string;
@@ -39,11 +42,16 @@ function BurgerIngredient(props: ingredientProp) {
   return (
     <li className={style.item + " pb-10"} key={props._id}>
       {props.price > 1000 && <Counter count={1} size="default" />}
-      <img src={props.image_mobile} alt={props.name} />
+      <img src={props.image} alt={props.name} />
       <div className="text text_type_digits-default">
         {props.price} <CurrencyIcon type="primary" />
       </div>
-      <p className="text text_type_main-default">{props.name}</p>
+      <p
+        className="text text_type_main-default"
+        style={{ textAlign: "center" }}
+      >
+        {props.name}
+      </p>
     </li>
   );
 }

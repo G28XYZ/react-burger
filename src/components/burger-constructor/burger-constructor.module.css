@@ -10,7 +10,7 @@
 .elements {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  max-height: 500px;
   gap: 15px;
 }
 
@@ -21,4 +21,15 @@
   overflow-y: scroll;
   height: 70%;
   gap: 15px;
+  overflow-y: overlay;
+}
+
+.element {
+  align-self: end;
+  padding-right: 25px;
+  display: flex;
+  max-width: 536px;
+  max-height: 80px;
+  width: 100%;
+  box-sizing: border-box;
 }

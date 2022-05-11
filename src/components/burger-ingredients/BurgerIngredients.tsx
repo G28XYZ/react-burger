@@ -36,12 +36,17 @@ function BurgerIngredients() {
   }
 
   return (
-    <section className={style.ingredients}>
+    <section className={style.ingredients + " pt-10"}>
       <h2 className="text text_type_main-large">Соберите бургер</h2>
       <div style={{ display: "flex" }} className="pt-5 pb-10">
         {Object.keys(ingredientsName).map((name, i) => {
           return (
-            <Tab key={i} value={name} active={current === name} onClick={handleTabClick}>
+            <Tab
+              key={i}
+              value={name}
+              active={current === name}
+              onClick={handleTabClick}
+            >
               {ingredientsName[name]}
             </Tab>
           );

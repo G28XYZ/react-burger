@@ -12,9 +12,9 @@ import style from "./burger-constructor.module.css";
 function BurgerConstructor() {
   const bun = data[0];
   return (
-    <section className={style.main + " pt-20"}>
+    <section className={style.main}>
       <div className={style.elements}>
-        <div className="pl-10">
+        <div className={style.element}>
           <ConstructorElement
             type="top"
             isLocked={false}
@@ -26,19 +26,25 @@ function BurgerConstructor() {
         <div className={style.middle}>
           {data.map((item) => {
             return (
-              <div style={{ display: "flex", alignItems: "center", gap: 10 }} className="pr-5">
-                <DragIcon type="primary" />
-                <ConstructorElement
-                  isLocked={true}
-                  text={item.name}
-                  price={item.price}
-                  thumbnail={item.image_mobile}
-                />
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                {item.type !== "bun" ? (
+                  <>
+                    <DragIcon type="primary" />
+                    <div className={style.element}>
+                      <ConstructorElement
+                        isLocked={true}
+                        text={item.name}
+                        price={item.price}
+                        thumbnail={item.image_mobile}
+                      />
+                    </div>
+                  </>
+                ) : null}
               </div>
             );
           })}
         </div>
-        <div className="pl-10">
+        <div className={style.element}>
           <ConstructorElement
             type="bottom"
             isLocked={false}
@@ -49,8 +55,13 @@ function BurgerConstructor() {
         </div>
       </div>
       <div
-        style={{ display: "flex", alignSelf: "end", alignItems: "center", gap: 30 }}
-        className="pr-8"
+        style={{
+          display: "flex",
+          alignSelf: "end",
+          alignItems: "center",
+          gap: 30,
+        }}
+        className="pr-8 pt-8"
       >
         <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
           <p className="text text_type_digits-medium">610</p>
