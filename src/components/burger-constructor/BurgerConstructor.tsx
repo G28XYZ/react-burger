@@ -4,12 +4,16 @@ import {
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import React from "react";
 
 import { data } from "../../utils/data";
 import style from "./burger-constructor.module.css";
 
-function BurgerConstructor() {
+interface PropsBurgerConstructor {
+  order: object;
+  handleSetOrder: () => void;
+}
+
+function BurgerConstructor({ order, handleSetOrder }: PropsBurgerConstructor) {
   const bun = data[0];
   return (
     <section className={style.main}>
@@ -26,9 +30,11 @@ function BurgerConstructor() {
         <div className={style.middle}>
           {data.map((item) => {
             return (
-              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                {item.type !== "bun" ? (
-                  <>
+              <>
+                {item.type !== "bun" && item.price > 1000 ? (
+                  <div
+                    style={{ display: "flex", alignItems: "center", gap: 10 }}
+                  >
                     <DragIcon type="primary" />
                     <div className={style.element}>
                       <ConstructorElement
@@ -38,9 +44,9 @@ function BurgerConstructor() {
                         thumbnail={item.image_mobile}
                       />
                     </div>
-                  </>
+                  </div>
                 ) : null}
-              </div>
+              </>
             );
           })}
         </div>
@@ -64,7 +70,12 @@ function BurgerConstructor() {
         className="pr-8 pt-8"
       >
         <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-          <p className="text text_type_digits-medium">610</p>
+          <p className="text text_type_digits-medium">
+            {data.reduce(
+              (p, c) => (c.price > 1000 && c.type !== "bun" ? p + c.price : p),
+              bun.price * 2
+            )}
+          </p>
           <CurrencyIcon type="primary" />
         </div>
         <Button type="primary" size="large">

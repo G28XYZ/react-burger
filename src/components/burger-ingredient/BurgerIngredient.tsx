@@ -4,6 +4,7 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-ingredient.module.css";
+
 export interface ingredientProp {
   _id: string;
   name: string;

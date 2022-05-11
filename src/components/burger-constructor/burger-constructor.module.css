@@ -20,7 +20,7 @@
   overflow: hidden;
   overflow-y: scroll;
   height: 70%;
-  gap: 15px;
+  gap: 10px;
   overflow-y: overlay;
 }
 

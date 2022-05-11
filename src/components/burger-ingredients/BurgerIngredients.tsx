@@ -14,6 +14,11 @@ interface Names {
   [key: string]: string;
 }
 
+interface PropsBurgerIngredients {
+  order: object;
+  handleSetOrder: () => void;
+}
+
 const ingredientsName: Names = {
   bun: "Булки",
   sauce: "Соусы",
@@ -27,7 +32,7 @@ const sortedIngredients = data.reduce((p: any, c) => {
   return p;
 }, {});
 
-function BurgerIngredients() {
+function BurgerIngredients({ order, handleSetOrder }: PropsBurgerIngredients) {
   const [current, setCurrent] = React.useState("bun");
 
   function handleTabClick(value: string) {
@@ -60,7 +65,12 @@ function BurgerIngredients() {
               <h3 className="text text_type_main-medium">{title}</h3>
               <ul className={style.list}>
                 {sortedIngredients[title].map((ingredient: any) => {
-                  return <BurgerIngredient {...ingredient} />;
+                  return (
+                    <BurgerIngredient
+                      {...ingredient}
+                      handleSetOrder={handleSetOrder}
+                    />
+                  );
                 })}
               </ul>
             </div>
