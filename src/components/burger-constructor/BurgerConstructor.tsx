@@ -14,7 +14,7 @@ function BurgerConstructor() {
   return (
     <section className={style.main + " pt-20"}>
       <div className={style.elements}>
-        <div className="pl-8">
+        <div className="pl-10">
           <ConstructorElement
             type="top"
             isLocked={false}
@@ -26,19 +26,19 @@ function BurgerConstructor() {
         <div className={style.middle}>
           {data.map((item) => {
             return (
-              <div style={{ display: "flex", alignItems: "center", gap: 10 }} className="pr-3">
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }} className="pr-5">
                 <DragIcon type="primary" />
                 <ConstructorElement
                   isLocked={true}
                   text={item.name}
                   price={item.price}
-                  thumbnail={item.image}
+                  thumbnail={item.image_mobile}
                 />
               </div>
             );
           })}
         </div>
-        <div className="pl-8">
+        <div className="pl-10">
           <ConstructorElement
             type="bottom"
             isLocked={false}

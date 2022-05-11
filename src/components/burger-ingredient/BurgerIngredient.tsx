@@ -39,7 +39,7 @@ function BurgerIngredient(props: ingredientProp) {
   return (
     <li className={style.item + " pb-10"} key={props._id}>
       {props.price > 1000 && <Counter count={1} size="default" />}
-      <img src={props.image} alt={props.name} />
+      <img src={props.image_mobile} alt={props.name} />
       <div className="text text_type_digits-default">
         {props.price} <CurrencyIcon type="primary" />
       </div>
