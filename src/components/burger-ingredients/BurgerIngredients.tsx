@@ -29,14 +29,12 @@ function BurgerIngredients({
 
   const ingredientNames = Object.keys(ingredients);
 
-  function renderIngredientList(nameIngredient: string) {
-    return ingredients[nameIngredient].map((ingredient: Ingredient, j) => {
-      return (
-        <React.Fragment key={j}>
-          <BurgerIngredient ingredient={ingredient} orderList={orderList} />
-        </React.Fragment>
-      );
-    });
+  function renderIngredientList(ingredient: Ingredient, index: number) {
+    return (
+      <React.Fragment key={index}>
+        <BurgerIngredient ingredient={ingredient} orderList={orderList} />
+      </React.Fragment>
+    );
   }
 
   return (
@@ -61,7 +59,9 @@ function BurgerIngredients({
           return (
             <div key={i} className="pb-10">
               <h3 className="text text_type_main-medium">{name}</h3>
-              <ul className={style.list}>{renderIngredientList(name)}</ul>
+              <ul className={style.list}>
+                {ingredients[name].map(renderIngredientList)}
+              </ul>
             </div>
           );
         })}

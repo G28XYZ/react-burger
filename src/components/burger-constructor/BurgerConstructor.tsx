@@ -62,16 +62,8 @@ function BurgerConstructor({
           />
         </div>
       </div>
-      <div
-        style={{
-          display: "flex",
-          alignSelf: "end",
-          alignItems: "center",
-          gap: 30,
-        }}
-        className="pr-8 pt-8"
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+      <div className={style.ordinare + " p-8"}>
+        <div className={style.total}>
           <p className="text text_type_digits-medium">
             {orderList.reduce(
               (p: number, c: Ingredient) =>
