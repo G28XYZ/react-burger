@@ -5,7 +5,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-ingredient.module.css";
 
-export interface ingredientProp {
+export interface Ingredient {
   _id: string;
   name: string;
   type: string;
@@ -18,6 +18,11 @@ export interface ingredientProp {
   image_mobile: string;
   image_large: string;
   __v: number;
+}
+
+export interface ingredientProp {
+  ingredient: Ingredient;
+  orderList: Ingredient[];
 }
 
 export const ingredientPropTypes = PropTypes.shape({
@@ -39,19 +44,19 @@ BurgerIngredient.propTypes = {
   ingredient: ingredientPropTypes,
 };
 
-function BurgerIngredient(props: ingredientProp) {
+function BurgerIngredient({ ingredient, orderList }: ingredientProp) {
   return (
-    <li className={style.item + " pb-10"} key={props._id}>
-      {props.price > 1000 && <Counter count={1} size="default" />}
-      <img src={props.image} alt={props.name} />
+    <li className={style.item + " pb-10"} key={ingredient._id}>
+      {orderList.includes(ingredient) && <Counter count={1} size="default" />}
+      <img src={ingredient.image} alt={ingredient.name} />
       <div className="text text_type_digits-default">
-        {props.price} <CurrencyIcon type="primary" />
+        {ingredient.price} <CurrencyIcon type="primary" />
       </div>
       <p
         className="text text_type_main-default"
         style={{ textAlign: "center" }}
       >
-        {props.name}
+        {ingredient.name}
       </p>
     </li>
   );

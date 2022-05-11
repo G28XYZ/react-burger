@@ -1,26 +1,64 @@
-import { useState } from "react";
+import React from "react";
 import AppHeader from "./components/app-header/AppHeader";
 import BurgerIngredients from "./components/burger-ingredients/BurgerIngredients";
 import appStyle from "./App.module.css";
 import BurgerConstructor from "./components/burger-constructor/BurgerConstructor";
 import { data } from "./utils/data";
 
-function App() {
-  const [order, setOrder] = useState({});
+interface Names {
+  [key: string]: string;
+}
 
-  function handleSetOrder() {
-    setOrder({});
+class App extends React.Component {
+  ingredientsName: Names = {
+    bun: "Булки",
+    sauce: "Соусы",
+    main: "Начинки",
+  };
+  state = {
+    ingredients: {},
+    order: [],
+  };
+
+  componentDidMount() {
+    this.setState({
+      ...this.state,
+      ingredients: this.setIngredients(),
+      order: [...data.filter((item) => item.price > 1000)],
+    });
   }
 
-  return (
-    <div className={appStyle.page}>
-      <AppHeader />
-      <main className={appStyle.main} style={{}}>
-        <BurgerIngredients order={order} handleSetOrder={handleSetOrder} />
-        <BurgerConstructor order={order} handleSetOrder={handleSetOrder} />
-      </main>
-    </div>
-  );
+  setIngredients() {
+    const sortedIngredients = data.reduce((p: any, c) => {
+      p[this.ingredientsName[c.type]] = p[this.ingredientsName[c.type]]
+        ? [...p[this.ingredientsName[c.type]], c]
+        : [c];
+      return p;
+    }, {});
+
+    return sortedIngredients;
+  }
+
+  handleSetOrder() {}
+
+  render() {
+    return (
+      <div className={appStyle.page}>
+        <AppHeader />
+        <main className={appStyle.main} style={{}}>
+          <BurgerIngredients
+            orderList={this.state.order}
+            ingredients={this.state.ingredients}
+            handleSetOrder={this.handleSetOrder}
+          />
+          <BurgerConstructor
+            orderList={this.state.order}
+            handleSetOrder={this.handleSetOrder}
+          />
+        </main>
+      </div>
+    );
+  }
 }
 
 export default App;
