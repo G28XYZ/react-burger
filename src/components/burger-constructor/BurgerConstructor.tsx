@@ -16,9 +16,29 @@ function BurgerConstructor({
   orderList,
   handleSetOrder,
 }: PropsBurgerConstructor) {
-  const bun: Ingredient = orderList.filter(
-    (item: Ingredient) => item.type === "bun"
-  )[0];
+  const bun: Ingredient = orderList.reduce((p, c: Ingredient) =>
+    c.type === "bun" ? c : p
+  );
+
+  function renderOrderItem(item: Ingredient) {
+    return item.type !== "bun" ? (
+      <div
+        key={item._id}
+        style={{ display: "flex", alignItems: "center", gap: 10 }}
+      >
+        <DragIcon type="primary" />
+        <div className={style.element}>
+          <ConstructorElement
+            isLocked={true}
+            text={item.name}
+            price={item.price}
+            thumbnail={item.image_mobile}
+          />
+        </div>
+      </div>
+    ) : null;
+  }
+
   return (
     <section className={style.main}>
       <div className={style.elements}>
@@ -31,29 +51,7 @@ function BurgerConstructor({
             thumbnail={bun.image}
           />
         </div>
-        <div className={style.middle}>
-          {orderList.map((item: any) => {
-            return (
-              <>
-                {item.type !== "bun" ? (
-                  <div
-                    style={{ display: "flex", alignItems: "center", gap: 10 }}
-                  >
-                    <DragIcon type="primary" />
-                    <div className={style.element}>
-                      <ConstructorElement
-                        isLocked={true}
-                        text={item.name}
-                        price={item.price}
-                        thumbnail={item.image_mobile}
-                      />
-                    </div>
-                  </div>
-                ) : null}
-              </>
-            );
-          })}
-        </div>
+        <div className={style.middle}>{orderList.map(renderOrderItem)}</div>
         <div className={style.element}>
           <ConstructorElement
             type="bottom"
@@ -76,7 +74,8 @@ function BurgerConstructor({
         <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
           <p className="text text_type_digits-medium">
             {orderList.reduce(
-              (p: number, c: any) => (c.type !== "bun" ? p + c.price : p),
+              (p: number, c: Ingredient) =>
+                c.type !== "bun" ? p + c.price : p,
               bun.price * 2
             )}
           </p>

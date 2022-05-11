@@ -16,17 +16,9 @@ class App extends React.Component {
     main: "Начинки",
   };
   state = {
-    ingredients: {},
-    order: [],
+    ingredients: this.setIngredients(),
+    order: [...data.filter((item) => item.price > 1000)],
   };
-
-  componentDidMount() {
-    this.setState({
-      ...this.state,
-      ingredients: this.setIngredients(),
-      order: [...data.filter((item) => item.price > 1000)],
-    });
-  }
 
   setIngredients() {
     const sortedIngredients = data.reduce((p: any, c) => {
@@ -45,7 +37,7 @@ class App extends React.Component {
     return (
       <div className={appStyle.page}>
         <AppHeader />
-        <main className={appStyle.main} style={{}}>
+        <main className={appStyle.main}>
           <BurgerIngredients
             orderList={this.state.order}
             ingredients={this.state.ingredients}
