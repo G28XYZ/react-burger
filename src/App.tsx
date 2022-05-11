@@ -31,22 +31,13 @@ class App extends React.Component {
     return sortedIngredients;
   }
 
-  handleSetOrder() {}
-
   render() {
     return (
       <div className={appStyle.page}>
         <AppHeader />
         <main className={appStyle.main}>
-          <BurgerIngredients
-            orderList={this.state.order}
-            ingredients={this.state.ingredients}
-            handleSetOrder={this.handleSetOrder}
-          />
-          <BurgerConstructor
-            orderList={this.state.order}
-            handleSetOrder={this.handleSetOrder}
-          />
+          <BurgerIngredients orderList={this.state.order} ingredients={this.state.ingredients} />
+          <BurgerConstructor orderList={this.state.order} />
         </main>
       </div>
     );

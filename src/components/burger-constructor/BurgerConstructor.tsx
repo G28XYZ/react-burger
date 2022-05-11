@@ -4,28 +4,25 @@ import {
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from "prop-types";
+import { ingredientPropTypes } from "../burger-ingredient/BurgerIngredient";
 import style from "./burger-constructor.module.css";
 import { Ingredient } from "../burger-ingredient/BurgerIngredient";
 
 interface PropsBurgerConstructor {
   orderList: Ingredient[];
-  handleSetOrder: () => void;
 }
 
-function BurgerConstructor({
-  orderList,
-  handleSetOrder,
-}: PropsBurgerConstructor) {
-  const bun: Ingredient = orderList.reduce((p, c: Ingredient) =>
-    c.type === "bun" ? c : p
-  );
+BurgerConstructor.propsType = {
+  orderList: PropTypes.arrayOf(ingredientPropTypes),
+};
+
+function BurgerConstructor({ orderList }: PropsBurgerConstructor) {
+  const bun: Ingredient = orderList.reduce((p, c: Ingredient) => (c.type === "bun" ? c : p));
 
   function renderOrderItem(item: Ingredient) {
     return item.type !== "bun" ? (
-      <div
-        key={item._id}
-        style={{ display: "flex", alignItems: "center", gap: 10 }}
-      >
+      <div key={item._id} style={{ display: "flex", alignItems: "center", gap: 10 }}>
         <DragIcon type="primary" />
         <div className={style.element}>
           <ConstructorElement
@@ -66,8 +63,7 @@ function BurgerConstructor({
         <div className={style.total}>
           <p className="text text_type_digits-medium">
             {orderList.reduce(
-              (p: number, c: Ingredient) =>
-                c.type !== "bun" ? p + c.price : p,
+              (p: number, c: Ingredient) => (c.type !== "bun" ? p + c.price : p),
               bun.price * 2
             )}
           </p>
