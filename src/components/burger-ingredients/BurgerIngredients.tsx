@@ -30,7 +30,6 @@ BurgerIngredients.propsType = {
 
 function BurgerIngredients({ orderList, ingredients }: PropsBurgerIngredients) {
   const [current, setCurrent] = React.useState("Булки");
-  console.log(ingredients);
   function handleTabClick(value: string) {
     console.log(value);
     setCurrent(value);
