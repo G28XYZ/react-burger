@@ -4,18 +4,12 @@ import {
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
-import { ingredientPropTypes } from "../burger-ingredient/BurgerIngredient";
 import style from "./burger-constructor.module.css";
 import { Ingredient } from "../burger-ingredient/BurgerIngredient";
 
 interface PropsBurgerConstructor {
   orderList: Ingredient[];
 }
-
-BurgerConstructor.propsType = {
-  orderList: PropTypes.arrayOf(ingredientPropTypes),
-};
 
 function BurgerConstructor({ orderList }: PropsBurgerConstructor) {
   const bun: Ingredient = orderList.reduce((p, c: Ingredient) => (c.type === "bun" ? c : p));
@@ -26,7 +20,7 @@ function BurgerConstructor({ orderList }: PropsBurgerConstructor) {
         <DragIcon type="primary" />
         <div className={style.element}>
           <ConstructorElement
-            isLocked={true}
+            isLocked={false}
             text={item.name}
             price={item.price}
             thumbnail={item.image_mobile}
@@ -42,8 +36,8 @@ function BurgerConstructor({ orderList }: PropsBurgerConstructor) {
         <div className={style.element}>
           <ConstructorElement
             type="top"
-            isLocked={false}
-            text={bun.name}
+            isLocked={true}
+            text={bun.name + " (верх)"}
             price={bun.price}
             thumbnail={bun.image}
           />
@@ -52,8 +46,8 @@ function BurgerConstructor({ orderList }: PropsBurgerConstructor) {
         <div className={style.element}>
           <ConstructorElement
             type="bottom"
-            isLocked={false}
-            text={bun.name}
+            isLocked={true}
+            text={bun.name + " (низ)"}
             price={bun.price}
             thumbnail={bun.image}
           />

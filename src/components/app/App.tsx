@@ -1,9 +1,9 @@
 import React from "react";
-import AppHeader from "./components/app-header/AppHeader";
-import BurgerIngredients from "./components/burger-ingredients/BurgerIngredients";
-import appStyle from "./App.module.css";
-import BurgerConstructor from "./components/burger-constructor/BurgerConstructor";
-import { data } from "./utils/data";
+import AppHeader from "../app-header/AppHeader";
+import BurgerIngredients from "../burger-ingredients/BurgerIngredients";
+import appStyle from "./app.module.css";
+import BurgerConstructor from "../burger-constructor/BurgerConstructor";
+import { data } from "../../utils/data";
 
 interface Names {
   [key: string]: string;

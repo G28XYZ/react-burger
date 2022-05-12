@@ -1,10 +1,8 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredient from "../burger-ingredient/BurgerIngredient";
 import style from "./burger-ingredients.module.css";
 import { Ingredient } from "../burger-ingredient/BurgerIngredient";
-import { ingredientPropTypes } from "../burger-ingredient/BurgerIngredient";
 
 declare module "react" {
   interface FunctionComponent<P = {}> {
@@ -14,19 +12,8 @@ declare module "react" {
 
 interface PropsBurgerIngredients {
   orderList: Ingredient[];
-  ingredients: { [key: string]: [] };
+  ingredients: { [key: string]: Ingredient[] };
 }
-
-const ingredientsPropTypes = PropTypes.shape({
-  Булки: PropTypes.arrayOf(ingredientPropTypes),
-  Начинки: PropTypes.arrayOf(ingredientPropTypes),
-  Соусы: PropTypes.arrayOf(ingredientPropTypes),
-});
-
-BurgerIngredients.propsType = {
-  orderList: PropTypes.arrayOf(ingredientPropTypes),
-  ingredients: ingredientsPropTypes,
-};
 
 function BurgerIngredients({ orderList, ingredients }: PropsBurgerIngredients) {
   const [current, setCurrent] = React.useState("Булки");
@@ -37,12 +24,8 @@ function BurgerIngredients({ orderList, ingredients }: PropsBurgerIngredients) {
 
   const ingredientNames = Object.keys(ingredients);
 
-  function renderIngredientList(ingredient: Ingredient, index: number) {
-    return (
-      <React.Fragment key={index}>
-        <BurgerIngredient ingredient={ingredient} orderList={orderList} />
-      </React.Fragment>
-    );
+  function renderIngredientsList(ingredient: Ingredient) {
+    return <BurgerIngredient key={ingredient._id} ingredient={ingredient} orderList={orderList} />;
   }
 
   return (
@@ -62,7 +45,7 @@ function BurgerIngredients({ orderList, ingredients }: PropsBurgerIngredients) {
           return (
             <div key={i} className="pb-10">
               <h3 className="text text_type_main-medium">{name}</h3>
-              <ul className={style.list}>{ingredients[name].map(renderIngredientList)}</ul>
+              <ul className={style.list}>{ingredients[name].map(renderIngredientsList)}</ul>
             </div>
           );
         })}
