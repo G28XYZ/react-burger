@@ -1,12 +1,18 @@
 .header {
   position: relative;
   display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  box-sizing: border-box;
+  background-color: #1d1d23;
+}
+
+.menu {
+  display: flex;
   justify-content: space-between;
   align-items: center;
-  height: max-content;
-  background-color: #1d1d23;
+  max-width: 1200px;
+  width: 100%;
 }
 
 .interface {
@@ -36,9 +42,9 @@
 }
 
 @media screen and (max-width: 1200px) {
-  .header {
+  .menu {
     flex-direction: column-reverse;
-    padding-top: 100px;
+    padding-top: 50px;
     gap: 20px;
   }
   .logo {
