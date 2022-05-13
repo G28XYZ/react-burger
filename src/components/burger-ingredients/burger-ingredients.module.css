@@ -1,0 +1,30 @@
+.tab {
+  position: relative;
+}
+
+.tab:nth-child(1):before {
+  content: "Булки";
+  position: absolute;
+}
+
+.ingredients {
+  max-width: 600px;
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  max-height: 756px;
+  flex-direction: column;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
