@@ -14,7 +14,7 @@
 
 .container {
   display: flex;
-  max-height: 60vh;
+  max-height: 756px;
   flex-direction: column;
   overflow: hidden;
   overflow-y: scroll;

@@ -17,7 +17,7 @@ class App extends React.Component {
   };
   state = {
     ingredients: this.setIngredients(),
-    order: [...data.filter((item) => item.price > 1000)],
+    order: [...data.filter((item) => item.price > 1000 || item.price < 100)],
   };
 
   setIngredients() {
