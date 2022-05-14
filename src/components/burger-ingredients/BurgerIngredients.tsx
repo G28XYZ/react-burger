@@ -17,6 +17,7 @@ interface PropsBurgerIngredients {
 
 function BurgerIngredients({ orderList, ingredients }: PropsBurgerIngredients) {
   const [current, setCurrent] = React.useState("Булки");
+
   function handleTabClick(value: string) {
     console.log(value);
     setCurrent(value);
@@ -29,7 +30,7 @@ function BurgerIngredients({ orderList, ingredients }: PropsBurgerIngredients) {
   }
 
   return (
-    <section className={style.ingredients + " pt-10"}>
+    <section className={style.ingredients + " pt-10 pl-5"}>
       <h2 className="text text_type_main-large">Соберите бургер</h2>
       <div style={{ display: "flex" }} className="pt-5 pb-10">
         {ingredientNames.map((name: string, i) => {

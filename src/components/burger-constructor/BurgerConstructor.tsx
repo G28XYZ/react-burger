@@ -31,7 +31,7 @@ function BurgerConstructor({ orderList }: PropsBurgerConstructor) {
   }
 
   return (
-    <section className={style.main}>
+    <section className={style.main + " pr-5"}>
       <div className={style.elements}>
         <div className={style.element}>
           <ConstructorElement
