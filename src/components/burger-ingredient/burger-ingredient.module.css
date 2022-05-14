@@ -8,6 +8,10 @@
   box-sizing: border-box;
 }
 
+.image {
+  cursor: pointer;
+}
+
 .modal {
   display: flex;
   flex-direction: column;

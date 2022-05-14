@@ -56,9 +56,14 @@ function BurgerIngredient({ ingredient, orderList, onOpenModal }: ingredientProp
   }
 
   return (
-    <li className={style.item + " pb-10"} key={ingredient._id} onClick={onHandleClick}>
+    <li className={style.item + " pb-10"} key={ingredient._id}>
       {orderList.includes(ingredient) && <Counter count={1} size="default" />}
-      <img src={ingredient.image} alt={ingredient.name} />
+      <img
+        className={style.image}
+        src={ingredient.image}
+        alt={ingredient.name}
+        onClick={onHandleClick}
+      />
       <div className="text text_type_digits-default">
         {ingredient.price} <CurrencyIcon type="primary" />
       </div>

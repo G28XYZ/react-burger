@@ -6,6 +6,7 @@ const modal = document.getElementById("react-modals") as HTMLElement;
 function Modal({ title = "", children, isOpen = true, onCloseModal }: any) {
   return ReactDOM.createPortal(
     <div className={isOpen ? style.popup_opened : style.popup}>
+      <div onClick={onCloseModal} className={style.overlay}></div>
       <div className={style.container}>
         <div className={style.header}>
           <h2 className="text text_type_main-large">{title}</h2>
