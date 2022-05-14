@@ -1,4 +1,5 @@
 import doneImage from "../../images/done.png";
+import Modal from "../modal/Modal";
 import style from "./order-details.module.css";
 
 function OrderDetails({ orderId }: { orderId: string }) {

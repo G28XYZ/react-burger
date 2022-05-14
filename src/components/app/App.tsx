@@ -50,20 +50,12 @@ function App() {
     });
   }, [sortIngredients, filterOrder, order]);
 
-  function handleCloseModalByEsc(e: KeyboardEvent) {
-    if (e.code === "Escape") {
-      onCloseModal();
-    }
-  }
-
   function onCloseModal(): void {
     setModal({ ...modal, isOpen: false, title: "", children: <></> });
-    document.removeEventListener("keydown", handleCloseModalByEsc);
   }
 
   function onOpenModal({ title = "", children }: OpenModalProps): void {
     setModal({ ...modal, isOpen: true, title, children });
-    document.addEventListener("keydown", handleCloseModalByEsc);
   }
 
   return (

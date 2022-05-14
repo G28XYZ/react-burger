@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useCallback, useEffect } from "react";
 import ReactDOM from "react-dom";
 import style from "./modal.module.css";
 import ModalOverlay from "../modal-overlay/ModalOverlay";
@@ -12,7 +12,22 @@ export interface ModalProps {
   onCloseModal: () => void;
 }
 
-function Modal({ title = "", children, isOpen = true, onCloseModal }: ModalProps) {
+function Modal({ title = "", children, isOpen = false, onCloseModal }: ModalProps) {
+  const handleCloseModalByEsc = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.code === "Escape") {
+        console.log("close Esc");
+        onCloseModal();
+      }
+    },
+    [onCloseModal]
+  );
+
+  useEffect(() => {
+    if (isOpen) document.addEventListener("keydown", handleCloseModalByEsc);
+    return () => document.removeEventListener("keydown", handleCloseModalByEsc);
+  }, [handleCloseModalByEsc, isOpen]);
+
   return ReactDOM.createPortal(
     <div className={isOpen ? style.popup_opened : style.popup}>
       <ModalOverlay onCloseModal={onCloseModal} />
