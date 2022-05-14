@@ -72,7 +72,7 @@ function App() {
             ingredients={ingredients}
             onOpenModal={onOpenModal}
           />
-          <BurgerConstructor orderList={order} />
+          <BurgerConstructor orderList={order} onOpenModal={onOpenModal} />
           <Modal title={modal.title} isOpen={modal.isOpen} onCloseModal={onCloseModal}>
             {modal.children}
           </Modal>
