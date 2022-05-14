@@ -43,11 +43,14 @@ function App() {
   }, []);
 
   useEffect(() => {
-    api.getIngredients().then(({ data }) => {
-      setIngredients(sortIngredients(data));
-      setOrder({ ...order, list: filterOrder(data) });
-      isLoad(false);
-    });
+    api
+      .getIngredients()
+      .then(({ data }) => {
+        setIngredients(sortIngredients(data));
+        setOrder({ ...order, list: filterOrder(data) });
+        isLoad(false);
+      })
+      .catch(console.log);
   }, [sortIngredients, filterOrder, order]);
 
   function onCloseModal(): void {

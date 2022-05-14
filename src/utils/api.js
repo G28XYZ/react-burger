@@ -1,4 +1,4 @@
-import { address } from "./contstansts";
+import { address } from "./constants";
 
 class Api {
   constructor(address) {
