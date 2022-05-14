@@ -1,4 +1,5 @@
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import IngredientDetails from "../ingredient-modal/IngredientDetails";
 import style from "./burger-ingredient.module.css";
 
 export interface Ingredient {
@@ -23,36 +24,11 @@ export interface ingredientProp {
 }
 
 function BurgerIngredient({ ingredient, orderList, onOpenModal }: ingredientProp) {
-  const structureList = [
-    ["calories", "Калории, ккал"],
-    ["proteins", "Белки, г"],
-    ["fat", "Жиры, г"],
-    ["carbohydrates", "Углеводы, г"],
-  ];
-
-  function getChildren() {
-    return (
-      <div className={style.modal}>
-        <img src={ingredient.image_large} alt={ingredient.name} />
-        <p className="text text_type_main-medium  pb-5">{ingredient.name}</p>
-        <ul className={style.structure + " text text_type_main-default text_color_inactive"}>
-          {structureList.map((element, i) => {
-            const key = element[0] as keyof Ingredient;
-            const title = element[1];
-            return (
-              <li key={ingredient._id + i}>
-                <span>{title}</span>
-                <p className="text_type_digits-default">{ingredient[key]}</p>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-    );
-  }
-
   function onHandleClick() {
-    onOpenModal({ title: "Детали ингредиента", children: getChildren() });
+    onOpenModal({
+      title: "Детали ингредиента",
+      children: <IngredientDetails ingredient={ingredient} />,
+    });
   }
 
   return (

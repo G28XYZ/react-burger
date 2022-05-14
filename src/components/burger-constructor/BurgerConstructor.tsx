@@ -6,7 +6,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-constructor.module.css";
 import { Ingredient } from "../burger-ingredient/BurgerIngredient";
-import doneImage from "../../images/done.png";
+import OrderDetails from "../order-modal/OrderDetails";
 
 interface PropsBurgerConstructor {
   orderList: Ingredient[];
@@ -16,22 +16,8 @@ interface PropsBurgerConstructor {
 function BurgerConstructor({ orderList, onOpenModal }: PropsBurgerConstructor) {
   const bun: Ingredient = orderList.reduce((p, c: Ingredient) => (c.type === "bun" ? c : p));
 
-  function getChildren() {
-    return (
-      <div className={style.modal}>
-        <h2 className={style.title + " text text_type_digits-large"}>034536</h2>
-        <p className="text text_type_main-default">идентификатор заказа</p>
-        <img src={doneImage} alt="Символ галочки" />
-        <p className="text text_type_main-small">Ваш заказ начали готовить</p>
-        <p className="text text_type_main-small text_color_inactive">
-          Дождитесь готовности на орбитальной станции
-        </p>
-      </div>
-    );
-  }
-
   function onOrderDetails() {
-    onOpenModal({ children: getChildren() });
+    onOpenModal({ children: <OrderDetails /> });
   }
 
   function renderOrderItem(item: Ingredient) {
