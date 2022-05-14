@@ -13,9 +13,10 @@ declare module "react" {
 interface PropsBurgerIngredients {
   orderList: Ingredient[];
   ingredients: { [key: string]: Ingredient[] };
+  onOpenModal: ({}) => void;
 }
 
-function BurgerIngredients({ orderList, ingredients }: PropsBurgerIngredients) {
+function BurgerIngredients({ orderList, ingredients, onOpenModal }: PropsBurgerIngredients) {
   const [current, setCurrent] = React.useState("Булки");
 
   function handleTabClick(value: string) {
@@ -26,7 +27,14 @@ function BurgerIngredients({ orderList, ingredients }: PropsBurgerIngredients) {
   const ingredientNames = Object.keys(ingredients);
 
   function renderIngredientsList(ingredient: Ingredient) {
-    return <BurgerIngredient key={ingredient._id} ingredient={ingredient} orderList={orderList} />;
+    return (
+      <BurgerIngredient
+        key={ingredient._id}
+        ingredient={ingredient}
+        orderList={orderList}
+        onOpenModal={onOpenModal}
+      />
+    );
   }
 
   return (

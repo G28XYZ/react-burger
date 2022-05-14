@@ -1,20 +1,21 @@
-import React from "react";
 import ReactDOM from "react-dom";
+import style from "./modal.module.css";
 
 const modal = document.getElementById("react-modals") as HTMLElement;
 
-class Modal extends React.Component {
-  render() {
-    return ReactDOM.createPortal(
-      <>
-        <div className="Modal">
-          <h2>header</h2>
-          children
+function Modal({ title = "", children, isOpen = true, onCloseModal }: any) {
+  return ReactDOM.createPortal(
+    <div className={isOpen ? style.popup_opened : style.popup}>
+      <div className={style.container}>
+        <div className={style.header}>
+          <h2 className="text text_type_main-large">{title}</h2>
+          <button className={style.close} onClick={onCloseModal}></button>
         </div>
-      </>,
-      modal
-    );
-  }
+        {children}
+      </div>
+    </div>,
+    modal
+  );
 }
 
 export default Modal;
