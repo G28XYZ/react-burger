@@ -31,13 +31,17 @@ function App() {
     return sortedIngredients;
   }, []);
 
+  const filterOrder = useCallback((data: Ingredient[]): any => {
+    return data.filter((item: Ingredient) => item.price > 1000 || item.price < 100);
+  }, []);
+
   useEffect(() => {
     api.getIngredients().then(({ data }) => {
       setIngredients(sortIngredients(data));
-      setOrder(data.filter((item: Ingredient) => item.price > 1000 || item.price < 100));
+      setOrder(filterOrder(data));
       isLoad(false);
     });
-  }, [sortIngredients]);
+  }, [sortIngredients, filterOrder]);
 
   return (
     <div className={appStyle.page}>
