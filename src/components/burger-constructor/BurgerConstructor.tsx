@@ -7,22 +7,27 @@ import {
 import style from "./burger-constructor.module.css";
 import { Ingredient } from "../burger-ingredient/BurgerIngredient";
 import OrderDetails from "../order-modal/OrderDetails";
+import { OpenModalProps } from "../app/App";
 
 interface PropsBurgerConstructor {
-  orderList: Ingredient[];
-  onOpenModal: ({}) => void;
+  order: { list: Ingredient[]; id: string };
+  onOpenModal: ({ title, children }: OpenModalProps) => void;
 }
 
-function BurgerConstructor({ orderList, onOpenModal }: PropsBurgerConstructor) {
-  const bun: Ingredient = orderList.reduce((p, c: Ingredient) => (c.type === "bun" ? c : p));
+function BurgerConstructor({ order, onOpenModal }: PropsBurgerConstructor) {
+  const orderList = Object.assign(order.list);
+
+  const bun: Ingredient = orderList.reduce((p: Ingredient, c: Ingredient) =>
+    c.type === "bun" ? c : p
+  );
 
   function onOrderDetails() {
-    onOpenModal({ children: <OrderDetails /> });
+    onOpenModal({ title: "", children: <OrderDetails orderId={order.id} /> });
   }
 
   function renderOrderItem(item: Ingredient) {
     return item.type !== "bun" ? (
-      <div key={item._id} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+      <div key={item._id} className={style.element_container}>
         <DragIcon type="primary" />
         <div className={style.element}>
           <ConstructorElement
@@ -48,7 +53,7 @@ function BurgerConstructor({ orderList, onOpenModal }: PropsBurgerConstructor) {
             thumbnail={bun.image}
           />
         </div>
-        <div className={style.middle}>{orderList.map(renderOrderItem)}</div>
+        <div className={style.middle + " custom-scroll"}>{orderList.map(renderOrderItem)}</div>
         <div className={style.element}>
           <ConstructorElement
             type="bottom"
@@ -59,7 +64,7 @@ function BurgerConstructor({ orderList, onOpenModal }: PropsBurgerConstructor) {
           />
         </div>
       </div>
-      <div className={style.ordinare + " p-8"}>
+      <div className={style.ordinary + " p-8"}>
         <div className={style.total}>
           <p className="text text_type_digits-medium">
             {orderList.reduce(

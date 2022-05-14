@@ -37,7 +37,13 @@
   box-sizing: border-box;
 }
 
-.ordinare {
+.element_container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ordinary {
   display: flex;
   align-self: end;
   align-items: center;

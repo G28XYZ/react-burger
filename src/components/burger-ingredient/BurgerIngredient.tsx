@@ -1,6 +1,7 @@
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientDetails from "../ingredient-modal/IngredientDetails";
 import style from "./burger-ingredient.module.css";
+import { OpenModalProps } from "../app/App";
 
 export interface Ingredient {
   _id: string;
@@ -20,7 +21,7 @@ export interface Ingredient {
 export interface ingredientProp {
   ingredient: Ingredient;
   orderList: Ingredient[];
-  onOpenModal: ({}) => void;
+  onOpenModal: ({ title, children }: OpenModalProps) => void;
 }
 
 function BurgerIngredient({ ingredient, orderList, onOpenModal }: ingredientProp) {

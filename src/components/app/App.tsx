@@ -11,10 +11,15 @@ interface Names {
   [key: string]: string;
 }
 
+export interface OpenModalProps {
+  title: string;
+  children: any;
+}
+
 function App() {
   const [load, isLoad] = useState(true);
   const [ingredients, setIngredients] = useState({});
-  const [order, setOrder] = useState([]);
+  const [order, setOrder] = useState({ list: [], id: "034536" });
   const [modal, setModal] = useState({ isOpen: false, children: <></>, title: "" });
 
   const sortIngredients = useCallback((data: Ingredient[]): { Names: Ingredient } => {
@@ -40,10 +45,10 @@ function App() {
   useEffect(() => {
     api.getIngredients().then(({ data }) => {
       setIngredients(sortIngredients(data));
-      setOrder(filterOrder(data));
+      setOrder({ ...order, list: filterOrder(data) });
       isLoad(false);
     });
-  }, [sortIngredients, filterOrder]);
+  }, [sortIngredients, filterOrder, order]);
 
   function handleCloseModalByEsc(e: KeyboardEvent) {
     if (e.code === "Escape") {
@@ -56,10 +61,9 @@ function App() {
     document.removeEventListener("keydown", handleCloseModalByEsc);
   }
 
-  function onOpenModal({ title, children }: any): void {
+  function onOpenModal({ title = "", children }: OpenModalProps): void {
     setModal({ ...modal, isOpen: true, title, children });
     document.addEventListener("keydown", handleCloseModalByEsc);
-    return;
   }
 
   return (
@@ -68,11 +72,11 @@ function App() {
       {!load && (
         <main className={appStyle.main}>
           <BurgerIngredients
-            orderList={order}
+            orderList={order.list}
             ingredients={ingredients}
             onOpenModal={onOpenModal}
           />
-          <BurgerConstructor orderList={order} onOpenModal={onOpenModal} />
+          <BurgerConstructor order={order} onOpenModal={onOpenModal} />
           <Modal title={modal.title} isOpen={modal.isOpen} onCloseModal={onCloseModal}>
             {modal.children}
           </Modal>

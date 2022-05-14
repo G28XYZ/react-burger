@@ -3,6 +3,7 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredient from "../burger-ingredient/BurgerIngredient";
 import style from "./burger-ingredients.module.css";
 import { Ingredient } from "../burger-ingredient/BurgerIngredient";
+import { OpenModalProps } from "../app/App";
 
 declare module "react" {
   interface FunctionComponent<P = {}> {
@@ -13,7 +14,7 @@ declare module "react" {
 interface PropsBurgerIngredients {
   orderList: Ingredient[];
   ingredients: { [key: string]: Ingredient[] };
-  onOpenModal: ({}) => void;
+  onOpenModal: ({ title, children }: OpenModalProps) => void;
 }
 
 function BurgerIngredients({ orderList, ingredients, onOpenModal }: PropsBurgerIngredients) {
@@ -49,7 +50,7 @@ function BurgerIngredients({ orderList, ingredients, onOpenModal }: PropsBurgerI
           );
         })}
       </div>
-      <div className={style.container}>
+      <div className={style.container + " custom-scroll"}>
         {ingredientNames.map((name, i) => {
           return (
             <div key={i} className="pb-10">
