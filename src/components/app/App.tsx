@@ -1,20 +1,14 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import AppHeader from "../app-header/AppHeader";
 import BurgerIngredients from "../burger-ingredients/BurgerIngredients";
 import appStyle from "./app.module.css";
 import BurgerConstructor from "../burger-constructor/BurgerConstructor";
 import api from "../../utils/api";
-import { Ingredient } from "../burger-ingredient/BurgerIngredient";
+import { Ingredient, OpenModalProps } from "../../utils/types";
 
 interface Names {
   [key: string]: string;
 }
-
-export interface OpenModalProps {
-  title: string;
-}
-
-// interface IIngredients {}
 
 interface ISorted {
   [key: string]: Ingredient[];
@@ -27,8 +21,7 @@ function App() {
     list: [{}],
     id: "034536",
   });
-  const [modal, setModal] = useState({
-    isOpen: false,
+  const [modal, setModal] = useState<OpenModalProps>({
     title: "",
     inIngredient: null,
     inOrder: false,
@@ -58,22 +51,24 @@ function App() {
   };
 
   useEffect(() => {
-    api
-      .getIngredients()
-      .then(({ data }) => {
-        setIngredients(sortIngredients(data));
-        setOrder({ ...order, list: filterOrder(data) });
-        isLoad(false);
-      })
-      .catch(console.log);
-    console.log("render App");
-  }, []);
+    if (load) {
+      api
+        .getIngredients()
+        .then(({ data }) => {
+          isLoad(false);
+          setIngredients(sortIngredients(data));
+          setOrder({ ...order, list: filterOrder(data) });
+        })
+        .catch(console.log);
+      console.log("render App");
+    }
+  }, [load, order, sortIngredients]);
 
   function onCloseModal(): void {
     setModal({ ...modal, title: "", inIngredient: null, inOrder: false });
   }
 
-  function onOpenModal({ title = "", inIngredient = null, inOrder = false }: any): void {
+  function onOpenModal({ title = "", inIngredient = null, inOrder = false }: OpenModalProps): void {
     setModal({ ...modal, title, inIngredient, inOrder });
   }
 

@@ -2,8 +2,8 @@ import { createRef, useRef, useState } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredient from "../burger-ingredient/BurgerIngredient";
 import style from "./burger-ingredients.module.css";
-import { Ingredient } from "../burger-ingredient/BurgerIngredient";
-import { OpenModalProps } from "../app/App";
+import { Ingredient } from "../../utils/types";
+import { OpenModalProps } from "../../utils/types";
 import Modal from "../modal/Modal";
 import IngredientDetails from "../ingredient-modal/IngredientDetails";
 
@@ -13,13 +13,13 @@ declare module "react" {
   }
 }
 
-interface PropsBurgerIngredients {
+type PropsBurgerIngredients = {
   orderList: Ingredient[] | {}[];
   ingredients: { [key: string]: Ingredient[] };
-  onOpenModal: ({}: any) => void;
+  onOpenModal: ({ title, inIngredient, inOrder }: OpenModalProps) => void;
   onCloseModal: () => void;
-  ingredientInModal: null | Ingredient;
-}
+  ingredientInModal: Ingredient | null | undefined;
+};
 
 function BurgerIngredients({
   orderList,
@@ -59,7 +59,7 @@ function BurgerIngredients({
   return (
     <section className={style.ingredients + " pt-10 pl-5"}>
       <h2 className="text text_type_main-large">Соберите бургер</h2>
-      <div style={{ display: "flex" }} className="pt-5 pb-10">
+      <div className={style.tabs + " pt-5 pb-10"}>
         {ingredientNames.map((name: string, i) => {
           return (
             <Tab key={i} value={name} active={current === name} onClick={handleTabClick}>

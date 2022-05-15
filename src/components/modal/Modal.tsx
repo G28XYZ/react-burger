@@ -6,7 +6,7 @@ import ModalOverlay from "../modal-overlay/ModalOverlay";
 const modal = document.getElementById("react-modals") as HTMLElement;
 
 export interface ModalProps {
-  title: string;
+  title?: string;
   children: ReactNode;
   onCloseModal: () => void;
 }

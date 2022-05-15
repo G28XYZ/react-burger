@@ -1,10 +1,5 @@
-.tab {
-  position: relative;
-}
-
-.tab:nth-child(1):before {
-  content: "Булки";
-  position: absolute;
+.tabs {
+  display: flex;
 }
 
 .ingredients {

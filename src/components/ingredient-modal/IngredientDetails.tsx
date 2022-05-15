@@ -1,4 +1,4 @@
-import { Ingredient } from "../burger-ingredient/BurgerIngredient";
+import { Ingredient } from "../../utils/types";
 import style from "./ingredient-details.module.css";
 
 function IngredientDetails({ ingredient }: { ingredient: Ingredient }) {
@@ -8,6 +8,7 @@ function IngredientDetails({ ingredient }: { ingredient: Ingredient }) {
     ["fat", "Жиры, г"],
     ["carbohydrates", "Углеводы, г"],
   ];
+
   return (
     <div className={style.modal}>
       <img src={ingredient.image_large} alt={ingredient.name} />

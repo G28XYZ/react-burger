@@ -5,16 +5,16 @@ import {
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-constructor.module.css";
-import { Ingredient } from "../burger-ingredient/BurgerIngredient";
+import { Ingredient } from "../../utils/types";
 import OrderDetails from "../order-modal/OrderDetails";
-import { OpenModalProps } from "../app/App";
+import { OpenModalProps } from "../../utils/types";
 import Modal from "../modal/Modal";
 
 interface PropsBurgerConstructor {
   order: { list: Ingredient[] | {}[]; id: string };
-  onOpenModal: ({}: any) => void;
+  onOpenModal: ({ title, inIngredient, inOrder }: OpenModalProps) => void;
   onCloseModal: () => void;
-  inOrder: boolean;
+  inOrder: boolean | undefined;
 }
 
 function BurgerConstructor({ order, onOpenModal, onCloseModal, inOrder }: PropsBurgerConstructor) {
