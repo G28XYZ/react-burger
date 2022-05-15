@@ -10,7 +10,7 @@ import OrderDetails from "../order-modal/OrderDetails";
 import { OpenModalProps } from "../app/App";
 
 interface PropsBurgerConstructor {
-  order: { list: Ingredient[]; id: string };
+  order: { list: Ingredient[] | {}[]; id: string };
   onOpenModal: ({ title, children }: OpenModalProps) => void;
 }
 

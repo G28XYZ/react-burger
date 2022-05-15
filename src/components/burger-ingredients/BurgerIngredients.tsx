@@ -12,7 +12,7 @@ declare module "react" {
 }
 
 interface PropsBurgerIngredients {
-  orderList: Ingredient[];
+  orderList: Ingredient[] | {}[];
   ingredients: { [key: string]: Ingredient[] };
   onOpenModal: ({ title, children }: OpenModalProps) => void;
 }

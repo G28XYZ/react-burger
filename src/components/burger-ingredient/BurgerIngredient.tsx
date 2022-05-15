@@ -20,7 +20,7 @@ export interface Ingredient {
 
 export interface ingredientProp {
   ingredient: Ingredient;
-  orderList: Ingredient[];
+  orderList: Ingredient[] | {}[];
   onOpenModal: ({ title, children }: OpenModalProps) => void;
 }
 
