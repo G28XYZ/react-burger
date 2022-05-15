@@ -1,4 +1,4 @@
-import React from "react";
+import { createRef, useRef, useState } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredient from "../burger-ingredient/BurgerIngredient";
 import style from "./burger-ingredients.module.css";
@@ -18,14 +18,21 @@ interface PropsBurgerIngredients {
 }
 
 function BurgerIngredients({ orderList, ingredients, onOpenModal }: PropsBurgerIngredients) {
-  const [current, setCurrent] = React.useState("Булки");
+  const ingredientNames = Object.keys(ingredients);
+
+  const [current, setCurrent] = useState("Булки");
+  const refsElement = useRef(
+    ingredientNames.map((): { current: null | HTMLDivElement } => createRef())
+  );
 
   function handleTabClick(value: string) {
-    console.log(value);
+    const index = ingredientNames.findIndex((name) => name === value);
+    const element = refsElement.current[index].current;
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
     setCurrent(value);
   }
-
-  const ingredientNames = Object.keys(ingredients);
 
   function renderIngredientsList(ingredient: Ingredient) {
     return (
@@ -52,8 +59,9 @@ function BurgerIngredients({ orderList, ingredients, onOpenModal }: PropsBurgerI
       </div>
       <div className={style.container + " custom-scroll"}>
         {ingredientNames.map((name, i) => {
+          const divRef: { current: null | HTMLDivElement } = refsElement.current[i];
           return (
-            <div key={i} className="pb-10">
+            <div key={i} className="pb-10" id={name} ref={divRef}>
               <h3 className="text text_type_main-medium">{name}</h3>
               <ul className={style.list}>{ingredients[name].map(renderIngredientsList)}</ul>
             </div>

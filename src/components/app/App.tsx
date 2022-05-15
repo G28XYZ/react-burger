@@ -63,6 +63,7 @@ function App() {
         isLoad(false);
       })
       .catch(console.log);
+    console.log("render App");
   }, []);
 
   function onCloseModal(): void {
