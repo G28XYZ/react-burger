@@ -21,14 +21,14 @@ export interface Ingredient {
 export interface ingredientProp {
   ingredient: Ingredient;
   orderList: Ingredient[] | {}[];
-  onOpenModal: ({ title, children }: OpenModalProps) => void;
+  onOpenModal: ({}: any) => void;
 }
 
 function BurgerIngredient({ ingredient, orderList, onOpenModal }: ingredientProp) {
   function onHandleClick() {
     onOpenModal({
       title: "Детали ингредиента",
-      children: <IngredientDetails ingredient={ingredient} />,
+      inIngredient: ingredient,
     });
   }
 

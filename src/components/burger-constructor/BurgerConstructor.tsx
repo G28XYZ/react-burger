@@ -8,21 +8,24 @@ import style from "./burger-constructor.module.css";
 import { Ingredient } from "../burger-ingredient/BurgerIngredient";
 import OrderDetails from "../order-modal/OrderDetails";
 import { OpenModalProps } from "../app/App";
+import Modal from "../modal/Modal";
 
 interface PropsBurgerConstructor {
   order: { list: Ingredient[] | {}[]; id: string };
-  onOpenModal: ({ title, children }: OpenModalProps) => void;
+  onOpenModal: ({}: any) => void;
+  onCloseModal: () => void;
+  inOrder: boolean;
 }
 
-function BurgerConstructor({ order, onOpenModal }: PropsBurgerConstructor) {
+function BurgerConstructor({ order, onOpenModal, onCloseModal, inOrder }: PropsBurgerConstructor) {
   const orderList = Object.assign(order.list);
 
   const bun: Ingredient = orderList.reduce((p: Ingredient, c: Ingredient) =>
     c.type === "bun" ? c : p
   );
 
-  function onOrderDetails() {
-    onOpenModal({ title: "", children: <OrderDetails orderId={order.id} /> });
+  function handleOrderClick() {
+    onOpenModal({ inOrder: true });
   }
 
   function renderOrderItem(item: Ingredient) {
@@ -74,10 +77,16 @@ function BurgerConstructor({ order, onOpenModal }: PropsBurgerConstructor) {
           </p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="large" onClick={onOrderDetails}>
+        <Button type="primary" size="large" onClick={handleOrderClick}>
           Оформить заказ
         </Button>
       </div>
+
+      {inOrder && (
+        <Modal title="" onCloseModal={onCloseModal}>
+          <OrderDetails orderId={order.id} />
+        </Modal>
+      )}
     </section>
   );
 }

@@ -4,6 +4,8 @@ import BurgerIngredient from "../burger-ingredient/BurgerIngredient";
 import style from "./burger-ingredients.module.css";
 import { Ingredient } from "../burger-ingredient/BurgerIngredient";
 import { OpenModalProps } from "../app/App";
+import Modal from "../modal/Modal";
+import IngredientDetails from "../ingredient-modal/IngredientDetails";
 
 declare module "react" {
   interface FunctionComponent<P = {}> {
@@ -14,13 +16,22 @@ declare module "react" {
 interface PropsBurgerIngredients {
   orderList: Ingredient[] | {}[];
   ingredients: { [key: string]: Ingredient[] };
-  onOpenModal: ({ title, children }: OpenModalProps) => void;
+  onOpenModal: ({}: any) => void;
+  onCloseModal: () => void;
+  ingredientInModal: null | Ingredient;
 }
 
-function BurgerIngredients({ orderList, ingredients, onOpenModal }: PropsBurgerIngredients) {
+function BurgerIngredients({
+  orderList,
+  ingredients,
+  onCloseModal,
+  onOpenModal,
+  ingredientInModal,
+}: PropsBurgerIngredients) {
   const ingredientNames = Object.keys(ingredients);
 
   const [current, setCurrent] = useState("Булки");
+
   const refsElement = useRef(
     ingredientNames.map((): { current: null | HTMLDivElement } => createRef())
   );
@@ -68,6 +79,11 @@ function BurgerIngredients({ orderList, ingredients, onOpenModal }: PropsBurgerI
           );
         })}
       </div>
+      {ingredientInModal && (
+        <Modal title="Детали заказа" onCloseModal={onCloseModal}>
+          <IngredientDetails ingredient={ingredientInModal} />
+        </Modal>
+      )}
     </section>
   );
 }
