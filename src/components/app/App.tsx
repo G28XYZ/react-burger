@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import AppHeader from "../app-header/AppHeader";
 import BurgerIngredients from "../burger-ingredients/BurgerIngredients";
 import appStyle from "./app.module.css";
@@ -50,9 +50,9 @@ function App() {
     return sortedIngredients;
   }, []);
 
-  const filterOrder = useCallback((data: Ingredient[]): Ingredient[] => {
+  const filterOrder = (data: Ingredient[]): Ingredient[] => {
     return data.filter((item: Ingredient) => item.price > 1000 || item.price < 100);
-  }, []);
+  };
 
   useEffect(() => {
     api
