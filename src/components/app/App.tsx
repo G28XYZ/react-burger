@@ -34,6 +34,7 @@ function App() {
       main: "Начинки",
     };
 
+    // сортировка всех ингредиентов по типу
     const sortedIngredients = data.reduce((object: ISorted, currentItem) => {
       const key = ingredientsName[currentItem.type];
       if (object[key]) {
@@ -47,6 +48,7 @@ function App() {
   }, []);
 
   const filterOrder = (data: Ingredient[]): Ingredient[] => {
+    // фильтрует элементы для условного формирования заказа
     return data.filter((item: Ingredient) => item.price > 1000 || item.price < 100);
   };
 

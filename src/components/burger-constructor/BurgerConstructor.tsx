@@ -20,8 +20,10 @@ interface PropsBurgerConstructor {
 function BurgerConstructor({ order, onOpenModal, onCloseModal, inOrder }: PropsBurgerConstructor) {
   const orderList = Object.assign(order.list);
 
-  const bun: Ingredient = orderList.reduce((p: Ingredient, c: Ingredient) =>
-    c.type === "bun" ? c : p
+  // возвращает только один объект с типом булка
+  // чтобы использовать в элементах конструктора верх и низ из булок в условном заказе
+  const bun: Ingredient = orderList.reduce((prevObject: Ingredient, currentObject: Ingredient) =>
+    currentObject.type === "bun" ? currentObject : prevObject
   );
 
   function handleOrderClick() {

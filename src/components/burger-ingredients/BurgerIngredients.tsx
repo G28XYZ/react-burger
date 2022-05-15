@@ -7,6 +7,7 @@ import { OpenModalProps } from "../../utils/types";
 import Modal from "../modal/Modal";
 import IngredientDetails from "../ingredient-modal/IngredientDetails";
 
+// по совету наставника временно задана декларация чтобы обойти ошибку TS2322 возникающая на ui элементе Tab
 declare module "react" {
   interface FunctionComponent<P = {}> {
     (props: PropsWithChildren<P>, context?: any): ReactElement<any, any> | null;
@@ -32,6 +33,8 @@ function BurgerIngredients({
 
   const [current, setCurrent] = useState("Булки");
 
+  // создание n рефов из массива с названиями категории ингредиента
+  // рефы будут использованы для прокрутки к нужному месту в списке
   const refsElement = useRef(
     ingredientNames.map((): { current: null | HTMLDivElement } => createRef())
   );

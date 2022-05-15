@@ -17,7 +17,6 @@ function Modal({ title = "", children, onCloseModal }: ModalProps) {
   const handleCloseModalByEsc = useCallback(
     (e: KeyboardEvent) => {
       if (e.code === "Escape") {
-        console.log("esc");
         onCloseModal();
       }
     },
