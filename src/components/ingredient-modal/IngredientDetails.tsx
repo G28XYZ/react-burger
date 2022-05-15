@@ -1,6 +1,8 @@
 import { Ingredient } from "../../utils/types";
 import style from "./ingredient-details.module.css";
 
+const shortid = require("shortid");
+
 function IngredientDetails({ ingredient }: { ingredient: Ingredient }) {
   const structureList = [
     ["calories", "Калории, ккал"],
@@ -18,7 +20,7 @@ function IngredientDetails({ ingredient }: { ingredient: Ingredient }) {
           const key = element[0] as keyof Ingredient;
           const title = element[1];
           return (
-            <li key={ingredient._id + i}>
+            <li key={shortid.generate()}>
               <span>{title}</span>
               <p className="text_type_digits-default">{ingredient[key]}</p>
             </li>

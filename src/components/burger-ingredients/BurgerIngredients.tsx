@@ -7,6 +7,8 @@ import { OpenModalProps } from "../../utils/types";
 import Modal from "../modal/Modal";
 import IngredientDetails from "../ingredient-modal/IngredientDetails";
 
+const shortid = require("shortid");
+
 // по совету наставника временно задана декларация чтобы обойти ошибку TS2322 возникающая на ui элементе Tab
 declare module "react" {
   interface FunctionComponent<P = {}> {
@@ -65,7 +67,12 @@ function BurgerIngredients({
       <div className={style.tabs + " pt-5 pb-10"}>
         {ingredientNames.map((name: string, i) => {
           return (
-            <Tab key={i} value={name} active={current === name} onClick={handleTabClick}>
+            <Tab
+              key={shortid.generate()}
+              value={name}
+              active={current === name}
+              onClick={handleTabClick}
+            >
               {name}
             </Tab>
           );
@@ -75,7 +82,7 @@ function BurgerIngredients({
         {ingredientNames.map((name, i) => {
           const divRef: { current: null | HTMLDivElement } = refsElement.current[i];
           return (
-            <div key={i} className="pb-10" id={name} ref={divRef}>
+            <div key={shortid.generate()} className="pb-10" id={name} ref={divRef}>
               <h3 className="text text_type_main-medium">{name}</h3>
               <ul className={style.list}>{ingredients[name].map(renderIngredientsList)}</ul>
             </div>
