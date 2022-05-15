@@ -26,6 +26,13 @@ function BurgerConstructor({ order, onOpenModal, onCloseModal, inOrder }: PropsB
     currentObject.type === "bun" ? currentObject : prevObject
   );
 
+  // подсчёт общей стоимости заказа
+  const totalPrice = orderList.reduce(
+    (total: number, currentObject: Ingredient) =>
+      currentObject.type !== "bun" ? total + currentObject.price : total,
+    bun.price * 2
+  );
+
   function handleOrderClick() {
     onOpenModal({ inOrder: true });
   }
@@ -71,12 +78,7 @@ function BurgerConstructor({ order, onOpenModal, onCloseModal, inOrder }: PropsB
       </div>
       <div className={style.ordinary + " p-8"}>
         <div className={style.total}>
-          <p className="text text_type_digits-medium">
-            {orderList.reduce(
-              (p: number, c: Ingredient) => (c.type !== "bun" ? p + c.price : p),
-              bun.price * 2
-            )}
-          </p>
+          <p className="text text_type_digits-medium">{totalPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
         <Button type="primary" size="large" onClick={handleOrderClick}>
