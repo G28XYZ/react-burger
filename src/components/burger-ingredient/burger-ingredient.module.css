@@ -7,3 +7,7 @@
   max-height: 208px;
   box-sizing: border-box;
 }
+
+.image {
+  cursor: pointer;
+}

@@ -1,15 +1,9 @@
-.tab {
-  position: relative;
-}
-
-.tab:nth-child(1):before {
-  content: "Булки";
-  position: absolute;
+.tabs {
+  display: flex;
 }
 
 .ingredients {
   max-width: 600px;
-  box-sizing: border-box;
 }
 
 .container {

@@ -1,31 +1,31 @@
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-ingredient.module.css";
+import { Ingredient } from "../../utils/types";
+import { OpenModalProps } from "../../utils/types";
 
-export interface Ingredient {
-  _id: string;
-  name: string;
-  type: string;
-  proteins: number;
-  fat: number;
-  carbohydrates: number;
-  calories: number;
-  price: number;
-  image: string;
-  image_mobile: string;
-  image_large: string;
-  __v: number;
-}
-
-export interface ingredientProp {
+export interface IngredientProp {
   ingredient: Ingredient;
-  orderList: Ingredient[];
+  orderList: Ingredient[] | {}[];
+  onOpenModal: ({ title, inIngredient, inOrder }: OpenModalProps) => void;
 }
 
-function BurgerIngredient({ ingredient, orderList }: ingredientProp) {
+function BurgerIngredient({ ingredient, orderList, onOpenModal }: IngredientProp) {
+  function onHandleClick() {
+    onOpenModal({
+      title: "Детали ингредиента",
+      inIngredient: ingredient,
+    });
+  }
+
   return (
     <li className={style.item + " pb-10"} key={ingredient._id}>
       {orderList.includes(ingredient) && <Counter count={1} size="default" />}
-      <img src={ingredient.image} alt={ingredient.name} />
+      <img
+        className={style.image}
+        src={ingredient.image}
+        alt={ingredient.name}
+        onClick={onHandleClick}
+      />
       <div className="text text_type_digits-default">
         {ingredient.price} <CurrencyIcon type="primary" />
       </div>

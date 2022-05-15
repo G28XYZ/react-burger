@@ -5,18 +5,41 @@ import {
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-constructor.module.css";
-import { Ingredient } from "../burger-ingredient/BurgerIngredient";
+import { Ingredient } from "../../utils/types";
+import OrderDetails from "../order-modal/OrderDetails";
+import { OpenModalProps } from "../../utils/types";
+import Modal from "../modal/Modal";
 
 interface PropsBurgerConstructor {
-  orderList: Ingredient[];
+  order: { list: Ingredient[] | {}[]; id: string };
+  onOpenModal: ({ title, inIngredient, inOrder }: OpenModalProps) => void;
+  onCloseModal: () => void;
+  inOrder: boolean | undefined;
 }
 
-function BurgerConstructor({ orderList }: PropsBurgerConstructor) {
-  const bun: Ingredient = orderList.reduce((p, c: Ingredient) => (c.type === "bun" ? c : p));
+function BurgerConstructor({ order, onOpenModal, onCloseModal, inOrder }: PropsBurgerConstructor) {
+  const orderList = Object.assign(order.list);
+
+  // возвращает только один объект с типом булка
+  // чтобы использовать в элементах конструктора верх и низ из булок в условном заказе
+  const bun: Ingredient = orderList.reduce((prevObject: Ingredient, currentObject: Ingredient) =>
+    currentObject.type === "bun" ? currentObject : prevObject
+  );
+
+  // подсчёт общей стоимости заказа
+  const totalPrice = orderList.reduce(
+    (total: number, currentObject: Ingredient) =>
+      currentObject.type !== "bun" ? total + currentObject.price : total,
+    bun.price * 2
+  );
+
+  function handleOrderClick() {
+    onOpenModal({ inOrder: true });
+  }
 
   function renderOrderItem(item: Ingredient) {
     return item.type !== "bun" ? (
-      <div key={item._id} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+      <div key={item._id} className={style.element_container}>
         <DragIcon type="primary" />
         <div className={style.element}>
           <ConstructorElement
@@ -31,7 +54,7 @@ function BurgerConstructor({ orderList }: PropsBurgerConstructor) {
   }
 
   return (
-    <section className={style.main}>
+    <section className={style.main + " pr-5"}>
       <div className={style.elements}>
         <div className={style.element}>
           <ConstructorElement
@@ -42,7 +65,7 @@ function BurgerConstructor({ orderList }: PropsBurgerConstructor) {
             thumbnail={bun.image}
           />
         </div>
-        <div className={style.middle}>{orderList.map(renderOrderItem)}</div>
+        <div className={style.middle + " custom-scroll"}>{orderList.map(renderOrderItem)}</div>
         <div className={style.element}>
           <ConstructorElement
             type="bottom"
@@ -53,20 +76,21 @@ function BurgerConstructor({ orderList }: PropsBurgerConstructor) {
           />
         </div>
       </div>
-      <div className={style.ordinare + " p-8"}>
+      <div className={style.ordinary + " p-8"}>
         <div className={style.total}>
-          <p className="text text_type_digits-medium">
-            {orderList.reduce(
-              (p: number, c: Ingredient) => (c.type !== "bun" ? p + c.price : p),
-              bun.price * 2
-            )}
-          </p>
+          <p className="text text_type_digits-medium">{totalPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="large">
+        <Button type="primary" size="large" onClick={handleOrderClick}>
           Оформить заказ
         </Button>
       </div>
+
+      {inOrder && (
+        <Modal title="" onCloseModal={onCloseModal}>
+          <OrderDetails orderId={order.id} />
+        </Modal>
+      )}
     </section>
   );
 }
