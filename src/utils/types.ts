@@ -1,3 +1,5 @@
+import { Dispatch, ReactNode } from "react";
+
 export interface Ingredient {
   _id: string;
   name: string;
@@ -17,4 +19,17 @@ export interface OpenModalProps {
   title?: string;
   inIngredient?: Ingredient | null;
   inOrder?: boolean;
+}
+export interface IState {
+  ingredients: string;
+  burgerConstructor: string;
+}
+
+export interface IStoreProviderProps {
+  children: ReactNode;
+}
+
+export interface IAction {
+  type: string;
+  name: string;
 }

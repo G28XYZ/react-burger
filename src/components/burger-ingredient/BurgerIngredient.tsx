@@ -2,6 +2,8 @@ import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-c
 import style from "./burger-ingredient.module.css";
 import { Ingredient } from "../../utils/types";
 import { OpenModalProps } from "../../utils/types";
+import { useStore } from "../../services/StoreProvider";
+import { INGREDIENT_CLICK } from "../../services/actions/ingredients";
 
 export interface IngredientProp {
   ingredient: Ingredient;
@@ -10,7 +12,10 @@ export interface IngredientProp {
 }
 
 function BurgerIngredient({ ingredient, orderList, onOpenModal }: IngredientProp) {
+  const [state, dispatch] = useStore();
   function onHandleClick() {
+    dispatch({ type: INGREDIENT_CLICK, name: ingredient.name });
+    console.log(state);
     onOpenModal({
       title: "Детали ингредиента",
       inIngredient: ingredient,

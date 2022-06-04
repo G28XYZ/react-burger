@@ -1,0 +1,1 @@
+export const INGREDIENT_CLICK = "INGREDIENT_CLICK";
