@@ -1,31 +1,28 @@
-import {
-  createContext,
-  useReducer,
-  useMemo,
-  useContext,
-  Dispatch,
-  ContextType,
-  Context,
-} from "react";
+import { createContext, useReducer, useMemo, useContext, Dispatch } from "react";
 import ingredientsReducer from "./reducers/ingredients";
 import constructorReducer from "./reducers/constructor";
+import orderReducer from "./reducers/order";
 import { IState, IStoreProviderProps, IAction } from "../utils/types";
 
 const globalState = {
-  ingredients: "",
-  burgerConstructor: "",
+  ingredients: [],
+  sortedIngredients: {},
+  burgerConstructor: [],
+  order: {
+    list: [{}],
+    id: "123",
+  },
 };
 
 const GlobalContext = createContext<IState | IState[] | [IState, Dispatch<IAction>]>(globalState);
 
 const reducers = (state: IState, action: IAction) => {
-  return {
-    ...state,
-    ...[ingredientsReducer, constructorReducer].reduce(
-      (objState, reducer) => ({ ...objState, ...reducer(objState, action) }),
-      state
-    ),
-  };
+  return Object.assign(
+    state,
+    ingredientsReducer(state, action),
+    constructorReducer(state, action),
+    orderReducer(state, action)
+  );
 };
 
 export function StoreProvider({ children }: IStoreProviderProps) {

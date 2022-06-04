@@ -6,6 +6,7 @@ import { Ingredient } from "../../utils/types";
 import { OpenModalProps } from "../../utils/types";
 import Modal from "../modal/Modal";
 import IngredientDetails from "../ingredient-modal/IngredientDetails";
+import { useStore } from "../../services/StoreProvider";
 
 const shortid = require("shortid");
 
@@ -17,20 +18,19 @@ declare module "react" {
 }
 
 type PropsBurgerIngredients = {
-  orderList: Ingredient[] | {}[];
-  ingredients: { [key: string]: Ingredient[] };
   onOpenModal: ({ title, inIngredient, inOrder }: OpenModalProps) => void;
   onCloseModal: () => void;
   ingredientInModal: Ingredient | null | undefined;
 };
 
 function BurgerIngredients({
-  orderList,
-  ingredients,
   onCloseModal,
   onOpenModal,
   ingredientInModal,
 }: PropsBurgerIngredients) {
+  const [state] = useStore();
+  const ingredients = state.sortedIngredients;
+
   const ingredientNames = Object.keys(ingredients);
 
   const [current, setCurrent] = useState("Булки");
@@ -52,12 +52,7 @@ function BurgerIngredients({
 
   function renderIngredientsList(ingredient: Ingredient) {
     return (
-      <BurgerIngredient
-        key={ingredient._id}
-        ingredient={ingredient}
-        orderList={orderList}
-        onOpenModal={onOpenModal}
-      />
+      <BurgerIngredient key={ingredient._id} ingredient={ingredient} onOpenModal={onOpenModal} />
     );
   }
 

@@ -21,8 +21,10 @@ export interface OpenModalProps {
   inOrder?: boolean;
 }
 export interface IState {
-  ingredients: string;
-  burgerConstructor: string;
+  ingredients: Ingredient[];
+  sortedIngredients: { [key: string]: Ingredient[] };
+  burgerConstructor: Ingredient[];
+  order: { list: Ingredient[] | {}[]; id: string };
 }
 
 export interface IStoreProviderProps {
@@ -31,5 +33,8 @@ export interface IStoreProviderProps {
 
 export interface IAction {
   type: string;
-  name: string;
+  name?: string;
+  ingredientsData?: Ingredient[];
+  orderList?: Ingredient[] | [];
+  data?: Ingredient | [];
 }

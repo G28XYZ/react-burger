@@ -3,19 +3,16 @@ import style from "./burger-ingredient.module.css";
 import { Ingredient } from "../../utils/types";
 import { OpenModalProps } from "../../utils/types";
 import { useStore } from "../../services/StoreProvider";
-import { INGREDIENT_CLICK } from "../../services/actions/ingredients";
 
 export interface IngredientProp {
   ingredient: Ingredient;
-  orderList: Ingredient[] | {}[];
   onOpenModal: ({ title, inIngredient, inOrder }: OpenModalProps) => void;
 }
 
-function BurgerIngredient({ ingredient, orderList, onOpenModal }: IngredientProp) {
-  const [state, dispatch] = useStore();
+function BurgerIngredient({ ingredient, onOpenModal }: IngredientProp) {
+  const [state] = useStore();
+  const orderList = state.order.list;
   function onHandleClick() {
-    dispatch({ type: INGREDIENT_CLICK, name: ingredient.name });
-    console.log(state);
     onOpenModal({
       title: "Детали ингредиента",
       inIngredient: ingredient,

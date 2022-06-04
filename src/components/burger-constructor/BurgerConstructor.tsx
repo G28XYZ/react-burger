@@ -9,16 +9,17 @@ import { Ingredient } from "../../utils/types";
 import OrderDetails from "../order-modal/OrderDetails";
 import { OpenModalProps } from "../../utils/types";
 import Modal from "../modal/Modal";
-
+import { useStore } from "../../services/StoreProvider";
 interface PropsBurgerConstructor {
-  order: { list: Ingredient[] | {}[]; id: string };
   onOpenModal: ({ title, inIngredient, inOrder }: OpenModalProps) => void;
   onCloseModal: () => void;
   inOrder: boolean | undefined;
 }
 
-function BurgerConstructor({ order, onOpenModal, onCloseModal, inOrder }: PropsBurgerConstructor) {
-  const orderList = Object.assign(order.list);
+function BurgerConstructor({ onOpenModal, onCloseModal, inOrder }: PropsBurgerConstructor) {
+  const [state] = useStore();
+  const orderList = Object.assign(state.order.list);
+  const { order } = state;
 
   // возвращает только один объект с типом булка
   // чтобы использовать в элементах конструктора верх и низ из булок в условном заказе
