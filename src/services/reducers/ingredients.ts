@@ -1,5 +1,9 @@
 import { IAction, Ingredient, IState } from "../../utils/types";
-import { SET_INGREDIENTS, SET_INGREDIENTS_SORTED } from "../actions/ingredients";
+import {
+  REQUEST_INGREDIENTS_FAILED,
+  SET_INGREDIENTS,
+  SET_INGREDIENTS_SORTED,
+} from "../actions/ingredients";
 
 interface Names {
   [key: string]: string;
@@ -12,7 +16,7 @@ interface ISorted {
 function ingredientsReducer(state: IState, action: IAction) {
   switch (action.type) {
     case SET_INGREDIENTS:
-      return { ...state, ingredients: action.ingredientsData };
+      return { ...state, ingredients: action.ingredientsData, loading: true };
 
     case SET_INGREDIENTS_SORTED:
       const ingredients = action.ingredientsData || [];
@@ -32,6 +36,9 @@ function ingredientsReducer(state: IState, action: IAction) {
         return object;
       }, {});
       return { ...state, sortedIngredients };
+
+    case REQUEST_INGREDIENTS_FAILED:
+      return { ...state, loading: false };
 
     default:
       return state;

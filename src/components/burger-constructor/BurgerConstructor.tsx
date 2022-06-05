@@ -10,6 +10,9 @@ import OrderDetails from "../order-modal/OrderDetails";
 import { OpenModalProps } from "../../utils/types";
 import Modal from "../modal/Modal";
 import { useStore } from "../../services/StoreProvider";
+import { useEffect } from "react";
+import { ORDER_TOTAL_PRICE } from "../../services/actions/order";
+
 interface PropsBurgerConstructor {
   onOpenModal: ({ title, inIngredient, inOrder }: OpenModalProps) => void;
   onCloseModal: () => void;
@@ -17,26 +20,18 @@ interface PropsBurgerConstructor {
 }
 
 function BurgerConstructor({ onOpenModal, onCloseModal, inOrder }: PropsBurgerConstructor) {
-  const [state] = useStore();
+  const [state, dispatch] = useStore();
   const orderList = Object.assign(state.order.list);
-  const { order } = state;
-
-  // возвращает только один объект с типом булка
-  // чтобы использовать в элементах конструктора верх и низ из булок в условном заказе
-  const bun: Ingredient = orderList.reduce((prevObject: Ingredient, currentObject: Ingredient) =>
-    currentObject.type === "bun" ? currentObject : prevObject
-  );
-
-  // подсчёт общей стоимости заказа
-  const totalPrice = orderList.reduce(
-    (total: number, currentObject: Ingredient) =>
-      currentObject.type !== "bun" ? total + currentObject.price : total,
-    bun.price * 2
-  );
+  const [{ order }, { bun, totalPrice }] = [state, state.order];
 
   function handleOrderClick() {
     onOpenModal({ inOrder: true });
   }
+
+  useEffect(() => {
+    console.log(totalPrice);
+    dispatch({ type: ORDER_TOTAL_PRICE });
+  }, [totalPrice]);
 
   function renderOrderItem(item: Ingredient) {
     return item.type !== "bun" ? (
@@ -66,7 +61,9 @@ function BurgerConstructor({ onOpenModal, onCloseModal, inOrder }: PropsBurgerCo
             thumbnail={bun.image}
           />
         </div>
-        <div className={style.middle + " custom-scroll"}>{orderList.map(renderOrderItem)}</div>
+        {order.list.length > 1 && (
+          <div className={style.middle + " custom-scroll"}>{orderList.map(renderOrderItem)}</div>
+        )}
         <div className={style.element}>
           <ConstructorElement
             type="bottom"
@@ -79,7 +76,7 @@ function BurgerConstructor({ onOpenModal, onCloseModal, inOrder }: PropsBurgerCo
       </div>
       <div className={style.ordinary + " p-8"}>
         <div className={style.total}>
-          <p className="text text_type_digits-medium">{totalPrice}</p>
+          <p className="text text_type_digits-medium">{totalPrice || 0}</p>
           <CurrencyIcon type="primary" />
         </div>
         <Button type="primary" size="large" onClick={handleOrderClick}>

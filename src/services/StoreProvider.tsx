@@ -5,24 +5,43 @@ import orderReducer from "./reducers/order";
 import { IState, IStoreProviderProps, IAction } from "../utils/types";
 
 const globalState = {
+  loading: false,
   ingredients: [],
   sortedIngredients: {},
   burgerConstructor: [],
   order: {
     list: [{}],
+    bun: {
+      _id: "",
+      name: "",
+      type: "",
+      proteins: 0,
+      fat: 0,
+      carbohydrates: 0,
+      calories: 0,
+      price: 0,
+      image: "",
+      image_mobile: "",
+      image_large: "",
+      __v: 0,
+    },
     id: "123",
+    totalPrice: 0,
   },
 };
 
 const GlobalContext = createContext<IState | IState[] | [IState, Dispatch<IAction>]>(globalState);
 
 const reducers = (state: IState, action: IAction) => {
-  return Object.assign(
-    state,
-    ingredientsReducer(state, action),
-    constructorReducer(state, action),
-    orderReducer(state, action)
-  );
+  return {
+    ...state,
+    ...Object.assign(
+      state,
+      ingredientsReducer(state, action),
+      constructorReducer(state, action),
+      orderReducer(state, action)
+    ),
+  };
 };
 
 export function StoreProvider({ children }: IStoreProviderProps) {

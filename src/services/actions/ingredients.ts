@@ -5,6 +5,7 @@ import { ADD_TO_ORDER } from "./order";
 
 export const SET_INGREDIENTS = "SET_INGREDIENTS";
 export const SET_INGREDIENTS_SORTED = "SET_INGREDIENTS_SORTED";
+export const REQUEST_INGREDIENTS_FAILED = "REQUEST_INGREDIENTS_FAILED";
 
 export const getIngredients = (dispatch: Dispatch<IAction>) => {
   return api
@@ -12,17 +13,11 @@ export const getIngredients = (dispatch: Dispatch<IAction>) => {
     .then(({ data }) => {
       dispatch({ type: SET_INGREDIENTS, ingredientsData: data });
       dispatch({ type: SET_INGREDIENTS_SORTED, ingredientsData: data });
-      dispatch({
-        type: ADD_TO_ORDER,
-        orderList: data.filter((item: Ingredient) => item.price > 1000 || item.price < 100),
-      });
       return true;
-      // setLoading(true);
-      // setIngredients(sortIngredients(data));
-      // setOrder({ ...order, list: filterOrder(data) });
     })
     .catch((err) => {
       console.log(err);
+      dispatch({ type: REQUEST_INGREDIENTS_FAILED });
       return false;
     });
 };

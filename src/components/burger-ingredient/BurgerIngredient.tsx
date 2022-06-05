@@ -11,7 +11,7 @@ export interface IngredientProp {
 
 function BurgerIngredient({ ingredient, onOpenModal }: IngredientProp) {
   const [state] = useStore();
-  const orderList = state.order.list;
+  const orderList = [...state.order.list, state.order.bun];
   function onHandleClick() {
     onOpenModal({
       title: "Детали ингредиента",

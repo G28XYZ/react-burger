@@ -5,12 +5,13 @@ import appStyle from "./app.module.css";
 import BurgerConstructor from "../burger-constructor/BurgerConstructor";
 import { getIngredients } from "../../services/actions/ingredients";
 import { useStore } from "../../services/StoreProvider";
-import { OpenModalProps } from "../../utils/types";
+import { Ingredient, OpenModalProps } from "../../utils/types";
 import Preloader from "../Preloader";
+import { ADD_TO_ORDER, ADD_BUN_TO_ORDER } from "../../services/actions/order";
 
 function App() {
   const [state, dispatch] = useStore();
-  const [loading, setLoading] = useState(false);
+  const { loading, sortedIngredients, ingredients, order } = state;
 
   const [modal, setModal] = useState<OpenModalProps>({
     title: "",
@@ -19,14 +20,27 @@ function App() {
   });
 
   useEffect(() => {
-    getIngredients(dispatch).then((success: any) => {
-      setTimeout(() => {
-        setLoading(success);
-      }, 1000);
-      return;
-    });
-    console.log("render App");
-  }, [dispatch, loading, state]);
+    setTimeout(() => {
+      getIngredients(dispatch);
+    }, 1000);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (loading) {
+      dispatch({
+        type: ADD_TO_ORDER,
+        orderList: ingredients.filter(
+          (item: Ingredient) => item.price < 1000 && item.type !== "bun"
+        ),
+      });
+      dispatch({
+        type: ADD_BUN_TO_ORDER,
+        bun: ingredients.filter((item: Ingredient) => item.price > 1000 && item.type === "bun")[0],
+      });
+      console.log("render App");
+      console.log(state);
+    }
+  }, [loading]);
 
   function onCloseModal(): void {
     setModal({ ...modal, title: "", inIngredient: null, inOrder: false });
