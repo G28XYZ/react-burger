@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import {
   ADD_BUN_TO_ORDER,
   ADD_TO_ORDER,
+  onRegisterOrder,
   ORDER_TOTAL_PRICE,
   REGISTER_ORDER,
 } from "../../services/actions/order";
@@ -24,11 +25,13 @@ function BurgerConstructor() {
     [state, state.order];
 
   function handleOrderClick() {
-    dispatch({ type: REGISTER_ORDER, register: true });
+    onRegisterOrder(dispatch, {
+      ingredients: [bun._id, ...orderList.map((item) => item._id)],
+    });
   }
 
   function onCloseModal() {
-    dispatch({ type: REGISTER_ORDER, register: false });
+    dispatch({ type: REGISTER_ORDER, register: false, name: "", id: 0 });
   }
 
   useEffect(() => {
@@ -49,7 +52,6 @@ function BurgerConstructor() {
   }, [loading]);
 
   useEffect(() => {
-    console.log(totalPrice);
     dispatch({ type: ORDER_TOTAL_PRICE, orderList });
   }, [dispatch, orderList, totalPrice]);
 

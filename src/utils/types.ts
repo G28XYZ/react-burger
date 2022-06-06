@@ -31,6 +31,7 @@ export interface IState {
     title: string;
   };
   order: {
+    name: string;
     list: Ingredient[] | [];
     id: string;
     bun: Ingredient;
@@ -53,4 +54,5 @@ export interface IAction {
   data?: Ingredient | [];
   bun?: Ingredient;
   register?: boolean;
+  id?: number;
 }

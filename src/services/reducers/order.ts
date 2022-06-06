@@ -39,7 +39,12 @@ function orderReducer(state: IState, action: IAction) {
     case REGISTER_ORDER:
       return {
         ...state,
-        order: { ...state.order, registerOrder: action.register },
+        order: {
+          ...state.order,
+          registerOrder: action.register,
+          name: action.name,
+          id: action.id,
+        },
       };
     default:
       return state;

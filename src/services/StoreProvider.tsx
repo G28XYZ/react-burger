@@ -22,6 +22,7 @@ const globalState = {
     isOpen: false,
   },
   order: {
+    name: "",
     list: [],
     bun: {
       _id: "",
@@ -37,7 +38,7 @@ const globalState = {
       image_large: "",
       __v: 0,
     },
-    id: "123",
+    id: "",
     totalPrice: 0,
     registerOrder: false,
   },
