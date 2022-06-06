@@ -1,7 +1,6 @@
 import { Dispatch } from "react";
 import api from "../../utils/api";
-import { IAction, Ingredient } from "../../utils/types";
-import { ADD_TO_ORDER } from "./order";
+import { IAction } from "../../utils/types";
 
 export const SET_INGREDIENTS = "SET_INGREDIENTS";
 export const SET_INGREDIENTS_SORTED = "SET_INGREDIENTS_SORTED";

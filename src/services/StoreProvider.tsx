@@ -3,12 +3,18 @@ import ingredientsReducer from "./reducers/ingredients";
 import constructorReducer from "./reducers/constructor";
 import orderReducer from "./reducers/order";
 import { IState, IStoreProviderProps, IAction } from "../utils/types";
+import { modalReducer } from "./reducers/modal";
 
 const globalState = {
   loading: false,
   ingredients: [],
   sortedIngredients: {},
   burgerConstructor: [],
+  modal: {
+    title: "",
+    ingredientInModal: null,
+    isOpen: false,
+  },
   order: {
     list: [{}],
     bun: {
@@ -39,7 +45,8 @@ const reducers = (state: IState, action: IAction) => {
       state,
       ingredientsReducer(state, action),
       constructorReducer(state, action),
-      orderReducer(state, action)
+      orderReducer(state, action),
+      modalReducer(state, action)
     ),
   };
 };

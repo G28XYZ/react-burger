@@ -26,9 +26,10 @@ type PropsBurgerIngredients = {
 function BurgerIngredients({
   onCloseModal,
   onOpenModal,
-  ingredientInModal,
-}: PropsBurgerIngredients) {
+}: // ingredientInModal,
+PropsBurgerIngredients) {
   const [state] = useStore();
+  const { isOpen, ingredientInModal } = state.modal;
   const ingredients = state.sortedIngredients;
 
   const ingredientNames = Object.keys(ingredients);

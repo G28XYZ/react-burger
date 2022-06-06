@@ -1,4 +1,4 @@
-import { Dispatch, ReactNode } from "react";
+import { ReactNode } from "react";
 
 export interface Ingredient {
   _id: string;
@@ -25,6 +25,7 @@ export interface IState {
   ingredients: Ingredient[];
   sortedIngredients: { [key: string]: Ingredient[] };
   burgerConstructor: Ingredient[];
+  modal: { isOpen: boolean; ingredientInModal: Ingredient | null; title: string };
   order: {
     list: Ingredient[] | {}[];
     id: string;
@@ -40,6 +41,8 @@ export interface IStoreProviderProps {
 export interface IAction {
   type: string;
   name?: string;
+  title?: string;
+  ingredient?: Ingredient;
   ingredientsData?: Ingredient[];
   orderList?: Ingredient[] | [];
   data?: Ingredient | [];
