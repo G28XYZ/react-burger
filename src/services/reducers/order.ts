@@ -1,7 +1,10 @@
 import { IAction, Ingredient } from "../../utils/types";
+import { createSlice } from "@reduxjs/toolkit";
+
 import {
   ADD_BUN_TO_ORDER,
   ADD_TO_ORDER,
+  registerOrder,
   ORDER_TOTAL_PRICE,
   REGISTER_ORDER,
 } from "../actions/order";
@@ -27,6 +30,21 @@ const initialState = {
   totalPrice: 0,
   registerOrder: false,
 };
+
+export const orderSlice = createSlice({
+  name: "order",
+  initialState,
+  reducers: {
+    addBunToOrder: (state, action) => {
+      console.log(action);
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(registerOrder.fulfilled, (state, action) => {});
+  },
+});
+
+export const { addBunToOrder } = orderSlice.actions;
 
 function orderReducer(state = initialState, action: IAction) {
   switch (action.type) {
@@ -64,4 +82,4 @@ function orderReducer(state = initialState, action: IAction) {
   }
 }
 
-export default orderReducer;
+export default orderSlice;
