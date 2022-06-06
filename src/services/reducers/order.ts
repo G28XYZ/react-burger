@@ -1,5 +1,10 @@
 import { IAction, Ingredient, IState } from "../../utils/types";
-import { ADD_BUN_TO_ORDER, ADD_TO_ORDER, ORDER_TOTAL_PRICE } from "../actions/order";
+import {
+  ADD_BUN_TO_ORDER,
+  ADD_TO_ORDER,
+  ORDER_TOTAL_PRICE,
+  REGISTER_ORDER,
+} from "../actions/order";
 
 function orderReducer(state: IState, action: IAction) {
   switch (action.type) {
@@ -17,9 +22,9 @@ function orderReducer(state: IState, action: IAction) {
       return { ...state, order: { ...state.order, bun: action.bun } };
 
     case ORDER_TOTAL_PRICE:
-      const orderList = Object.assign(state.order.list);
+      const orderList = action.orderList as [];
       const bun = state.order.bun;
-      const totalPrice = orderList.reduce(
+      const totalPrice = orderList?.reduce(
         (total: number, item: Ingredient) => total + item.price,
         bun.price * 2
       );
@@ -31,6 +36,11 @@ function orderReducer(state: IState, action: IAction) {
         },
       };
 
+    case REGISTER_ORDER:
+      return {
+        ...state,
+        order: { ...state.order, registerOrder: action.register },
+      };
     default:
       return state;
   }

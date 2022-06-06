@@ -25,12 +25,17 @@ export interface IState {
   ingredients: Ingredient[];
   sortedIngredients: { [key: string]: Ingredient[] };
   burgerConstructor: Ingredient[];
-  modal: { isOpen: boolean; ingredientInModal: Ingredient | null; title: string };
+  modal: {
+    isOpen: boolean;
+    ingredientInModal: Ingredient | null;
+    title: string;
+  };
   order: {
-    list: Ingredient[] | {}[];
+    list: Ingredient[] | [];
     id: string;
     bun: Ingredient;
     totalPrice: number;
+    registerOrder: boolean;
   };
 }
 
@@ -44,7 +49,8 @@ export interface IAction {
   title?: string;
   ingredient?: Ingredient;
   ingredientsData?: Ingredient[];
-  orderList?: Ingredient[] | [];
+  orderList?: [] | Ingredient[];
   data?: Ingredient | [];
   bun?: Ingredient;
+  register?: boolean;
 }

@@ -1,4 +1,10 @@
-import { createContext, useReducer, useMemo, useContext, Dispatch } from "react";
+import {
+  createContext,
+  useReducer,
+  useMemo,
+  useContext,
+  Dispatch,
+} from "react";
 import ingredientsReducer from "./reducers/ingredients";
 import constructorReducer from "./reducers/constructor";
 import orderReducer from "./reducers/order";
@@ -16,7 +22,7 @@ const globalState = {
     isOpen: false,
   },
   order: {
-    list: [{}],
+    list: [],
     bun: {
       _id: "",
       name: "",
@@ -33,10 +39,13 @@ const globalState = {
     },
     id: "123",
     totalPrice: 0,
+    registerOrder: false,
   },
 };
 
-const GlobalContext = createContext<IState | IState[] | [IState, Dispatch<IAction>]>(globalState);
+const GlobalContext = createContext<
+  IState | IState[] | [IState, Dispatch<IAction>]
+>(globalState);
 
 const reducers = (state: IState, action: IAction) => {
   return {
@@ -58,7 +67,11 @@ export function StoreProvider({ children }: IStoreProviderProps) {
     [state, dispatch]
   );
 
-  return <GlobalContext.Provider value={contextValue}>{children}</GlobalContext.Provider>;
+  return (
+    <GlobalContext.Provider value={contextValue}>
+      {children}
+    </GlobalContext.Provider>
+  );
 }
 
 export function useStore(): [IState, Dispatch<IAction>] {

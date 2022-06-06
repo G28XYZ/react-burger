@@ -7,31 +7,51 @@ import {
 import style from "./burger-constructor.module.css";
 import { Ingredient } from "../../utils/types";
 import OrderDetails from "../order-modal/OrderDetails";
-import { OpenModalProps } from "../../utils/types";
 import Modal from "../modal/Modal";
 import { useStore } from "../../services/StoreProvider";
 import { useEffect } from "react";
-import { ORDER_TOTAL_PRICE } from "../../services/actions/order";
+import {
+  ADD_BUN_TO_ORDER,
+  ADD_TO_ORDER,
+  ORDER_TOTAL_PRICE,
+  REGISTER_ORDER,
+} from "../../services/actions/order";
 
-interface PropsBurgerConstructor {
-  onOpenModal: ({ title, inIngredient, inOrder }: OpenModalProps) => void;
-  onCloseModal: () => void;
-  inOrder: boolean | undefined;
-}
-
-function BurgerConstructor({ onOpenModal, onCloseModal, inOrder }: PropsBurgerConstructor) {
+function BurgerConstructor() {
   const [state, dispatch] = useStore();
-  const orderList = Object.assign(state.order.list);
-  const [{ order }, { bun, totalPrice }] = [state, state.order];
+  const orderList = state.order.list;
+  const [{ order, ingredients, loading }, { bun, totalPrice, registerOrder }] =
+    [state, state.order];
 
   function handleOrderClick() {
-    onOpenModal({ inOrder: true });
+    dispatch({ type: REGISTER_ORDER, register: true });
+  }
+
+  function onCloseModal() {
+    dispatch({ type: REGISTER_ORDER, register: false });
   }
 
   useEffect(() => {
+    if (loading) {
+      dispatch({
+        type: ADD_TO_ORDER,
+        orderList: ingredients.filter(
+          (item: Ingredient) => item.price < 1000 && item.type !== "bun"
+        ),
+      });
+      dispatch({
+        type: ADD_BUN_TO_ORDER,
+        bun: ingredients.filter(
+          (item: Ingredient) => item.price > 1000 && item.type === "bun"
+        )[0],
+      });
+    }
+  }, [loading]);
+
+  useEffect(() => {
     console.log(totalPrice);
-    dispatch({ type: ORDER_TOTAL_PRICE });
-  }, [totalPrice]);
+    dispatch({ type: ORDER_TOTAL_PRICE, orderList });
+  }, [dispatch, orderList, totalPrice]);
 
   function renderOrderItem(item: Ingredient) {
     return item.type !== "bun" ? (
@@ -62,7 +82,9 @@ function BurgerConstructor({ onOpenModal, onCloseModal, inOrder }: PropsBurgerCo
           />
         </div>
         {order.list.length > 1 && (
-          <div className={style.middle + " custom-scroll"}>{orderList.map(renderOrderItem)}</div>
+          <div className={style.middle + " custom-scroll"}>
+            {orderList.map(renderOrderItem)}
+          </div>
         )}
         <div className={style.element}>
           <ConstructorElement
@@ -76,7 +98,7 @@ function BurgerConstructor({ onOpenModal, onCloseModal, inOrder }: PropsBurgerCo
       </div>
       <div className={style.ordinary + " p-8"}>
         <div className={style.total}>
-          <p className="text text_type_digits-medium">{totalPrice || 0}</p>
+          <p className="text text_type_digits-medium">{totalPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
         <Button type="primary" size="large" onClick={handleOrderClick}>
@@ -84,7 +106,7 @@ function BurgerConstructor({ onOpenModal, onCloseModal, inOrder }: PropsBurgerCo
         </Button>
       </div>
 
-      {inOrder && (
+      {registerOrder && (
         <Modal title="" onCloseModal={onCloseModal}>
           <OrderDetails orderId={order.id} />
         </Modal>

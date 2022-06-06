@@ -14,6 +14,9 @@ export const modalReducer = (state: IState, action: IAction) => {
         },
       };
     case CLOSE_MODAL:
-      return { ...state, title: "", ingredientInModal: null };
+      return {
+        ...state,
+        modal: { ...state.modal, title: "", ingredientInModal: null },
+      };
   }
 };
