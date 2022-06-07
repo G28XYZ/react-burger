@@ -55,4 +55,25 @@ export interface IAction {
   bun?: Ingredient;
   register?: boolean;
   id?: number;
+  payload?: {};
+}
+
+export interface IModal {
+  isOpen: boolean;
+  ingredientInModal: Ingredient | null;
+  title: string;
+}
+
+export interface IOrder {
+  name: string;
+  list: Ingredient[] | [];
+  id: string;
+  bun: Ingredient | {};
+  totalPrice: number;
+  registerOrder: boolean;
+}
+
+export interface IActionOrder {
+  [key: string]: Ingredient | Ingredient[];
+  [key: number]: Ingredient;
 }

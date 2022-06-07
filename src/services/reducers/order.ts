@@ -1,13 +1,7 @@
-import { IAction, Ingredient } from "../../utils/types";
-import { createSlice } from "@reduxjs/toolkit";
+import { IActionOrder, Ingredient, IOrder } from "../../utils/types";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import {
-  ADD_BUN_TO_ORDER,
-  ADD_TO_ORDER,
-  registerOrder,
-  ORDER_TOTAL_PRICE,
-  REGISTER_ORDER,
-} from "../actions/order";
+import { onRegisterOrder } from "../actions/order";
 
 const initialState = {
   name: "",
@@ -35,52 +29,34 @@ export const orderSlice = createSlice({
   name: "order",
   initialState,
   reducers: {
-    addBunToOrder: (state, action) => {
+    addBunToOrder: (state: IOrder, action: PayloadAction<IActionOrder>) => {
       state.bun = action.payload;
     },
-    addToOrder: (state, action) => {
-      state.list = action.payload;
+    addToOrder: (state: IOrder, action: PayloadAction<IActionOrder>) => {
+      const item = action.payload as never;
+      state.list.push(item);
     },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(registerOrder.fulfilled, (state, action) => {});
-  },
-});
+    orderTotalPrice: (state: IOrder, action: PayloadAction<IActionOrder>) => {
+      const orderList = action.payload.orderList as [];
+      console.log(orderList);
+      const bun = state.bun as Ingredient;
 
-function orderReducer(state = initialState, action: IAction) {
-  switch (action.type) {
-    case ADD_TO_ORDER:
-      const list = action.orderList || [];
-      return {
-        ...state,
-        list,
-      };
-
-    case ADD_BUN_TO_ORDER:
-      return { ...state, bun: action.bun };
-
-    case ORDER_TOTAL_PRICE:
-      const orderList = action.orderList as [];
-      const bun = state.bun;
-      const totalPrice = orderList?.reduce(
+      state.totalPrice = orderList?.reduce(
         (total: number, item: Ingredient) => total + item.price,
         bun.price * 2
       );
-      return {
-        ...state,
-        totalPrice,
-      };
-
-    case REGISTER_ORDER:
-      return {
-        ...state,
-        registerOrder: action.register,
-        name: action.name,
-        id: action.id,
-      };
-    default:
-      return state;
-  }
-}
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(onRegisterOrder.fulfilled, (state, action) => {
+      if (action.payload) {
+        const { success, order, name } = action.payload;
+        state.registerOrder = success;
+        state.id = order.number;
+        state.name = name;
+      }
+    });
+  },
+});
 
 export default orderSlice;
