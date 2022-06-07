@@ -5,20 +5,12 @@ import style from "./burger-ingredients.module.css";
 import { Ingredient } from "../../utils/types";
 import Modal from "../modal/Modal";
 import IngredientDetails from "../ingredient-modal/IngredientDetails";
-import { CLOSE_MODAL } from "../../services/actions/modal";
-import {
-  RootState,
-  useAppDispatch,
-  useAppSelector,
-} from "../../services/store";
-import modalSlice from "../../services/reducers/modal";
+import { RootState, useAppSelector } from "../../services/store";
 
 const shortid = require("shortid");
 
 function BurgerIngredients() {
   const state = useAppSelector((state: RootState) => state);
-  const dispatch = useAppDispatch();
-  const { closeModal } = modalSlice.actions;
   const { ingredientInModal } = state.modal;
   const ingredients = state.ingredients.sortedIngredients as any;
 
@@ -31,10 +23,6 @@ function BurgerIngredients() {
   const refsElement = useRef(
     ingredientNames.map((): { current: null | HTMLDivElement } => createRef())
   );
-
-  function onCloseModal() {
-    dispatch(closeModal());
-  }
 
   function handleTabClick(value: string) {
     const index = ingredientNames.findIndex((name) => name === value);
@@ -86,7 +74,7 @@ function BurgerIngredients() {
         })}
       </div>
       {ingredientInModal && (
-        <Modal title="Детали заказа" onCloseModal={onCloseModal}>
+        <Modal title="Детали заказа">
           <IngredientDetails ingredient={ingredientInModal} />
         </Modal>
       )}

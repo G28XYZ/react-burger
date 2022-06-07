@@ -26,7 +26,7 @@ function BurgerConstructor() {
   const { bun, totalPrice } = state.order;
   const { ingredients } = state.ingredients;
   const { addBunToOrder, addToOrder, orderTotalPrice } = orderSlice.actions;
-  const { openModalWithOrder, closeModal } = modalSlice.actions;
+  const { openModalWithOrder } = modalSlice.actions;
 
   function handleOrderClick() {
     dispatch(
@@ -38,10 +38,6 @@ function BurgerConstructor() {
       })
     );
     dispatch(openModalWithOrder(""));
-  }
-
-  function onCloseModal() {
-    dispatch(closeModal());
   }
 
   useEffect(() => {
@@ -121,7 +117,7 @@ function BurgerConstructor() {
       </div>
 
       {state.modal.orderInModal && (
-        <Modal title="" onCloseModal={onCloseModal}>
+        <Modal title="">
           <OrderDetails orderId={state.order.id} />
         </Modal>
       )}
