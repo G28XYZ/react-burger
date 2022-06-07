@@ -15,6 +15,10 @@ export interface Ingredient {
   __v: number;
 }
 
+export interface ISorted {
+  [key: string]: Ingredient[];
+}
+
 export interface OpenModalProps {
   title?: string;
   inIngredient?: Ingredient | null;
@@ -59,7 +63,6 @@ export interface IAction {
 }
 
 export interface IModal {
-  isOpen: boolean;
   orderInModal: boolean;
   ingredientInModal: Ingredient | null;
   title: string;
@@ -76,4 +79,9 @@ export interface IOrder {
 export interface IActionOrder {
   [key: string]: Ingredient | Ingredient[];
   [key: number]: Ingredient;
+}
+
+export interface IActionModal {
+  title: string;
+  ingredient: Ingredient;
 }

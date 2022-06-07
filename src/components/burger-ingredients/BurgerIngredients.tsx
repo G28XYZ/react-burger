@@ -2,7 +2,7 @@ import { createRef, useRef, useState } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredient from "../burger-ingredient/BurgerIngredient";
 import style from "./burger-ingredients.module.css";
-import { Ingredient } from "../../utils/types";
+import { Ingredient, ISorted } from "../../utils/types";
 import Modal from "../modal/Modal";
 import IngredientDetails from "../ingredient-modal/IngredientDetails";
 import { RootState, useAppSelector } from "../../services/store";
@@ -12,7 +12,7 @@ const shortid = require("shortid");
 function BurgerIngredients() {
   const state = useAppSelector((state: RootState) => state);
   const { ingredientInModal } = state.modal;
-  const ingredients = state.ingredients.sortedIngredients as any;
+  const ingredients: ISorted = state.ingredients.sortedIngredients;
 
   const ingredientNames = Object.keys(ingredients);
 

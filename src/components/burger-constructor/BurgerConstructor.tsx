@@ -37,7 +37,7 @@ function BurgerConstructor() {
         ],
       })
     );
-    dispatch(openModalWithOrder(""));
+    dispatch(openModalWithOrder());
   }
 
   useEffect(() => {
