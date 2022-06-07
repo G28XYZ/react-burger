@@ -36,15 +36,16 @@ export const orderSlice = createSlice({
   initialState,
   reducers: {
     addBunToOrder: (state, action) => {
-      console.log(action);
+      state.bun = action.payload;
+    },
+    addToOrder: (state, action) => {
+      state.list = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(registerOrder.fulfilled, (state, action) => {});
   },
 });
-
-export const { addBunToOrder } = orderSlice.actions;
 
 function orderReducer(state = initialState, action: IAction) {
   switch (action.type) {

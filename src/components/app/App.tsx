@@ -10,30 +10,43 @@ import { useDispatch, useSelector } from "react-redux";
 import { IAction, Ingredient } from "../../utils/types";
 import { AnyAction } from "redux";
 import type { AppDispatch, RootState } from "../../services/store";
-import orderSlice, { addBunToOrder } from "../../services/reducers/order";
+import orderSlice from "../../services/reducers/order";
 
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 function App() {
   const ingredientsState = useAppSelector((state: RootState) => state.ingredients);
+  const orderState = useAppSelector((state: RootState) => state.order);
   const dispatch = useAppDispatch();
-  const { loading } = ingredientsState;
-  const { addBunToOrder } = orderSlice.actions;
+  const { loading, ingredients } = ingredientsState;
+  const { addBunToOrder, addToOrder } = orderSlice.actions;
 
   useEffect(() => {
     dispatch(fetchIngredients());
-    dispatch(addBunToOrder(1));
   }, []);
 
   useEffect(() => {
     if (loading) {
-      console.log(ingredientsState);
+      dispatch(
+        addBunToOrder(
+          ingredients.filter((item: Ingredient) => item.price > 1000 && item.type === "bun")[0]
+        )
+      );
+      dispatch(
+        addToOrder(
+          ingredients.filter((item: Ingredient) => item.price < 1000 && item.type !== "bun")
+        )
+      );
       // const ids = ingredients.map((item: Ingredient) => item._id);
       // console.log(ids);
       // dispatch(fetchOrder({ ingredients: ids }));
     }
   }, [loading]);
+
+  useEffect(() => {
+    console.log(orderState);
+  }, [orderState, orderState.bun._id]);
 
   return (
     <div>

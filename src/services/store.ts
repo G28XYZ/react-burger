@@ -2,7 +2,7 @@ import { combineReducers } from "redux";
 import ingredientsReducer from "./reducers/ingredients";
 import orderReducer, { orderSlice } from "./reducers/order";
 import { modalReducer } from "./reducers/modal";
-import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { ingredientsSlice } from "./reducers/ingredients";
 
