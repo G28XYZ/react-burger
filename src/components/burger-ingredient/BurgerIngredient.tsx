@@ -21,11 +21,6 @@ function BurgerIngredient({ ingredient }: IngredientProp) {
       title: "Детали ингредиента",
       ingredient: ingredient,
     });
-    console.log(ingredient, state);
-    // onOpenModal({
-    //   title: "Детали ингредиента",
-    //   inIngredient: ingredient,
-    // });
   }
 
   return (

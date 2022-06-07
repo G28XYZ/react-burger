@@ -9,7 +9,7 @@ import Preloader from "../Preloader";
 
 function App() {
   const [state, dispatch] = useStore();
-  let { loading, sortedIngredients, ingredients, order } = state;
+  let { loading } = state;
 
   useLayoutEffect(() => {
     getIngredients(dispatch);

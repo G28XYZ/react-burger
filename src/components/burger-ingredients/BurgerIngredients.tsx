@@ -6,7 +6,6 @@ import { Ingredient } from "../../utils/types";
 import Modal from "../modal/Modal";
 import IngredientDetails from "../ingredient-modal/IngredientDetails";
 import { useStore } from "../../services/StoreProvider";
-import { CLOSE_MODAL } from "../../services/actions/modal";
 
 const shortid = require("shortid");
 
@@ -18,7 +17,7 @@ declare module "react" {
 }
 
 function BurgerIngredients() {
-  const [state, dispatch] = useStore();
+  const [state] = useStore();
   const { ingredientInModal } = state.modal;
   const ingredients = state.sortedIngredients;
 
@@ -31,10 +30,6 @@ function BurgerIngredients() {
   const refsElement = useRef(
     ingredientNames.map((): { current: null | HTMLDivElement } => createRef())
   );
-
-  function onCloseModal() {
-    dispatch({ type: CLOSE_MODAL });
-  }
 
   function handleTabClick(value: string) {
     const index = ingredientNames.findIndex((name) => name === value);
@@ -71,12 +66,7 @@ function BurgerIngredients() {
           const divRef: { current: null | HTMLDivElement } =
             refsElement.current[i];
           return (
-            <div
-              key={shortid.generate()}
-              className="pb-10"
-              id={name}
-              ref={divRef}
-            >
+            <div key={i} className="pb-10" id={name} ref={divRef}>
               <h3 className="text text_type_main-medium">{name}</h3>
               <ul className={style.list}>
                 {ingredients[name].map(renderIngredientsList)}
@@ -86,7 +76,7 @@ function BurgerIngredients() {
         })}
       </div>
       {ingredientInModal && (
-        <Modal title="Детали заказа" onCloseModal={onCloseModal}>
+        <Modal title="Детали заказа">
           <IngredientDetails ingredient={ingredientInModal} />
         </Modal>
       )}

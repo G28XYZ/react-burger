@@ -20,6 +20,7 @@ const globalState = {
     title: "",
     ingredientInModal: null,
     isOpen: false,
+    orderInModal: false,
   },
   order: {
     name: "",

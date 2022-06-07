@@ -12,6 +12,7 @@ export interface Ingredient {
   image: string;
   image_mobile: string;
   image_large: string;
+  shortId?: string;
   __v: number;
 }
 
@@ -27,6 +28,7 @@ export interface IState {
   burgerConstructor: Ingredient[];
   modal: {
     isOpen: boolean;
+    orderInModal: boolean;
     ingredientInModal: Ingredient | null;
     title: string;
   };

@@ -15,23 +15,24 @@ import {
   ADD_TO_ORDER,
   onRegisterOrder,
   ORDER_TOTAL_PRICE,
-  REGISTER_ORDER,
 } from "../../services/actions/order";
+import { OPEN_MODAL_WITH_ORDER } from "../../services/actions/modal";
 
 function BurgerConstructor() {
   const [state, dispatch] = useStore();
   const orderList = state.order.list;
-  const [{ order, ingredients, loading }, { bun, totalPrice, registerOrder }] =
-    [state, state.order];
+  const [{ order, ingredients, loading }, { bun, totalPrice }] = [
+    state,
+    state.order,
+  ];
+
+  const { orderInModal } = state.modal;
 
   function handleOrderClick() {
     onRegisterOrder(dispatch, {
-      ingredients: [bun._id, ...orderList.map((item) => item._id)],
+      ingredients: [bun._id, ...orderList.map((item) => item._id), bun._id],
     });
-  }
-
-  function onCloseModal() {
-    dispatch({ type: REGISTER_ORDER, register: false, name: "", id: 0 });
+    dispatch({ type: OPEN_MODAL_WITH_ORDER });
   }
 
   useEffect(() => {
@@ -57,7 +58,7 @@ function BurgerConstructor() {
 
   function renderOrderItem(item: Ingredient) {
     return item.type !== "bun" ? (
-      <div key={item._id} className={style.element_container}>
+      <div key={item.shortId} className={style.element_container}>
         <DragIcon type="primary" />
         <div className={style.element}>
           <ConstructorElement
@@ -83,7 +84,7 @@ function BurgerConstructor() {
             thumbnail={bun.image}
           />
         </div>
-        {order.list.length > 1 && (
+        {order.list.length >= 1 && (
           <div className={style.middle + " custom-scroll"}>
             {orderList.map(renderOrderItem)}
           </div>
@@ -108,8 +109,8 @@ function BurgerConstructor() {
         </Button>
       </div>
 
-      {registerOrder && (
-        <Modal title="" onCloseModal={onCloseModal}>
+      {orderInModal && (
+        <Modal title="">
           <OrderDetails orderId={order.id} />
         </Modal>
       )}

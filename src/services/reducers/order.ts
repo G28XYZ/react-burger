@@ -5,11 +5,20 @@ import {
   ORDER_TOTAL_PRICE,
   REGISTER_ORDER,
 } from "../actions/order";
+const shortid = require("shortid");
 
 function orderReducer(state: IState, action: IAction) {
   switch (action.type) {
     case ADD_TO_ORDER:
-      const list = action.orderList || [];
+      // const list = action.orderList || [];
+      const _orderList = action.orderList || [];
+      const list = [
+        ...state.order.list,
+        ..._orderList.map((item) => {
+          item.shortId = shortid.generate();
+          return item;
+        }),
+      ];
       return {
         ...state,
         order: {

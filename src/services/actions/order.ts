@@ -21,6 +21,12 @@ export function onRegisterOrder(
           id: order.number,
           name,
         });
+      } else {
+        dispatch({
+          type: REGISTER_ORDER,
+          register: false,
+          id: 0,
+        });
       }
     })
     .catch(console.log);
