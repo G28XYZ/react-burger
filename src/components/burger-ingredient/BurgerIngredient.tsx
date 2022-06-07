@@ -1,19 +1,25 @@
-import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import {
+  Counter,
+  CurrencyIcon,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-ingredient.module.css";
 import { Ingredient } from "../../utils/types";
-import { OpenModalProps } from "../../utils/types";
+import { useStore } from "../../services/StoreProvider";
+import { OPEN_MODAL_WITH_INGREDIENT } from "../../services/actions/modal";
 
 export interface IngredientProp {
   ingredient: Ingredient;
-  orderList: Ingredient[] | {}[];
-  onOpenModal: ({ title, inIngredient, inOrder }: OpenModalProps) => void;
 }
 
-function BurgerIngredient({ ingredient, orderList, onOpenModal }: IngredientProp) {
+function BurgerIngredient({ ingredient }: IngredientProp) {
+  const [state, dispatch] = useStore();
+  const orderList = [...state.order.list, state.order.bun];
+
   function onHandleClick() {
-    onOpenModal({
+    dispatch({
+      type: OPEN_MODAL_WITH_INGREDIENT,
       title: "Детали ингредиента",
-      inIngredient: ingredient,
+      ingredient: ingredient,
     });
   }
 
@@ -29,7 +35,10 @@ function BurgerIngredient({ ingredient, orderList, onOpenModal }: IngredientProp
       <div className="text text_type_digits-default">
         {ingredient.price} <CurrencyIcon type="primary" />
       </div>
-      <p className="text text_type_main-default" style={{ textAlign: "center" }}>
+      <p
+        className="text text_type_main-default"
+        style={{ textAlign: "center" }}
+      >
         {ingredient.name}
       </p>
     </li>

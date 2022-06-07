@@ -3,9 +3,9 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredient from "../burger-ingredient/BurgerIngredient";
 import style from "./burger-ingredients.module.css";
 import { Ingredient } from "../../utils/types";
-import { OpenModalProps } from "../../utils/types";
 import Modal from "../modal/Modal";
 import IngredientDetails from "../ingredient-modal/IngredientDetails";
+import { useStore } from "../../services/StoreProvider";
 
 const shortid = require("shortid");
 
@@ -16,21 +16,11 @@ declare module "react" {
   }
 }
 
-type PropsBurgerIngredients = {
-  orderList: Ingredient[] | {}[];
-  ingredients: { [key: string]: Ingredient[] };
-  onOpenModal: ({ title, inIngredient, inOrder }: OpenModalProps) => void;
-  onCloseModal: () => void;
-  ingredientInModal: Ingredient | null | undefined;
-};
+function BurgerIngredients() {
+  const [state] = useStore();
+  const { ingredientInModal } = state.modal;
+  const ingredients = state.sortedIngredients;
 
-function BurgerIngredients({
-  orderList,
-  ingredients,
-  onCloseModal,
-  onOpenModal,
-  ingredientInModal,
-}: PropsBurgerIngredients) {
   const ingredientNames = Object.keys(ingredients);
 
   const [current, setCurrent] = useState("Булки");
@@ -51,14 +41,7 @@ function BurgerIngredients({
   }
 
   function renderIngredientsList(ingredient: Ingredient) {
-    return (
-      <BurgerIngredient
-        key={ingredient._id}
-        ingredient={ingredient}
-        orderList={orderList}
-        onOpenModal={onOpenModal}
-      />
-    );
+    return <BurgerIngredient key={ingredient._id} ingredient={ingredient} />;
   }
 
   return (
@@ -80,17 +63,20 @@ function BurgerIngredients({
       </div>
       <div className={style.container + " custom-scroll"}>
         {ingredientNames.map((name, i) => {
-          const divRef: { current: null | HTMLDivElement } = refsElement.current[i];
+          const divRef: { current: null | HTMLDivElement } =
+            refsElement.current[i];
           return (
-            <div key={shortid.generate()} className="pb-10" id={name} ref={divRef}>
+            <div key={i} className="pb-10" id={name} ref={divRef}>
               <h3 className="text text_type_main-medium">{name}</h3>
-              <ul className={style.list}>{ingredients[name].map(renderIngredientsList)}</ul>
+              <ul className={style.list}>
+                {ingredients[name].map(renderIngredientsList)}
+              </ul>
             </div>
           );
         })}
       </div>
       {ingredientInModal && (
-        <Modal title="Детали заказа" onCloseModal={onCloseModal}>
+        <Modal title="Детали заказа">
           <IngredientDetails ingredient={ingredientInModal} />
         </Modal>
       )}

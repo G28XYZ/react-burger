@@ -16,11 +16,15 @@ function AppHeader() {
         <ul className={appHeaderStyle.interface}>
           <li className={appHeaderStyle.interface__item}>
             <BurgerIcon type="primary" />
-            <p className="pl-3 text text_type_main-default">Конструктор</p>
+            <a href="/#" className="pl-3 text text_type_main-default">
+              Конструктор
+            </a>
           </li>
           <li className={appHeaderStyle.interface__item}>
             <ListIcon type="secondary" />
-            <p className="pl-3 text text_type_main-default text_color_inactive">Лента заказов</p>
+            <a href="/#" className="pl-3 text text_type_main-default text_color_inactive">
+              Лента заказов
+            </a>
           </li>
         </ul>
         <a href="/#" className={appHeaderStyle.profile}>

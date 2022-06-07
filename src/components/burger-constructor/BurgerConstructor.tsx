@@ -7,39 +7,58 @@ import {
 import style from "./burger-constructor.module.css";
 import { Ingredient } from "../../utils/types";
 import OrderDetails from "../order-modal/OrderDetails";
-import { OpenModalProps } from "../../utils/types";
 import Modal from "../modal/Modal";
+import { useStore } from "../../services/StoreProvider";
+import { useEffect } from "react";
+import {
+  ADD_BUN_TO_ORDER,
+  ADD_TO_ORDER,
+  onRegisterOrder,
+  ORDER_TOTAL_PRICE,
+} from "../../services/actions/order";
+import { OPEN_MODAL_WITH_ORDER } from "../../services/actions/modal";
 
-interface PropsBurgerConstructor {
-  order: { list: Ingredient[] | {}[]; id: string };
-  onOpenModal: ({ title, inIngredient, inOrder }: OpenModalProps) => void;
-  onCloseModal: () => void;
-  inOrder: boolean | undefined;
-}
+function BurgerConstructor() {
+  const [state, dispatch] = useStore();
+  const orderList = state.order.list;
+  const [{ order, ingredients, loading }, { bun, totalPrice }] = [
+    state,
+    state.order,
+  ];
 
-function BurgerConstructor({ order, onOpenModal, onCloseModal, inOrder }: PropsBurgerConstructor) {
-  const orderList = Object.assign(order.list);
-
-  // возвращает только один объект с типом булка
-  // чтобы использовать в элементах конструктора верх и низ из булок в условном заказе
-  const bun: Ingredient = orderList.reduce((prevObject: Ingredient, currentObject: Ingredient) =>
-    currentObject.type === "bun" ? currentObject : prevObject
-  );
-
-  // подсчёт общей стоимости заказа
-  const totalPrice = orderList.reduce(
-    (total: number, currentObject: Ingredient) =>
-      currentObject.type !== "bun" ? total + currentObject.price : total,
-    bun.price * 2
-  );
+  const { orderInModal } = state.modal;
 
   function handleOrderClick() {
-    onOpenModal({ inOrder: true });
+    onRegisterOrder(dispatch, {
+      ingredients: [bun._id, ...orderList.map((item) => item._id), bun._id],
+    });
+    dispatch({ type: OPEN_MODAL_WITH_ORDER });
   }
+
+  useEffect(() => {
+    if (loading) {
+      dispatch({
+        type: ADD_TO_ORDER,
+        orderList: ingredients.filter(
+          (item: Ingredient) => item.price < 1000 && item.type !== "bun"
+        ),
+      });
+      dispatch({
+        type: ADD_BUN_TO_ORDER,
+        bun: ingredients.filter(
+          (item: Ingredient) => item.price > 1000 && item.type === "bun"
+        )[0],
+      });
+    }
+  }, [loading]);
+
+  useEffect(() => {
+    dispatch({ type: ORDER_TOTAL_PRICE, orderList });
+  }, [dispatch, orderList, totalPrice]);
 
   function renderOrderItem(item: Ingredient) {
     return item.type !== "bun" ? (
-      <div key={item._id} className={style.element_container}>
+      <div key={item.shortId} className={style.element_container}>
         <DragIcon type="primary" />
         <div className={style.element}>
           <ConstructorElement
@@ -65,7 +84,11 @@ function BurgerConstructor({ order, onOpenModal, onCloseModal, inOrder }: PropsB
             thumbnail={bun.image}
           />
         </div>
-        <div className={style.middle + " custom-scroll"}>{orderList.map(renderOrderItem)}</div>
+        {order.list.length >= 1 && (
+          <div className={style.middle + " custom-scroll"}>
+            {orderList.map(renderOrderItem)}
+          </div>
+        )}
         <div className={style.element}>
           <ConstructorElement
             type="bottom"
@@ -86,8 +109,8 @@ function BurgerConstructor({ order, onOpenModal, onCloseModal, inOrder }: PropsB
         </Button>
       </div>
 
-      {inOrder && (
-        <Modal title="" onCloseModal={onCloseModal}>
+      {orderInModal && (
+        <Modal title="">
           <OrderDetails orderId={order.id} />
         </Modal>
       )}

@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface Ingredient {
   _id: string;
   name: string;
@@ -10,6 +12,7 @@ export interface Ingredient {
   image: string;
   image_mobile: string;
   image_large: string;
+  shortId?: string;
   __v: number;
 }
 
@@ -17,4 +20,41 @@ export interface OpenModalProps {
   title?: string;
   inIngredient?: Ingredient | null;
   inOrder?: boolean;
+}
+export interface IState {
+  loading: boolean;
+  ingredients: Ingredient[];
+  sortedIngredients: { [key: string]: Ingredient[] };
+  burgerConstructor: Ingredient[];
+  modal: {
+    isOpen: boolean;
+    orderInModal: boolean;
+    ingredientInModal: Ingredient | null;
+    title: string;
+  };
+  order: {
+    name: string;
+    list: Ingredient[] | [];
+    id: string;
+    bun: Ingredient;
+    totalPrice: number;
+    registerOrder: boolean;
+  };
+}
+
+export interface IStoreProviderProps {
+  children: ReactNode;
+}
+
+export interface IAction {
+  type: string;
+  name?: string;
+  title?: string;
+  ingredient?: Ingredient;
+  ingredientsData?: Ingredient[];
+  orderList?: [] | Ingredient[];
+  data?: Ingredient | [];
+  bun?: Ingredient;
+  register?: boolean;
+  id?: number;
 }
