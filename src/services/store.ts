@@ -1,6 +1,6 @@
 import { compose, applyMiddleware } from "redux";
 import { orderSlice } from "./reducers/order";
-import modalSlice, { modalReducer } from "./reducers/modal";
+import modalSlice from "./reducers/modal";
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { ingredientsSlice } from "./reducers/ingredients";

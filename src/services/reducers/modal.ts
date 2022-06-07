@@ -4,6 +4,7 @@ import { CLOSE_MODAL, OPEN_MODAL_WITH_INGREDIENT } from "../actions/modal";
 
 const initialState = {
   title: "",
+  orderInModal: false,
   ingredientInModal: null,
   isOpen: false,
 };
@@ -16,6 +17,14 @@ export const modalSlice = createSlice({
       state.isOpen = true;
       state.title = action.payload.title;
       state.ingredientInModal = action.payload.ingredient;
+    },
+    openModalWithOrder: (state: IModal, action: PayloadAction<any>) => {
+      state.isOpen = true;
+      state.orderInModal = true;
+    },
+    closeModal: (state: IModal) => {
+      state.orderInModal = false;
+      state.ingredientInModal = null;
     },
   },
 });

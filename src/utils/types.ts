@@ -60,6 +60,7 @@ export interface IAction {
 
 export interface IModal {
   isOpen: boolean;
+  orderInModal: boolean;
   ingredientInModal: Ingredient | null;
   title: string;
 }
@@ -70,7 +71,6 @@ export interface IOrder {
   id: string;
   bun: Ingredient | {};
   totalPrice: number;
-  registerOrder: boolean;
 }
 
 export interface IActionOrder {

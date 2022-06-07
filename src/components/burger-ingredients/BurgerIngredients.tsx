@@ -11,12 +11,14 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../services/store";
+import modalSlice from "../../services/reducers/modal";
 
 const shortid = require("shortid");
 
 function BurgerIngredients() {
   const state = useAppSelector((state: RootState) => state);
   const dispatch = useAppDispatch();
+  const { closeModal } = modalSlice.actions;
   const { ingredientInModal } = state.modal;
   const ingredients = state.ingredients.sortedIngredients as any;
 
@@ -31,7 +33,7 @@ function BurgerIngredients() {
   );
 
   function onCloseModal() {
-    dispatch({ type: CLOSE_MODAL });
+    dispatch(closeModal());
   }
 
   function handleTabClick(value: string) {

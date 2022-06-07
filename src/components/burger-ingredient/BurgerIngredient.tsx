@@ -28,7 +28,6 @@ function BurgerIngredient({ ingredient }: IngredientProp) {
         ingredient: ingredient,
       })
     );
-    console.log(ingredient, state);
   }
 
   return (

@@ -16,15 +16,17 @@ import {
   useAppSelector,
 } from "../../services/store";
 import orderSlice from "../../services/reducers/order";
+import modalSlice from "../../services/reducers/modal";
 
 function BurgerConstructor() {
   const state = useAppSelector((state: RootState) => state);
   const dispatch = useAppDispatch();
   const orderList = state.order.list;
   const { loading } = state.ingredients;
-  const { bun, totalPrice, registerOrder } = state.order;
+  const { bun, totalPrice } = state.order;
   const { ingredients } = state.ingredients;
   const { addBunToOrder, addToOrder, orderTotalPrice } = orderSlice.actions;
+  const { openModalWithOrder, closeModal } = modalSlice.actions;
 
   function handleOrderClick() {
     dispatch(
@@ -35,10 +37,11 @@ function BurgerConstructor() {
         ],
       })
     );
+    dispatch(openModalWithOrder(""));
   }
 
   function onCloseModal() {
-    // dispatch({ type: REGISTER_ORDER, register: false, name: "", id: 0 });
+    dispatch(closeModal());
   }
 
   useEffect(() => {
@@ -117,7 +120,7 @@ function BurgerConstructor() {
         </Button>
       </div>
 
-      {registerOrder && (
+      {state.modal.orderInModal && (
         <Modal title="" onCloseModal={onCloseModal}>
           <OrderDetails orderId={state.order.id} />
         </Modal>

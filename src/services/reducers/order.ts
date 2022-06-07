@@ -22,7 +22,6 @@ const initialState = {
   },
   id: "",
   totalPrice: 0,
-  registerOrder: false,
 };
 
 export const orderSlice = createSlice({
@@ -38,7 +37,6 @@ export const orderSlice = createSlice({
     },
     orderTotalPrice: (state: IOrder, action: PayloadAction<IActionOrder>) => {
       const orderList = action.payload.orderList as [];
-      console.log(orderList);
       const bun = state.bun as Ingredient;
 
       state.totalPrice = orderList?.reduce(
@@ -51,7 +49,6 @@ export const orderSlice = createSlice({
     builder.addCase(onRegisterOrder.fulfilled, (state, action) => {
       if (action.payload) {
         const { success, order, name } = action.payload;
-        state.registerOrder = success;
         state.id = order.number;
         state.name = name;
       }
