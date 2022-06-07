@@ -13,6 +13,7 @@ export interface Ingredient {
   image_mobile: string;
   image_large: string;
   __v: number;
+  shortId?: string;
 }
 
 export interface ISorted {
@@ -77,8 +78,7 @@ export interface IOrder {
 }
 
 export interface IActionOrder {
-  [key: string]: Ingredient | Ingredient[];
-  [key: number]: Ingredient;
+  [key: string]: {} | Ingredient | Ingredient[];
 }
 
 export interface IActionModal {

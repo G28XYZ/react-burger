@@ -1,7 +1,8 @@
 import { IActionOrder, Ingredient, IOrder } from "../../utils/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
 import { onRegisterOrder } from "../actions/order";
+
+const shortId = require("shortid");
 
 const initialState = {
   name: "",
@@ -29,17 +30,17 @@ export const orderSlice = createSlice({
   initialState,
   reducers: {
     addBunToOrder: (state: IOrder, action: PayloadAction<IActionOrder>) => {
-      state.bun = action.payload;
+      state.bun = action.payload.ingredient;
     },
     addToOrder: (state: IOrder, action: PayloadAction<IActionOrder>) => {
-      const item = action.payload as never;
-      state.list.push(item);
+      const item = Object.assign({ shortId: shortId.generate() }, action.payload.ingredient);
+      state.list.push(item as never);
     },
-    orderTotalPrice: (state: IOrder, action: PayloadAction<IActionOrder>) => {
-      const orderList = action.payload.orderList as [];
+    orderTotalPrice: (state: IOrder) => {
+      const orderList = state.list as [];
       const bun = state.bun as Ingredient;
 
-      state.totalPrice = orderList?.reduce(
+      state.totalPrice = orderList.reduce(
         (total: number, item: Ingredient) => total + item.price,
         bun.price * 2
       );

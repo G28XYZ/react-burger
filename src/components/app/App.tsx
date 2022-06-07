@@ -5,12 +5,7 @@ import appStyle from "./app.module.css";
 import BurgerConstructor from "../burger-constructor/BurgerConstructor";
 import { fetchIngredients } from "../../services/actions/ingredients";
 import Preloader from "../Preloader";
-import {
-  RootState,
-  useAppDispatch,
-  useAppSelector,
-} from "../../services/store";
-import orderSlice from "../../services/reducers/order";
+import { RootState, useAppDispatch, useAppSelector } from "../../services/store";
 
 // по совету наставника временно задана декларация чтобы обойти ошибку TS2322 возникающая на ui элементе Tab
 declare module "react" {
@@ -20,11 +15,9 @@ declare module "react" {
 }
 
 function App() {
-  const ingredientsState = useAppSelector(
-    (state: RootState) => state.ingredients
-  );
+  const ingredientsState = useAppSelector((state: RootState) => state.ingredients);
   const dispatch = useAppDispatch();
-  const { loading, ingredients } = ingredientsState;
+  const { loading } = ingredientsState;
 
   useEffect(() => {
     dispatch(fetchIngredients());

@@ -1,15 +1,9 @@
-import {
-  Counter,
-  CurrencyIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-ingredient.module.css";
 import { Ingredient } from "../../utils/types";
-import {
-  RootState,
-  useAppDispatch,
-  useAppSelector,
-} from "../../services/store";
+import { RootState, useAppDispatch, useAppSelector } from "../../services/store";
 import modalSlice from "../../services/reducers/modal";
+import { useDrag } from "react-dnd";
 
 export interface IngredientProp {
   ingredient: Ingredient;
@@ -30,10 +24,23 @@ function BurgerIngredient({ ingredient }: IngredientProp) {
     );
   }
 
+  const [{ opacity }, ref] = useDrag({
+    type: "ingredient",
+    item: ingredient,
+    collect: (monitor) => ({
+      opacity: monitor.isDragging() ? 0.5 : 1,
+    }),
+    end(item, monitor) {
+      const dropResult = monitor.getDropResult();
+      console.log(item, dropResult);
+    },
+  });
+
   return (
-    <li className={style.item + " pb-10"} key={ingredient._id}>
+    <li className={style.item + " pb-10"} key={ingredient._id} style={{ opacity }}>
       {orderList.includes(ingredient) && <Counter count={1} size="default" />}
       <img
+        ref={ref}
         className={style.image}
         src={ingredient.image}
         alt={ingredient.name}
@@ -42,10 +49,7 @@ function BurgerIngredient({ ingredient }: IngredientProp) {
       <div className="text text_type_digits-default">
         {ingredient.price} <CurrencyIcon type="primary" />
       </div>
-      <p
-        className="text text_type_main-default"
-        style={{ textAlign: "center" }}
-      >
+      <p className="text text_type_main-default" style={{ textAlign: "center" }}>
         {ingredient.name}
       </p>
     </li>
