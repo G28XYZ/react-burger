@@ -76,6 +76,7 @@ export interface IOrder {
   id: string;
   bun: Ingredient | {};
   totalPrice: number;
+  draggedIngredient: null | Ingredient;
 }
 
 export interface IActionOrder {

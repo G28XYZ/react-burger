@@ -23,6 +23,7 @@ const initialState = {
   },
   id: "",
   totalPrice: 0,
+  draggedIngredient: null,
 };
 
 export const orderSlice = createSlice({
@@ -33,11 +34,22 @@ export const orderSlice = createSlice({
       state.bun = action.payload.ingredient;
     },
     addToOrder: (state: IOrder, action: PayloadAction<IActionOrder>) => {
-      const item = Object.assign(
-        { shortId: shortId.generate() },
-        action.payload.ingredient
-      );
-      state.list.push(item as never);
+      const ingredient = Object.assign({ shortId: shortId.generate() }, action.payload.ingredient);
+      const dragItem = state.draggedIngredient;
+      if (dragItem) {
+        let newList = [...state.list];
+        const hoverIndex = newList.findIndex(
+          (item: Ingredient) => dragItem.shortId === item.shortId
+        );
+        console.log(dragItem);
+        // newList[hoverIndex] = Object.assign(dragItem, ingredient);
+
+        state.list = newList;
+        state.draggedIngredient = null;
+      } else {
+        state.list.push(ingredient as never);
+        state.draggedIngredient = null;
+      }
     },
     orderTotalPrice: (state: IOrder) => {
       const orderList = state.list as [];
@@ -47,6 +59,20 @@ export const orderSlice = createSlice({
         (total: number, item: Ingredient) => total + item.price,
         bun.price * 2
       );
+    },
+    setDragged: (state: IOrder, action) => {
+      let ingredient = Object.assign(action.payload.ingredient);
+      state.draggedIngredient = ingredient;
+    },
+
+    moveIngredient: (state: IOrder, action) => {
+      let from = Object.assign(action.payload.from as Ingredient);
+      let to = Object.assign(action.payload.to as Ingredient);
+      let newList = [...state.list];
+      const toIndex = newList.findIndex((item: Ingredient) => to.shortId === item.shortId);
+      const fromIndex = newList.findIndex((item: Ingredient) => from.shortId === item.shortId);
+      [newList[toIndex], newList[fromIndex]] = [newList[fromIndex], newList[toIndex]];
+      state.list = newList;
     },
   },
   extraReducers: (builder) => {

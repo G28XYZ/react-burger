@@ -1,13 +1,14 @@
 import { Ingredient } from "../../utils/types";
-import {
-  ConstructorElement,
-  DragIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "../burger-constructor/burger-constructor.module.css";
 import { useDrag, useDrop } from "react-dnd";
 import { useRef } from "react";
+import { useAppDispatch } from "../../services/store";
+import orderSlice from "../../services/reducers/order";
 
 function ConstructorIngredient({ item }: { item: Ingredient }) {
+  const dispatch = useAppDispatch();
+  const { setDragged, moveIngredient } = orderSlice.actions;
   const ref = useRef(null);
 
   const [{ opacity }, drag] = useDrag({
@@ -30,31 +31,17 @@ function ConstructorIngredient({ item }: { item: Ingredient }) {
       handlerId: monitor.getHandlerId(),
     }),
     hover(ingredient, monitor) {
-      const item = ingredient as Ingredient;
+      const dragItem = ingredient as Ingredient;
       const itemType = monitor.getItemType();
-      const draggedIndex = Object.assign(monitor).targetId;
-      console.log(draggedIndex);
       //если на элемент конструктора наведен добавляемый ингредиент
-      console.log(itemType);
-      if (itemType === "ingredient" && item.type !== "bun") {
-        //то записываем отдельное поле стора, индекс куда и что перетаскиваем
-        //  dispatch({
-        //          type: ConstructorActionTypes.SET_DRAGGED,
-        //          payload: {
-        //            index: draggedIndex,
-        //            data: item
-        //          }
-        //      })
-      }
 
+      if (itemType === "ingredient" && dragItem.type !== "bun") {
+        //то записываем отдельное поле стора, индекс куда и что перетаскиваем
+        dispatch(setDragged({ ingredient }));
+      }
       if (itemType === "constructor_ingredient") {
-        //  dispatch({
-        //      type: ConstructorActionTypes.MOVE,
-        //      payload: {
-        //        from: item.ingredient.constructorId,
-        //        to: ingredient.constructorId
-        //      }
-        //    })
+        if ((dragItem.constructorId as number) - 1 === (item.constructorId as number) - 1) return;
+        dispatch(moveIngredient({ from: dragItem, to: item }));
       }
     },
   });
