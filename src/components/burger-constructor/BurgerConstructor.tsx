@@ -8,12 +8,17 @@ import style from "./burger-constructor.module.css";
 import { Ingredient } from "../../utils/types";
 import OrderDetails from "../order-modal/OrderDetails";
 import Modal from "../modal/Modal";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { onRegisterOrder } from "../../services/actions/order";
-import { RootState, useAppDispatch, useAppSelector } from "../../services/store";
+import {
+  RootState,
+  useAppDispatch,
+  useAppSelector,
+} from "../../services/store";
 import orderSlice from "../../services/reducers/order";
 import modalSlice from "../../services/reducers/modal";
 import { useDrop } from "react-dnd";
+import ConstructorIngredient from "../order-item/ConstructorIngredient";
 
 function BurgerConstructor() {
   const state = useAppSelector((state: RootState) => state);
@@ -26,7 +31,11 @@ function BurgerConstructor() {
   function handleOrderClick() {
     dispatch(
       onRegisterOrder({
-        ingredients: [bun._id, ...orderList.map((item: Ingredient) => item._id), bun._id],
+        ingredients: [
+          bun._id,
+          ...orderList.map((item: Ingredient) => item._id),
+          bun._id,
+        ],
       })
     );
     dispatch(openModalWithOrder());
@@ -48,56 +57,24 @@ function BurgerConstructor() {
     dispatch(orderTotalPrice());
   }, [dispatch, orderList, orderTotalPrice, totalPrice]);
 
-  function renderOrderItem(item: Ingredient) {
-    return item.type !== "bun" ? (
-      <div key={item.shortId} className={style.element_container}>
-        <DragIcon type="primary" />
-        <div className={style.element}>
-          <ConstructorElement
-            isLocked={false}
-            text={item.name}
-            price={item.price}
-            thumbnail={item.image_mobile}
-          />
-        </div>
-      </div>
-    ) : null;
-  }
-
   const [{ isHover, handlerId }, dropTarget] = useDrop({
-    accept: ["sorted_ingredient", "ingredient"],
+    accept: ["constructor_ingredient", "ingredient"],
     collect: (monitor) => ({
       isHover: monitor.isOver(),
       handlerId: monitor.getHandlerId(),
     }),
-    hover(...args) {
-      //если на элемент конструктора наведен добавляемый ингредиент
-      const [item, monitor, itemType] = args as any;
-      // console.log(args);
-      if (itemType === "NEW_INGREDIENT" && item.type !== "bun") {
-        //то записываем отдельное поле стора, индекс куда и что перетаскиваем
-        //  dispatch({
-        //          type: ConstructorActionTypes.SET_DRAGGED,
-        //          payload: {
-        //            index: draggedIndex,
-        //            data: item
-        //          }
-        //      })
+    drop(ingredient, monitor) {
+      const itemType = monitor.getItemType();
+      let item = Object.assign(ingredient as Ingredient);
+      if (!item.constructorId) {
+        item = Object.assign({ constructorId: orderList.length }, item);
       }
-
-      if (itemType === "SORT_INGREDIENT") {
-        //  dispatch({
-        //      type: ConstructorActionTypes.MOVE,
-        //      payload: {
-        //        from: item.ingredient.constructorId,
-        //        to: ingredient.constructorId
-        //      }
-        //    })
+      if (itemType === "ingredient") {
+        item.type === "bun"
+          ? handleAddBunToOrder(item)
+          : handleAddToOrder(item);
       }
-    },
-    drop(ingredient) {
-      const item = ingredient as Ingredient;
-      item.type === "bun" ? handleAddBunToOrder(item) : handleAddToOrder(item);
+      return ingredient;
     },
   });
 
@@ -113,9 +90,14 @@ function BurgerConstructor() {
             thumbnail={bun.image}
           />
         </div>
-        {state.order.list.length >= 1 && (
-          <div className={style.middle + " custom-scroll"}>{orderList.map(renderOrderItem)}</div>
-        )}
+
+        <div className={style.middle + " custom-scroll"}>
+          {state.order.list.length >= 1 &&
+            orderList.map((item: Ingredient) => (
+              <ConstructorIngredient key={item.shortId} item={item} />
+            ))}
+        </div>
+
         <div className={style.element}>
           <ConstructorElement
             type="bottom"

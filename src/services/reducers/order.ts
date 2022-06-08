@@ -33,7 +33,10 @@ export const orderSlice = createSlice({
       state.bun = action.payload.ingredient;
     },
     addToOrder: (state: IOrder, action: PayloadAction<IActionOrder>) => {
-      const item = Object.assign({ shortId: shortId.generate() }, action.payload.ingredient);
+      const item = Object.assign(
+        { shortId: shortId.generate() },
+        action.payload.ingredient
+      );
       state.list.push(item as never);
     },
     orderTotalPrice: (state: IOrder) => {
