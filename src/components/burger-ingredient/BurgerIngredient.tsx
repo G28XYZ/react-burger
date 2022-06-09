@@ -10,8 +10,8 @@ import {
   useAppSelector,
 } from "../../services/store";
 import modalSlice from "../../services/reducers/modal";
-import { useDrag, useDrop } from "react-dnd";
-import { useCallback, useState } from "react";
+import { useDrag } from "react-dnd";
+import { useCallback, useEffect, useState } from "react";
 
 export interface IngredientProp {
   ingredient: Ingredient;
@@ -40,10 +40,10 @@ const BurgerIngredient = ({ ingredient }: IngredientProp) => {
     setCount(orderList.filter((item) => item._id === ingredient._id).length);
   }, [ingredient._id, orderList]);
 
-  // useEffect(() => {
-  //   console.log("render ingredient");
-  //   onSetCount();
-  // }, [onSetCount]);
+  useEffect(() => {
+    console.log("render ingredient");
+    onSetCount();
+  }, [onSetCount]);
 
   const [{ opacity }, ref] = useDrag({
     type: "ingredient",
@@ -51,10 +51,8 @@ const BurgerIngredient = ({ ingredient }: IngredientProp) => {
     collect: (monitor) => ({
       opacity: monitor.isDragging() ? 0.5 : 1,
     }),
-    end(item, monitor) {
+    end(item) {
       onSetCount();
-      const dropResult = monitor.getDropResult();
-      console.log(dropResult);
       return item;
     },
   });

@@ -9,7 +9,7 @@ const initialState = {
   list: [],
   bun: {
     _id: "",
-    name: "",
+    name: "Булка",
     type: "",
     proteins: 0,
     fat: 0,
@@ -23,7 +23,7 @@ const initialState = {
   },
   id: "",
   totalPrice: 0,
-  draggedIngredient: null,
+  replaceIngredient: null,
 };
 
 export const orderSlice = createSlice({
@@ -31,24 +31,24 @@ export const orderSlice = createSlice({
   initialState,
   reducers: {
     addBunToOrder: (state: IOrder, action: PayloadAction<IActionOrder>) => {
-      state.bun = action.payload.ingredient;
+      state.bun = action.payload.ingredient as Ingredient;
     },
     addToOrder: (state: IOrder, action: PayloadAction<IActionOrder>) => {
-      const ingredient = Object.assign({ shortId: shortId.generate() }, action.payload.ingredient);
-      const dragItem = state.draggedIngredient;
-      if (dragItem) {
-        let newList = [...state.list];
-        const hoverIndex = newList.findIndex(
-          (item: Ingredient) => dragItem.shortId === item.shortId
+      const ingredient = Object.assign(
+        { shortId: shortId.generate() },
+        action.payload.ingredient
+      );
+      const replaceItem = action.payload.replaceIngredient as Ingredient;
+      let newList = [...state.list];
+      if (replaceItem) {
+        const replaceIndex = newList.findIndex(
+          (item: Ingredient) => replaceItem.shortId === item.shortId
         );
-        console.log(dragItem);
-        // newList[hoverIndex] = Object.assign(dragItem, ingredient);
-
+        newList.splice(replaceIndex, 1, ingredient as Ingredient);
         state.list = newList;
-        state.draggedIngredient = null;
+        state.replaceIngredient = null;
       } else {
         state.list.push(ingredient as never);
-        state.draggedIngredient = null;
       }
     },
     orderTotalPrice: (state: IOrder) => {
@@ -60,25 +60,31 @@ export const orderSlice = createSlice({
         bun.price * 2
       );
     },
-    setDragged: (state: IOrder, action) => {
-      let ingredient = Object.assign(action.payload.ingredient);
-      state.draggedIngredient = ingredient;
+    setDragged: (state: IOrder, action: PayloadAction<IActionOrder>) => {
+      state.replaceIngredient = action.payload.ingredient as Ingredient | null;
     },
 
-    moveIngredient: (state: IOrder, action) => {
+    moveIngredient: (state: IOrder, action: PayloadAction<IActionOrder>) => {
       let from = Object.assign(action.payload.from as Ingredient);
       let to = Object.assign(action.payload.to as Ingredient);
       let newList = [...state.list];
-      const toIndex = newList.findIndex((item: Ingredient) => to.shortId === item.shortId);
-      const fromIndex = newList.findIndex((item: Ingredient) => from.shortId === item.shortId);
-      [newList[toIndex], newList[fromIndex]] = [newList[fromIndex], newList[toIndex]];
+      const toIndex = newList.findIndex(
+        (item: Ingredient) => to.shortId === item.shortId
+      );
+      const fromIndex = newList.findIndex(
+        (item: Ingredient) => from.shortId === item.shortId
+      );
+      [newList[toIndex], newList[fromIndex]] = [
+        newList[fromIndex],
+        newList[toIndex],
+      ];
       state.list = newList;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(onRegisterOrder.fulfilled, (state, action) => {
       if (action.payload) {
-        const { success, order, name } = action.payload;
+        const { order, name } = action.payload;
         state.id = order.number;
         state.name = name;
       }

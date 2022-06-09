@@ -2,15 +2,18 @@ import {
   Button,
   CurrencyIcon,
   ConstructorElement,
-  DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-constructor.module.css";
 import { Ingredient } from "../../utils/types";
 import OrderDetails from "../order-modal/OrderDetails";
 import Modal from "../modal/Modal";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { onRegisterOrder } from "../../services/actions/order";
-import { RootState, useAppDispatch, useAppSelector } from "../../services/store";
+import {
+  RootState,
+  useAppDispatch,
+  useAppSelector,
+} from "../../services/store";
 import orderSlice from "../../services/reducers/order";
 import modalSlice from "../../services/reducers/modal";
 import { useDrop } from "react-dnd";
@@ -27,7 +30,11 @@ function BurgerConstructor() {
   function handleOrderClick() {
     dispatch(
       onRegisterOrder({
-        ingredients: [bun._id, ...orderList.map((item: Ingredient) => item._id), bun._id],
+        ingredients: [
+          bun._id,
+          ...orderList.map((item: Ingredient) => item._id),
+          bun._id,
+        ],
       })
     );
     dispatch(openModalWithOrder());
@@ -38,18 +45,19 @@ function BurgerConstructor() {
   }
 
   function handleAddToOrder(ingredient: Ingredient) {
-    dispatch(addToOrder({ ingredient }));
-  }
-
-  function handleDrop(item: any) {
-    console.log(item);
+    dispatch(
+      addToOrder({
+        ingredient,
+        replaceIngredient: state.order.replaceIngredient,
+      })
+    );
   }
 
   useEffect(() => {
     dispatch(orderTotalPrice());
   }, [dispatch, orderList, orderTotalPrice, totalPrice]);
 
-  const [{ isHover, handlerId }, dropTarget] = useDrop({
+  const [, dropTarget] = useDrop({
     accept: ["constructor_ingredient", "ingredient"],
     collect: (monitor) => ({
       isHover: monitor.isOver(),
@@ -62,7 +70,9 @@ function BurgerConstructor() {
         item = Object.assign({ constructorId: orderList.length }, item);
       }
       if (itemType === "ingredient") {
-        item.type === "bun" ? handleAddBunToOrder(item) : handleAddToOrder(item);
+        item.type === "bun"
+          ? handleAddBunToOrder(item)
+          : handleAddToOrder(item);
       }
       return ingredient;
     },
@@ -75,7 +85,7 @@ function BurgerConstructor() {
           <ConstructorElement
             type="top"
             isLocked={true}
-            text={(bun.name || "Булка") + " (верх)"}
+            text={bun.name + " (верх)"}
             price={bun.price}
             thumbnail={bun.image}
           />
@@ -92,7 +102,7 @@ function BurgerConstructor() {
           <ConstructorElement
             type="bottom"
             isLocked={true}
-            text={(bun.name || "Булка") + " (низ)"}
+            text={bun.name + " (низ)"}
             price={bun.price}
             thumbnail={bun.image}
           />

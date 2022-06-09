@@ -1,9 +1,16 @@
 import { Ingredient } from "../../utils/types";
-import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import {
+  ConstructorElement,
+  DragIcon,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "../burger-constructor/burger-constructor.module.css";
-import { useDrag, useDrop } from "react-dnd";
+import { useDrag, useDrop, XYCoord } from "react-dnd";
 import { useRef } from "react";
-import { RootState, useAppDispatch, useAppSelector } from "../../services/store";
+import {
+  RootState,
+  useAppDispatch,
+  useAppSelector,
+} from "../../services/store";
 import orderSlice from "../../services/reducers/order";
 
 function ConstructorIngredient({ item }: { item: Ingredient }) {
@@ -17,16 +24,14 @@ function ConstructorIngredient({ item }: { item: Ingredient }) {
     type: "constructor_ingredient",
     item: item as Ingredient,
     collect: (monitor) => ({
-      opacity: monitor.isDragging() ? 0.5 : 1,
+      opacity: monitor.isDragging() ? 0 : 1,
     }),
     end(item, monitor) {
-      const dropResult = monitor.getDropResult();
-      console.log(dropResult);
       return item;
     },
   });
 
-  const [{ isHover, handlerId }, dropTarget] = useDrop({
+  const [, dropTarget] = useDrop({
     accept: ["constructor_ingredient", "ingredient"],
     collect: (monitor) => ({
       isHover: monitor.isOver(),
@@ -35,16 +40,10 @@ function ConstructorIngredient({ item }: { item: Ingredient }) {
     hover(ingredient, monitor) {
       const dragItem = ingredient as Ingredient;
       const itemType = monitor.getItemType();
-      //если на элемент конструктора наведен добавляемый ингредиент
-      console.log(state.order.draggedIngredient);
       if (itemType === "ingredient" && dragItem.type !== "bun") {
-        //то записываем отдельное поле стора, индекс куда и что перетаскиваем
-
-        dispatch(setDragged({ ingredient }));
+        dispatch(setDragged({ ingredient: null }));
       }
       if (itemType === "constructor_ingredient") {
-        // if ((dragItem.constructorId as number) - 1 === (item.constructorId as number) - 1) return;
-
         const hoverIndex = orderList.findIndex(
           (element: Ingredient) => element.shortId === item.shortId
         );
@@ -54,10 +53,13 @@ function ConstructorIngredient({ item }: { item: Ingredient }) {
         if (dragIndex === hoverIndex) {
           return;
         }
-        const hoverBoundingRect = ref.current?.getBoundingClientRect() as any;
-        const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+        const hoverBoundingRect =
+          ref.current?.getBoundingClientRect() as DOMRect;
+        const hoverMiddleY =
+          (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
         const clientOffset = monitor.getClientOffset();
-        const hoverClientY = (clientOffset as any).y - hoverBoundingRect.top;
+        const hoverClientY =
+          (clientOffset as XYCoord).y - hoverBoundingRect.top;
 
         if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
           return;
@@ -65,8 +67,17 @@ function ConstructorIngredient({ item }: { item: Ingredient }) {
         if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
           return;
         }
-
         dispatch(moveIngredient({ from: dragItem, to: item }));
+      }
+    },
+  });
+
+  const [, dropDragIcon] = useDrop({
+    accept: "ingredient",
+    hover: (ingredient) => {
+      const dragItem = ingredient as Ingredient;
+      if (dragItem.type !== "bun") {
+        dispatch(setDragged({ ingredient: item }));
       }
     },
   });
@@ -74,8 +85,10 @@ function ConstructorIngredient({ item }: { item: Ingredient }) {
   drag(dropTarget(ref));
 
   return item.type !== "bun" ? (
-    <div className={style.element_container} ref={ref}>
-      <DragIcon type="primary" />
+    <div className={style.element_container} ref={ref} style={{ opacity }}>
+      <div ref={dropDragIcon}>
+        <DragIcon type="primary" />
+      </div>
       <div className={style.element}>
         <ConstructorElement
           isLocked={false}

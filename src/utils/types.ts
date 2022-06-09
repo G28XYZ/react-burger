@@ -76,11 +76,11 @@ export interface IOrder {
   id: string;
   bun: Ingredient | {};
   totalPrice: number;
-  draggedIngredient: null | Ingredient;
+  replaceIngredient: null | Ingredient;
 }
 
 export interface IActionOrder {
-  [key: string]: {} | Ingredient | Ingredient[];
+  [key: string]: Ingredient | Ingredient[] | null;
 }
 
 export interface IActionModal {
