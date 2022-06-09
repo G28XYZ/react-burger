@@ -3,6 +3,7 @@ import {
   memo,
   ReactNode,
   useCallback,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -21,7 +22,6 @@ function BurgerIngredients() {
   const state = useAppSelector((state: RootState) => state);
   const { ingredientInModal } = state.modal;
   const ingredients: ISorted = state.ingredients.sortedIngredients;
-
   const ingredientNames = Object.keys(ingredients);
 
   const [current, setCurrent] = useState("Булки");
@@ -44,6 +44,8 @@ function BurgerIngredients() {
   const renderIngredientsList = (ingredient: Ingredient) => {
     return <BurgerIngredient key={ingredient._id} ingredient={ingredient} />;
   };
+
+  useEffect(() => {}, []);
 
   return (
     <section className={style.ingredients + " pt-10 pl-5"}>
