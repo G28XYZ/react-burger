@@ -26,42 +26,8 @@ export interface OpenModalProps {
   inIngredient?: Ingredient | null;
   inOrder?: boolean;
 }
-export interface IState {
-  loading: boolean;
-  ingredients: Ingredient[];
-  sortedIngredients: { [key: string]: Ingredient[] };
-  burgerConstructor: Ingredient[];
-  modal: {
-    isOpen: boolean;
-    ingredientInModal: Ingredient | null;
-    title: string;
-  };
-  order: {
-    name: string;
-    list: Ingredient[] | [];
-    id: string;
-    bun: Ingredient;
-    totalPrice: number;
-    registerOrder: boolean;
-  };
-}
-
 export interface IStoreProviderProps {
   children: ReactNode;
-}
-
-export interface IAction {
-  type: string;
-  name?: string;
-  title?: string;
-  ingredient?: Ingredient;
-  ingredientsData?: Ingredient[];
-  orderList?: [] | Ingredient[];
-  data?: Ingredient | [];
-  bun?: Ingredient;
-  register?: boolean;
-  id?: number;
-  payload?: {};
 }
 
 export interface IModal {

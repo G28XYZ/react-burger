@@ -1,21 +1,15 @@
 import { Ingredient } from "../../utils/types";
-import {
-  ConstructorElement,
-  DragIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "../burger-constructor/burger-constructor.module.css";
 import { useDrag, useDrop, XYCoord } from "react-dnd";
-import { useRef } from "react";
-import {
-  RootState,
-  useAppDispatch,
-  useAppSelector,
-} from "../../services/store";
+import { useEffect, useRef } from "react";
+import { RootState, useAppDispatch, useAppSelector } from "../../services/store";
 import orderSlice from "../../services/reducers/order";
 
 function ConstructorIngredient({ item }: { item: Ingredient }) {
   const dispatch = useAppDispatch();
   const state = useAppSelector((state: RootState) => state);
+  const { isDrag } = state.ingredients;
   const orderList = state.order.list;
   const { setDragged, moveIngredient } = orderSlice.actions;
   const ref = useRef<HTMLDivElement>(null);
@@ -26,7 +20,7 @@ function ConstructorIngredient({ item }: { item: Ingredient }) {
     collect: (monitor) => ({
       opacity: monitor.isDragging() ? 0 : 1,
     }),
-    end(item, monitor) {
+    end(item) {
       return item;
     },
   });
@@ -40,7 +34,7 @@ function ConstructorIngredient({ item }: { item: Ingredient }) {
     hover(ingredient, monitor) {
       const dragItem = ingredient as Ingredient;
       const itemType = monitor.getItemType();
-      if (itemType === "ingredient" && dragItem.type !== "bun") {
+      if (itemType === "ingredient") {
         dispatch(setDragged({ ingredient: null }));
       }
       if (itemType === "constructor_ingredient") {
@@ -53,14 +47,10 @@ function ConstructorIngredient({ item }: { item: Ingredient }) {
         if (dragIndex === hoverIndex) {
           return;
         }
-        const hoverBoundingRect =
-          ref.current?.getBoundingClientRect() as DOMRect;
-        const hoverMiddleY =
-          (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+        const hoverBoundingRect = ref.current?.getBoundingClientRect() as DOMRect;
+        const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
         const clientOffset = monitor.getClientOffset();
-        const hoverClientY =
-          (clientOffset as XYCoord).y - hoverBoundingRect.top;
-
+        const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
         if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
           return;
         }
@@ -82,13 +72,15 @@ function ConstructorIngredient({ item }: { item: Ingredient }) {
     },
   });
 
+  useEffect(() => {
+    console.log(isDrag);
+  }, [isDrag]);
+
   drag(dropTarget(ref));
 
   return item.type !== "bun" ? (
     <div className={style.element_container} ref={ref} style={{ opacity }}>
-      <div ref={dropDragIcon}>
-        <DragIcon type="primary" />
-      </div>
+      <div ref={dropDragIcon}>{isDrag ? null : <DragIcon type="primary" />}</div>
       <div className={style.element}>
         <ConstructorElement
           isLocked={false}

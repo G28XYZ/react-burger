@@ -14,12 +14,17 @@ const initialState = {
   loading: false,
   ingredients: [],
   sortedIngredients: {},
+  isDrag: false,
 };
 
 export const ingredientsSlice = createSlice({
   name: "ingredients",
   initialState,
-  reducers: {},
+  reducers: {
+    setDrag: (state, action) => {
+      state.isDrag = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchIngredients.fulfilled, (state, action) => {
       const ingredientsName: Names = {

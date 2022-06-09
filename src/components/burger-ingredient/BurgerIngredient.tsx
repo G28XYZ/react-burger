@@ -1,17 +1,11 @@
-import {
-  Counter,
-  CurrencyIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-ingredient.module.css";
 import { Ingredient } from "../../utils/types";
-import {
-  RootState,
-  useAppDispatch,
-  useAppSelector,
-} from "../../services/store";
+import { RootState, useAppDispatch, useAppSelector } from "../../services/store";
 import modalSlice from "../../services/reducers/modal";
 import { useDrag } from "react-dnd";
 import { useCallback, useEffect, useState } from "react";
+import ingredientsSlice from "../../services/reducers/ingredients";
 
 export interface IngredientProp {
   ingredient: Ingredient;
@@ -20,7 +14,8 @@ export interface IngredientProp {
 const BurgerIngredient = ({ ingredient }: IngredientProp) => {
   const state = useAppSelector((state: RootState) => state);
   const dispatch = useAppDispatch();
-
+  const { isDrag } = state.ingredients;
+  const { setDrag } = ingredientsSlice.actions;
   const orderList = [...state.order.list, state.order.bun];
 
   const [count, setCount] = useState(0);
@@ -40,16 +35,12 @@ const BurgerIngredient = ({ ingredient }: IngredientProp) => {
     setCount(orderList.filter((item) => item._id === ingredient._id).length);
   }, [ingredient._id, orderList]);
 
-  useEffect(() => {
-    console.log("render ingredient");
-    onSetCount();
-  }, [onSetCount]);
-
-  const [{ opacity }, ref] = useDrag({
+  const [{ opacity, onDrag }, ref] = useDrag({
     type: "ingredient",
     item: ingredient as Ingredient,
     collect: (monitor) => ({
       opacity: monitor.isDragging() ? 0.5 : 1,
+      onDrag: monitor.isDragging(),
     }),
     end(item) {
       onSetCount();
@@ -58,11 +49,7 @@ const BurgerIngredient = ({ ingredient }: IngredientProp) => {
   });
 
   return (
-    <li
-      className={style.item + " pb-10"}
-      key={ingredient._id}
-      style={{ opacity }}
-    >
+    <li className={style.item + " pb-10"} key={ingredient._id} style={{ opacity }}>
       {count > 0 && <Counter count={count} size="default" />}
       <img
         ref={ref}
@@ -74,10 +61,7 @@ const BurgerIngredient = ({ ingredient }: IngredientProp) => {
       <div className="text text_type_digits-default">
         {ingredient.price} <CurrencyIcon type="primary" />
       </div>
-      <p
-        className="text text_type_main-default"
-        style={{ textAlign: "center" }}
-      >
+      <p className="text text_type_main-default" style={{ textAlign: "center" }}>
         {ingredient.name}
       </p>
     </li>
