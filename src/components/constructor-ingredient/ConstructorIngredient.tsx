@@ -3,13 +3,15 @@ import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burg
 import style from "../burger-constructor/burger-constructor.module.css";
 import { useDrag, useDrop } from "react-dnd";
 import { useRef } from "react";
-import { useAppDispatch } from "../../services/store";
+import { RootState, useAppDispatch, useAppSelector } from "../../services/store";
 import orderSlice from "../../services/reducers/order";
 
 function ConstructorIngredient({ item }: { item: Ingredient }) {
   const dispatch = useAppDispatch();
+  const state = useAppSelector((state: RootState) => state);
+  const orderList = state.order.list;
   const { setDragged, moveIngredient } = orderSlice.actions;
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   const [{ opacity }, drag] = useDrag({
     type: "constructor_ingredient",
@@ -34,13 +36,36 @@ function ConstructorIngredient({ item }: { item: Ingredient }) {
       const dragItem = ingredient as Ingredient;
       const itemType = monitor.getItemType();
       //если на элемент конструктора наведен добавляемый ингредиент
-
+      console.log(state.order.draggedIngredient);
       if (itemType === "ingredient" && dragItem.type !== "bun") {
         //то записываем отдельное поле стора, индекс куда и что перетаскиваем
+
         dispatch(setDragged({ ingredient }));
       }
       if (itemType === "constructor_ingredient") {
-        if ((dragItem.constructorId as number) - 1 === (item.constructorId as number) - 1) return;
+        // if ((dragItem.constructorId as number) - 1 === (item.constructorId as number) - 1) return;
+
+        const hoverIndex = orderList.findIndex(
+          (element: Ingredient) => element.shortId === item.shortId
+        );
+        const dragIndex = orderList.findIndex(
+          (element: Ingredient) => element.shortId === dragItem.shortId
+        );
+        if (dragIndex === hoverIndex) {
+          return;
+        }
+        const hoverBoundingRect = ref.current?.getBoundingClientRect() as any;
+        const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+        const clientOffset = monitor.getClientOffset();
+        const hoverClientY = (clientOffset as any).y - hoverBoundingRect.top;
+
+        if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+          return;
+        }
+        if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+          return;
+        }
+
         dispatch(moveIngredient({ from: dragItem, to: item }));
       }
     },
