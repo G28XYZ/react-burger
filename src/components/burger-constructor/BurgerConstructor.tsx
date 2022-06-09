@@ -9,11 +9,7 @@ import OrderDetails from "../order-modal/OrderDetails";
 import Modal from "../modal/Modal";
 import { useEffect } from "react";
 import { onRegisterOrder } from "../../services/actions/order";
-import {
-  RootState,
-  useAppDispatch,
-  useAppSelector,
-} from "../../services/store";
+import { RootState, useAppDispatch, useAppSelector } from "../../services/store";
 import orderSlice from "../../services/reducers/order";
 import modalSlice from "../../services/reducers/modal";
 import { useDrop } from "react-dnd";
@@ -30,11 +26,7 @@ function BurgerConstructor() {
   function handleOrderClick() {
     dispatch(
       onRegisterOrder({
-        ingredients: [
-          bun._id,
-          ...orderList.map((item: Ingredient) => item._id),
-          bun._id,
-        ],
+        ingredients: [bun._id, ...orderList.map((item: Ingredient) => item._id), bun._id],
       })
     );
     dispatch(openModalWithOrder());
@@ -70,9 +62,7 @@ function BurgerConstructor() {
         item = Object.assign({ constructorId: orderList.length }, item);
       }
       if (itemType === "ingredient") {
-        item.type === "bun"
-          ? handleAddBunToOrder(item)
-          : handleAddToOrder(item);
+        item.type === "bun" ? handleAddBunToOrder(item) : handleAddToOrder(item);
       }
       return ingredient;
     },
