@@ -1,3 +1,5 @@
+import defaultImage from "../images/transparency.png";
+
 export const address = "https://norma.nomoreparties.space/api";
 
 export const throttle = (func, limit) => {
@@ -19,4 +21,19 @@ export const throttle = (func, limit) => {
       }, limit - (Date.now() - lastRan));
     }
   };
+};
+
+export const initialBun = {
+  _id: "",
+  name: "Переместите сюда булку",
+  type: "",
+  proteins: 0,
+  fat: 0,
+  carbohydrates: 0,
+  calories: 0,
+  price: 0,
+  image: defaultImage,
+  image_mobile: "",
+  image_large: "",
+  __v: 0,
 };

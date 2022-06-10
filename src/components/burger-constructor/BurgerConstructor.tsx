@@ -8,32 +8,24 @@ import { Ingredient } from "../../utils/types";
 import OrderDetails from "../order-modal/OrderDetails";
 import Modal from "../modal/Modal";
 import { onRegisterOrder } from "../../services/actions/order";
-import {
-  RootState,
-  useAppDispatch,
-  useAppSelector,
-} from "../../services/store";
+import { useAppDispatch, useAppSelector } from "../../services/store";
 import orderSlice from "../../services/reducers/order";
 import modalSlice from "../../services/reducers/modal";
 import { useDrop } from "react-dnd";
 import ConstructorIngredient from "../constructor-ingredient/ConstructorIngredient";
 
 function BurgerConstructor() {
-  const state = useAppSelector((state: RootState) => state);
+  const state = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
   const orderList = state.order.list;
   const { bun, totalPrice } = state.order;
-  const { addBunToOrder, addToOrder } = orderSlice.actions;
-  const { openModalWithOrder } = modalSlice.actions;
+  const { addBunToOrder, addToOrder, resetOrder } = orderSlice.actions;
+  const { openModalWithOrder, closeModal } = modalSlice.actions;
 
   function handleOrderClick() {
     dispatch(
       onRegisterOrder({
-        ingredients: [
-          bun._id,
-          ...orderList.map((item: Ingredient) => item._id),
-          bun._id,
-        ],
+        ingredients: [bun._id, ...orderList.map((item: Ingredient) => item._id), bun._id],
       })
     );
     dispatch(openModalWithOrder());
@@ -52,6 +44,11 @@ function BurgerConstructor() {
     );
   }
 
+  function handleCloseModal() {
+    dispatch(resetOrder());
+    dispatch(closeModal());
+  }
+
   const [, dropTarget] = useDrop({
     accept: ["constructor_ingredient", "ingredient"],
     collect: (monitor) => ({
@@ -65,9 +62,7 @@ function BurgerConstructor() {
         item = Object.assign({ constructorId: orderList.length }, item);
       }
       if (itemType === "ingredient") {
-        item.type === "bun"
-          ? handleAddBunToOrder(item)
-          : handleAddToOrder(item);
+        item.type === "bun" ? handleAddBunToOrder(item) : handleAddToOrder(item);
       }
       return ingredient;
     },
@@ -108,13 +103,13 @@ function BurgerConstructor() {
           <p className="text text_type_digits-medium">{totalPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="large" onClick={handleOrderClick}>
+        <Button type="primary" size="large" onClick={handleOrderClick} disabled={!bun.price}>
           Оформить заказ
         </Button>
       </div>
 
       {state.modal.orderInModal && (
-        <Modal title="">
+        <Modal onCloseModal={handleCloseModal} title="">
           <OrderDetails orderId={state.order.id} />
         </Modal>
       )}

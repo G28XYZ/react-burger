@@ -2,24 +2,17 @@ import { ReactNode, useCallback, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import style from "./modal.module.css";
 import ModalOverlay from "../modal-overlay/ModalOverlay";
-import { useAppDispatch } from "../../services/store";
-import modalSlice from "../../services/reducers/modal";
 
 const modal = document.getElementById("react-modals") as HTMLElement;
 
 export interface ModalProps {
   title?: string;
   children: ReactNode;
+  onCloseModal: () => void;
 }
 
-function Modal({ title = "", children }: ModalProps) {
+function Modal({ title = "", children, onCloseModal }: ModalProps) {
   const [popupClass, setPopupClass] = useState(style.popup);
-  const dispatch = useAppDispatch();
-  const { closeModal } = modalSlice.actions;
-
-  const onCloseModal = useCallback(() => {
-    dispatch(closeModal());
-  }, [closeModal, dispatch]);
 
   const handleCloseModalByEsc = useCallback(
     (e: KeyboardEvent) => {

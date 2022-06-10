@@ -13,9 +13,7 @@ class Api {
   }
 
   getIngredients() {
-    return fetch(`${this._address}/ingredients`)
-      .then(this._handleResponse)
-      .catch(console.log);
+    return fetch(`${this._address}/ingredients`).then(this._handleResponse);
   }
 
   getOrder(ingredients) {
@@ -23,9 +21,7 @@ class Api {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify(ingredients),
-    })
-      .then(this._handleResponse)
-      .catch(console.log);
+    }).then(this._handleResponse);
   }
 }
 

@@ -5,12 +5,15 @@ import style from "./burger-ingredients.module.css";
 import { Ingredient, ISorted } from "../../utils/types";
 import Modal from "../modal/Modal";
 import IngredientDetails from "../ingredient-modal/IngredientDetails";
-import { RootState, useAppSelector } from "../../services/store";
+import { useAppDispatch, useAppSelector } from "../../services/store";
 import { InView } from "react-intersection-observer";
+import modalSlice from "../../services/reducers/modal";
 
 function BurgerIngredients() {
-  const state = useAppSelector((state: RootState) => state);
+  const state = useAppSelector((state) => state);
+  const dispatch = useAppDispatch();
   const { ingredientInModal } = state.modal;
+  const { closeModal } = modalSlice.actions;
   const ingredients: ISorted = state.ingredients.sortedIngredients;
   const ingredientNames = Object.keys(ingredients);
   const [currentIngredient, setCurrentIngredient] = useState("Булки");
@@ -41,18 +44,17 @@ function BurgerIngredients() {
     }
   }
 
+  function handleCloseModal() {
+    dispatch(closeModal());
+  }
+
   return (
     <section className={style.ingredients + " pt-10 pl-5"}>
       <h2 className="text text_type_main-large">Соберите бургер</h2>
       <div className={style.tabs + " pt-5 pb-10"}>
         {ingredientNames.map((name: string, i) => {
           return (
-            <Tab
-              key={i}
-              value={name}
-              active={currentIngredient === name}
-              onClick={handleTabClick}
-            >
+            <Tab key={i} value={name} active={currentIngredient === name} onClick={handleTabClick}>
               {name}
             </Tab>
           );
@@ -60,8 +62,7 @@ function BurgerIngredients() {
       </div>
       <div className={style.container + " custom-scroll"}>
         {ingredientNames.map((name, i) => {
-          const divRef: { current: null | HTMLDivElement } =
-            refsElement.current[i];
+          const divRef: { current: null | HTMLDivElement } = refsElement.current[i];
           return (
             <div key={i} className="pb-10" id={name} ref={divRef}>
               <InView threshold={0.5} onChange={onChangeView}>
@@ -81,7 +82,7 @@ function BurgerIngredients() {
         })}
       </div>
       {ingredientInModal && (
-        <Modal title="Детали заказа">
+        <Modal title="Детали заказа" onCloseModal={handleCloseModal}>
           <IngredientDetails ingredient={ingredientInModal} />
         </Modal>
       )}
