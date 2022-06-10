@@ -1,15 +1,6 @@
 import { createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import api from "../../utils/api";
-import {
-  IActionIngredients,
-  Ingredient,
-  ISorted,
-  IStateIngredients,
-} from "../../utils/types";
-
-interface Names {
-  [key: string]: string;
-}
+import { IActionIngredients, IStateIngredients } from "../../utils/types";
 
 export const fetchIngredients = createAsyncThunk(
   "ingredients/fetchIngredients",

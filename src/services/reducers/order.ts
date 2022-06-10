@@ -8,20 +8,21 @@ import {
   setDragged,
   moveIngredient,
 } from "../actions/order";
+import defaultImage from "../../images/transparency.png";
 
 const initialState = {
   name: "",
   list: [],
   bun: {
     _id: "",
-    name: "Булка",
+    name: "Переместите сюда булку",
     type: "",
     proteins: 0,
     fat: 0,
     carbohydrates: 0,
     calories: 0,
     price: 0,
-    image: "",
+    image: defaultImage,
     image_mobile: "",
     image_large: "",
     __v: 0,

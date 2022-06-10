@@ -7,7 +7,6 @@ import style from "./burger-constructor.module.css";
 import { Ingredient } from "../../utils/types";
 import OrderDetails from "../order-modal/OrderDetails";
 import Modal from "../modal/Modal";
-import { useEffect } from "react";
 import { onRegisterOrder } from "../../services/actions/order";
 import {
   RootState,
