@@ -1,5 +1,9 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IModal, IActionModal } from "../../utils/types";
+import { createSlice } from "@reduxjs/toolkit";
+import {
+  openModalWithIngredient,
+  openModalWithOrder,
+  closeModal,
+} from "../actions/modal";
 
 const initialState = {
   title: "",
@@ -11,20 +15,9 @@ export const modalSlice = createSlice({
   name: "modal",
   initialState,
   reducers: {
-    openModalWithIngredient: (
-      state: IModal,
-      action: PayloadAction<IActionModal>
-    ) => {
-      state.title = action.payload.title;
-      state.ingredientInModal = action.payload.ingredient;
-    },
-    openModalWithOrder: (state: IModal) => {
-      state.orderInModal = true;
-    },
-    closeModal: (state: IModal) => {
-      state.orderInModal = false;
-      state.ingredientInModal = null;
-    },
+    openModalWithIngredient,
+    openModalWithOrder,
+    closeModal,
   },
 });
 

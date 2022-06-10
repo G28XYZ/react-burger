@@ -1,12 +1,19 @@
-import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import {
+  Counter,
+  CurrencyIcon,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-ingredient.module.css";
-import { Ingredient } from "../../utils/types";
-import { RootState, useAppDispatch, useAppSelector } from "../../services/store";
+import { Ingredient, ISorted } from "../../utils/types";
+import {
+  RootState,
+  useAppDispatch,
+  useAppSelector,
+} from "../../services/store";
 import modalSlice from "../../services/reducers/modal";
 import { useDrag } from "react-dnd";
 import { useCallback, useEffect, useState } from "react";
 import ingredientsSlice from "../../services/reducers/ingredients";
-import { throttle } from "../../utils/constants";
+import orderSlice from "../../services/reducers/order";
 
 export interface IngredientProp {
   ingredient: Ingredient;
@@ -15,12 +22,13 @@ export interface IngredientProp {
 const BurgerIngredient = ({ ingredient }: IngredientProp) => {
   const state = useAppSelector((state: RootState) => state);
   const dispatch = useAppDispatch();
-  const { isDrag } = state.ingredients;
   const { setDrag } = ingredientsSlice.actions;
+  const { orderTotalPrice } = orderSlice.actions;
   const orderList = [...state.order.list, state.order.bun];
 
-  const [count, setCount] = useState(0);
-
+  const [count, setCount] = useState(
+    orderList.filter((item) => item._id === ingredient._id).length
+  );
   const { openModalWithIngredient } = modalSlice.actions;
 
   function onHandleClick() {
@@ -32,7 +40,11 @@ const BurgerIngredient = ({ ingredient }: IngredientProp) => {
     );
   }
 
-  const onSetCount = useCallback(() => {
+  const checkTotalPrice = () => {
+    dispatch(orderTotalPrice());
+  };
+
+  const checkCount = useCallback(() => {
     setCount(orderList.filter((item) => item._id === ingredient._id).length);
   }, [ingredient._id, orderList]);
 
@@ -44,17 +56,22 @@ const BurgerIngredient = ({ ingredient }: IngredientProp) => {
       onDrag: monitor.isDragging(),
     }),
     end(item) {
-      onSetCount();
       return item;
     },
   });
 
   useEffect(() => {
-    dispatch(setDrag(onDrag));
-  }, [dispatch, onDrag, setDrag]);
+    checkTotalPrice();
+    checkCount();
+    dispatch(setDrag({ onDrag }));
+  }, [onDrag, orderList.filter((item) => item._id === ingredient._id).length]);
 
   return (
-    <li className={style.item + " pb-10"} key={ingredient._id} style={{ opacity }}>
+    <li
+      className={style.item + " pb-10"}
+      key={ingredient._id}
+      style={{ opacity }}
+    >
       {count > 0 && <Counter count={count} size="default" />}
       <img
         ref={ref}
@@ -66,7 +83,10 @@ const BurgerIngredient = ({ ingredient }: IngredientProp) => {
       <div className="text text_type_digits-default">
         {ingredient.price} <CurrencyIcon type="primary" />
       </div>
-      <p className="text text_type_main-default" style={{ textAlign: "center" }}>
+      <p
+        className="text text_type_main-default"
+        style={{ textAlign: "center" }}
+      >
         {ingredient.name}
       </p>
     </li>

@@ -15,6 +15,7 @@ export interface Ingredient {
   __v: number;
   shortId?: string;
   constructorId?: number;
+  count?: number;
 }
 
 export interface ISorted {
@@ -28,6 +29,17 @@ export interface OpenModalProps {
 }
 export interface IStoreProviderProps {
   children: ReactNode;
+}
+
+export interface IActionIngredients {
+  onDrag?: boolean;
+}
+
+export interface IStateIngredients {
+  loading: boolean;
+  ingredients: [] | Ingredient[];
+  sortedIngredients: ISorted | any;
+  isDrag: boolean | undefined;
 }
 
 export interface IModal {

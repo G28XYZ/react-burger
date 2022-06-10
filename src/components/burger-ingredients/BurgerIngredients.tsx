@@ -47,7 +47,12 @@ function BurgerIngredients() {
       <div className={style.tabs + " pt-5 pb-10"}>
         {ingredientNames.map((name: string, i) => {
           return (
-            <Tab key={i} value={name} active={currentIngredient === name} onClick={handleTabClick}>
+            <Tab
+              key={i}
+              value={name}
+              active={currentIngredient === name}
+              onClick={handleTabClick}
+            >
               {name}
             </Tab>
           );
@@ -55,7 +60,8 @@ function BurgerIngredients() {
       </div>
       <div className={style.container + " custom-scroll"}>
         {ingredientNames.map((name, i) => {
-          const divRef: { current: null | HTMLDivElement } = refsElement.current[i];
+          const divRef: { current: null | HTMLDivElement } =
+            refsElement.current[i];
           return (
             <div key={i} className="pb-10" id={name} ref={divRef}>
               <InView threshold={0.5} onChange={onChangeView}>

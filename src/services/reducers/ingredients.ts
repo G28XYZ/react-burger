@@ -1,13 +1,10 @@
-import { Ingredient } from "../../utils/types";
+import { Ingredient, ISorted } from "../../utils/types";
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchIngredients } from "../actions/ingredients";
+import { setDrag } from "../actions/ingredients";
 
 interface Names {
   [key: string]: string;
-}
-
-interface ISorted {
-  [key: string]: Ingredient[];
 }
 
 const initialState = {
@@ -21,10 +18,7 @@ export const ingredientsSlice = createSlice({
   name: "ingredients",
   initialState,
   reducers: {
-    setDrag: (state, action) => {
-      console.log(action.payload);
-      state.isDrag = action.payload;
-    },
+    setDrag,
   },
   extraReducers: (builder) => {
     builder.addCase(fetchIngredients.fulfilled, (state, action) => {

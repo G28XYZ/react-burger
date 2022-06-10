@@ -1,8 +1,13 @@
-import { IActionOrder, Ingredient, IOrder } from "../../utils/types";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { onRegisterOrder } from "../actions/order";
-
-const shortId = require("shortid");
+import {
+  addBunToOrder,
+  addToOrder,
+  deleteInOrder,
+  orderTotalPrice,
+  setDragged,
+  moveIngredient,
+} from "../actions/order";
 
 const initialState = {
   name: "",
@@ -30,56 +35,12 @@ export const orderSlice = createSlice({
   name: "order",
   initialState,
   reducers: {
-    addBunToOrder: (state: IOrder, action: PayloadAction<IActionOrder>) => {
-      state.bun = action.payload.ingredient as Ingredient;
-    },
-    addToOrder: (state: IOrder, action: PayloadAction<IActionOrder>) => {
-      const ingredient = Object.assign(
-        { shortId: shortId.generate() },
-        action.payload.ingredient
-      );
-      const replaceItem = action.payload.replaceIngredient as Ingredient;
-      let newList = [...state.list];
-      if (replaceItem) {
-        const replaceIndex = newList.findIndex(
-          (item: Ingredient) => replaceItem.shortId === item.shortId
-        );
-        newList.splice(replaceIndex, 1, ingredient as Ingredient);
-        state.list = newList;
-        state.replaceIngredient = null;
-      } else {
-        state.list.push(ingredient as never);
-      }
-    },
-    orderTotalPrice: (state: IOrder) => {
-      const orderList = state.list as [];
-      const bun = state.bun as Ingredient;
-
-      state.totalPrice = orderList.reduce(
-        (total: number, item: Ingredient) => total + item.price,
-        bun.price * 2
-      );
-    },
-    setDragged: (state: IOrder, action: PayloadAction<IActionOrder>) => {
-      state.replaceIngredient = action.payload.ingredient as Ingredient | null;
-    },
-
-    moveIngredient: (state: IOrder, action: PayloadAction<IActionOrder>) => {
-      let from = Object.assign(action.payload.from as Ingredient);
-      let to = Object.assign(action.payload.to as Ingredient);
-      let newList = [...state.list];
-      const toIndex = newList.findIndex(
-        (item: Ingredient) => to.shortId === item.shortId
-      );
-      const fromIndex = newList.findIndex(
-        (item: Ingredient) => from.shortId === item.shortId
-      );
-      [newList[toIndex], newList[fromIndex]] = [
-        newList[fromIndex],
-        newList[toIndex],
-      ];
-      state.list = newList;
-    },
+    addBunToOrder,
+    addToOrder,
+    deleteInOrder,
+    orderTotalPrice,
+    setDragged,
+    moveIngredient,
   },
   extraReducers: (builder) => {
     builder.addCase(onRegisterOrder.fulfilled, (state, action) => {

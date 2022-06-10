@@ -9,7 +9,11 @@ import OrderDetails from "../order-modal/OrderDetails";
 import Modal from "../modal/Modal";
 import { useEffect } from "react";
 import { onRegisterOrder } from "../../services/actions/order";
-import { RootState, useAppDispatch, useAppSelector } from "../../services/store";
+import {
+  RootState,
+  useAppDispatch,
+  useAppSelector,
+} from "../../services/store";
 import orderSlice from "../../services/reducers/order";
 import modalSlice from "../../services/reducers/modal";
 import { useDrop } from "react-dnd";
@@ -20,13 +24,17 @@ function BurgerConstructor() {
   const dispatch = useAppDispatch();
   const orderList = state.order.list;
   const { bun, totalPrice } = state.order;
-  const { addBunToOrder, addToOrder, orderTotalPrice } = orderSlice.actions;
+  const { addBunToOrder, addToOrder } = orderSlice.actions;
   const { openModalWithOrder } = modalSlice.actions;
 
   function handleOrderClick() {
     dispatch(
       onRegisterOrder({
-        ingredients: [bun._id, ...orderList.map((item: Ingredient) => item._id), bun._id],
+        ingredients: [
+          bun._id,
+          ...orderList.map((item: Ingredient) => item._id),
+          bun._id,
+        ],
       })
     );
     dispatch(openModalWithOrder());
@@ -45,10 +53,6 @@ function BurgerConstructor() {
     );
   }
 
-  useEffect(() => {
-    dispatch(orderTotalPrice());
-  }, [dispatch, orderList, orderTotalPrice, totalPrice]);
-
   const [, dropTarget] = useDrop({
     accept: ["constructor_ingredient", "ingredient"],
     collect: (monitor) => ({
@@ -62,7 +66,9 @@ function BurgerConstructor() {
         item = Object.assign({ constructorId: orderList.length }, item);
       }
       if (itemType === "ingredient") {
-        item.type === "bun" ? handleAddBunToOrder(item) : handleAddToOrder(item);
+        item.type === "bun"
+          ? handleAddBunToOrder(item)
+          : handleAddToOrder(item);
       }
       return ingredient;
     },
@@ -81,7 +87,7 @@ function BurgerConstructor() {
           />
         </div>
 
-        <div className={style.middle + " custom-scroll"}>
+        <div className={`${style.middle} custom-scroll`}>
           {state.order.list.length >= 1 &&
             orderList.map((item: Ingredient) => (
               <ConstructorIngredient key={item.shortId} item={item} />
