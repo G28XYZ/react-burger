@@ -6,6 +6,7 @@ import modalSlice from "../../services/reducers/modal";
 import { useDrag } from "react-dnd";
 import { useCallback, useEffect, useState } from "react";
 import ingredientsSlice from "../../services/reducers/ingredients";
+import { throttle } from "../../utils/constants";
 
 export interface IngredientProp {
   ingredient: Ingredient;
@@ -47,6 +48,10 @@ const BurgerIngredient = ({ ingredient }: IngredientProp) => {
       return item;
     },
   });
+
+  useEffect(() => {
+    dispatch(setDrag(onDrag));
+  }, [dispatch, onDrag, setDrag]);
 
   return (
     <li className={style.item + " pb-10"} key={ingredient._id} style={{ opacity }}>

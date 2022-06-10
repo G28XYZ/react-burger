@@ -22,6 +22,7 @@ export const ingredientsSlice = createSlice({
   initialState,
   reducers: {
     setDrag: (state, action) => {
+      console.log(action.payload);
       state.isDrag = action.payload;
     },
   },
