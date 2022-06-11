@@ -49,7 +49,7 @@ export interface IModal {
   title: string;
 }
 
-export interface IOrder {
+export interface IOrderState {
   name: string;
   list: Ingredient[] | [];
   id: string;

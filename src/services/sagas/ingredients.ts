@@ -1,4 +1,4 @@
-import { takeEvery, all, put } from "redux-saga/effects";
+import { takeEvery, put, ForkEffect } from "redux-saga/effects";
 import { address } from "../../utils/constants";
 import { Ingredient } from "../../utils/types";
 import { ingredientsActions } from "../reducers/ingredients";
@@ -14,10 +14,4 @@ function* fetchIngredients() {
   }
 }
 
-function* actionWatcher() {
-  yield takeEvery("GET_INGREDIENTS", fetchIngredients);
-}
-
-export default function* ingredientSaga() {
-  yield all([actionWatcher()]);
-}
+export const ingredientsWatcher: ForkEffect[] = [takeEvery("GET_INGREDIENTS", fetchIngredients)];

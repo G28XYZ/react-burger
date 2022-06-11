@@ -43,4 +43,6 @@ export const orderSlice = createSlice({
   },
 });
 
+export const orderActions = orderSlice.actions;
+
 export default orderSlice;
