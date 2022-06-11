@@ -1,19 +1,42 @@
-/* ::-webkit-scrollbar {
-  width: 7px;
-}
+@import url(./vendor/normalize.css);
+@import url(./vendor/fonts.css);
 
-::-webkit-scrollbar-track {
-  background: #232329;
-}
+@import url(./utils/UI/UI.css);
 
-::-webkit-scrollbar-thumb {
-  background: rgb(133, 133, 173);
-}
+@import url(./components/Main/Main.css);
 
-::-webkit-scrollbar-thumb:hover {
-  background: rgb(103, 103, 153);
-} */
+@import url(./components/App/App.css);
 
-.constructor-element__text {
-  font-size: 14px;
-}
+@import url(./components/Header/Header.css);
+
+@import url(./components/Promo/Promo.css);
+
+@import url(./components/AboutProject/AboutProject.css);
+
+@import url(./components/Techs/Techs.css);
+
+@import url(./components/AboutMe/AboutMe.css);
+
+@import url(./components/Portfolio/Portfolio.css);
+
+@import url(./components/Footer/Footer.css);
+
+@import url(./components/Auth/Auth.css);
+
+@import url(./components/SearchForm/SearchForm.css);
+
+@import url(./components/SearchForm/FilterCheckbox/FilterCheckbox.css);
+
+@import url(./components/Movies/Movies.css);
+
+@import url(./components/MoviesCardList/MoviesCardList.css);
+
+@import url(./components/MovieCard/MovieCard.css);
+
+@import url(./components/Preloader/Preloader.css);
+
+@import url(./components/Profile/Profile.css);
+
+@import url(./components/NotFoundPage/NotFoundPage.css);
+
+@import url(./components/Modal/Modal.css);
