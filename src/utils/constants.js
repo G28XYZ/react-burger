@@ -1,35 +1,39 @@
-export const moviesApiAddress  = "https://api.nomoreparties.co";
-export const backendApiAddress = "https://api-movies.nomoredomains.xyz";
+import defaultImage from "../images/transparency.png";
 
-export const regForSymbols  = /[_~!@#$%^&*()\[\]+`'";:<>\/\\|=]/g;
-export const regForName     = /[a-z-. а-яё]+/g;
-export const regForPassword = /[0-9a-z-а-яё]+/g;
+export const address = "https://norma.nomoreparties.space/api";
 
-export const validationMessages = {
-  name    : "Имя содержит недопустимые символы. Текст может состоять из латиницы, кириллицы, дефиса, пробела.",
-  email   : "Введите корректный формат почты",
-  password: 
-    "Пароль содержит не допустимые символы. Текст может состоять из цифр, латиницы, кириллицы, дефиса.",
+export const throttle = (func, limit) => {
+  let lastFunc;
+  let lastRan;
+  return function () {
+    const context = this;
+    const args = arguments;
+    if (!lastRan) {
+      func.apply(context, args);
+      lastRan = Date.now();
+    } else {
+      clearTimeout(lastFunc);
+      lastFunc = setTimeout(function () {
+        if (Date.now() - lastRan >= limit) {
+          func.apply(context, args);
+          lastRan = Date.now();
+        }
+      }, limit - (Date.now() - lastRan));
+    }
+  };
 };
 
-export const resMessages = {
-  409: "Пользователь с введенным email уже зарегистрирован.",
-  401: "Не авторизован / не зарегистрирован.",
-  500: "Ошибка на сервере.",
-  400: "Введенные данные невалидны проверьте адрес или введите корректные данные.",
+export const initialBun = {
+  _id: "",
+  name: "Переместите сюда булку",
+  type: "",
+  proteins: 0,
+  fat: 0,
+  carbohydrates: 0,
+  calories: 0,
+  price: 0,
+  image: defaultImage,
+  image_mobile: "",
+  image_large: "",
+  __v: 0,
 };
-
-export const infoMessages = {
-  notFound          : "Ничего не найдено ¯\\_(ツ)_/¯",
-  requestMoviesFaild: 
-    "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.",
-};
-
-export const SCREEN_WIDTH_768                   = 768;
-export const SCREEN_WIDTH_480                   = 480;
-export const INITIAL_COUNT_MOVIES_FOR_MOBILE    = 5;
-export const INITIAL_COUNT_MOVIES_FOR_MIDDLE    = 8;
-export const INITIAL_COUNT_MOVIES_FOR_DESKTOP   = 12;
-export const TWO_COUNT_MOVIES_FOR_MORE_BUTTON   = 2;
-export const THREE_COUNT_MOVIES_FOR_MORE_BUTTON = 3;
-export const MAX_DURATION_SHORT_MOVIES          = 40;

@@ -1,0 +1,13 @@
+.item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 272px;
+  max-height: 208px;
+  box-sizing: border-box;
+}
+
+.image {
+  cursor: pointer;
+}

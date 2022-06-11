@@ -1,0 +1,70 @@
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+  justify-content: space-between;
+  max-width: 600px;
+  padding-top: 100px;
+}
+
+.elements {
+  display: flex;
+  flex-direction: column;
+  max-height: 656px;
+  height: 100%;
+  gap: 15px;
+}
+
+.middle {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-height: 536px;
+  height: 100%;
+  gap: 10px;
+  overflow-y: overlay;
+}
+
+.element {
+  align-self: end;
+  padding-right: 25px;
+  display: flex;
+  max-width: 536px;
+  max-height: 80px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.element_container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow: visible;
+}
+
+.ordinary {
+  display: flex;
+  align-self: end;
+  align-items: center;
+  gap: 30px;
+}
+
+.total {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.replaceIcon {
+  text-align: center;
+  animation: rotate infinite 5s linear;
+}
