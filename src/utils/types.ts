@@ -33,6 +33,7 @@ export interface IStoreProviderProps {
 
 export interface IActionIngredients {
   onDrag?: boolean;
+  ingredients?: Ingredient[];
 }
 
 export interface IStateIngredients {

@@ -15,3 +15,10 @@ export const fetchIngredients = createAsyncThunk("ingredients/fetchIngredients",
 export const setDrag = (state: IStateIngredients, action: PayloadAction<IActionIngredients>) => {
   state.isDrag = action.payload.onDrag;
 };
+
+export const getIngredients = (
+  state: IStateIngredients,
+  action: PayloadAction<IActionIngredients>
+) => {
+  console.log(action);
+};

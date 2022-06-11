@@ -1,7 +1,6 @@
 import { Ingredient, ISorted } from "../../utils/types";
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchIngredients } from "../actions/ingredients";
-import { setDrag } from "../actions/ingredients";
+import { fetchIngredients, getIngredients, setDrag } from "../actions/ingredients";
 
 interface Names {
   [key: string]: string;
@@ -19,6 +18,7 @@ export const ingredientsSlice = createSlice({
   initialState,
   reducers: {
     setDrag,
+    getIngredients,
   },
   extraReducers: (builder) => {
     builder.addCase(fetchIngredients.fulfilled, (state, action) => {
@@ -46,5 +46,7 @@ export const ingredientsSlice = createSlice({
     });
   },
 });
+
+export const ingredientsActions = ingredientsSlice.actions;
 
 export default ingredientsSlice;

@@ -7,6 +7,8 @@ import { ingredientsSlice } from "./reducers/ingredients";
 import thunk from "redux-thunk";
 import { useDispatch, useSelector } from "react-redux";
 import { TypedUseSelectorHook } from "react-redux";
+import createSagaMiddleware from "redux-saga";
+import ingredientSaga from "./sagas/ingredients";
 
 declare global {
   interface Window {
@@ -14,6 +16,7 @@ declare global {
   }
 }
 
+const sagaMiddleware = createSagaMiddleware();
 export const store = configureStore({
   reducer: {
     ingredients: ingredientsSlice.reducer,
@@ -22,9 +25,12 @@ export const store = configureStore({
   },
   enhancers: (defaultEnhancers) => [
     applyMiddleware(thunk),
+    applyMiddleware(sagaMiddleware),
     ...defaultEnhancers,
   ],
 });
+
+sagaMiddleware.run(ingredientSaga);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

@@ -21,6 +21,7 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchIngredients());
+    dispatch({ type: "GET_INGREDIENTS" });
     console.log("render app");
   }, [dispatch]);
 
