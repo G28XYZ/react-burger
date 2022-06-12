@@ -8,9 +8,10 @@
 
 <div style="display:flex; gap: 10px;">
   <ul>
-    <li>  <a target="_blank" rel="noopener noreferrer" href="[[https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/react/react.png](https://github.com/github/explore/blob/main/topics/typescript/typescript.png)](https://github.com/github/explore/blob/main/topics/typescript/typescript.png)">
+    <li>  <a target="_blank" rel="noopener noreferrer" href="[https://github.com/github/explore/blob/main/topics/typescript/typescript.png">
 TYPESCRIPT
-<img src="[[https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/react/react.png](https://github.com/github/explore/blob/main/topics/typescript/typescript.png)](https://github.com/github/explore/blob/main/topics/typescript/typescript.png)" alt="typescript" height="22" style="max-width: 100%;"></a></li>
+<img src="https://raw.githubusercontent.com/github/explore/main/topics/typescript/typescript.png" alt="typescript" height="22" style="max-width: 100%;"></a></li>
+    
   <li>  <a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/react/react.png">
 REACT
 <img src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/react/react.png" alt="React" height="22" style="max-width: 100%;"></a></li>
