@@ -7,7 +7,7 @@
 
 ### Demo:
 
-<img src="https://github.com/G28XYZ/G28XYZ/blob/main/images/stellar-burgers%20demo.gif" src="demo stellar-burger">
+<img src="https://github.com/G28XYZ/G28XYZ/blob/main/images/stellar-burgers%20demo.gif" src="demo stellar-burger" style="width:600px">
 
 ### Стек:
 
