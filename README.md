@@ -4,6 +4,11 @@
 
 <img src="https://github.com/G28XYZ/G28XYZ/blob/main/images/Frame_5_1618586219.png" alt="stellar-burgers">
 
+
+### Demo:
+
+<img src="https://github.com/G28XYZ/G28XYZ/blob/main/images/stellar-burgers%20demo.mov" src="demo stellar-burger">
+
 ### Стек:
 
 <div style="display:flex; gap: 10px;">
