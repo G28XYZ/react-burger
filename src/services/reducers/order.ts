@@ -9,6 +9,7 @@ import {
   setDragged,
   moveIngredient,
   resetOrder,
+  setCountIngredient,
 } from "../actions/order";
 
 const initialState = {
@@ -26,11 +27,12 @@ export const orderSlice = createSlice({
   reducers: {
     addBunToOrder,
     addToOrder,
+    setCountIngredient,
     deleteInOrder,
-    orderTotalPrice,
     setDragged,
     moveIngredient,
     resetOrder,
+    orderTotalPrice,
   },
   extraReducers: (builder) => {
     builder.addCase(onRegisterOrder.fulfilled, (state, action) => {
@@ -42,7 +44,6 @@ export const orderSlice = createSlice({
     });
   },
 });
-
 export const orderActions = orderSlice.actions;
 
 export default orderSlice;

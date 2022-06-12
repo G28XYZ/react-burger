@@ -76,6 +76,6 @@ export const resetOrder = (state: IOrderState) => {
   state.id = "";
 };
 
-export const setCount = (state: IOrderState, actions: IActionOrder) => {
-  console.log(actions);
+export const setCountIngredient = (state: IOrderState, action: PayloadAction<IActionOrder>) => {
+  console.log(action);
 };

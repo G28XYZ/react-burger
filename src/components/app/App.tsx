@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import AppHeader from "../app-header/AppHeader";
 import BurgerIngredients from "../burger-ingredients/BurgerIngredients";
 import appStyle from "./app.module.css";
@@ -15,11 +15,10 @@ declare module "react" {
 }
 
 function App() {
-  const ingredientsState = useAppSelector((state) => state.ingredients);
   const dispatch = useAppDispatch();
-  const { loading } = ingredientsState;
+  const { loading } = useAppSelector((state) => state.ingredients);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     dispatch(fetchIngredients());
     console.log("render app");
   }, [dispatch]);

@@ -16,7 +16,7 @@ function BurgerIngredients() {
   const { closeModal } = modalSlice.actions;
   const ingredients: ISorted = state.ingredients.sortedIngredients;
   const ingredientNames = Object.keys(ingredients);
-  const [currentIngredient, setCurrentIngredient] = useState("Булки");
+  const [currentIngredientType, setCurrentIngredientType] = useState("Булки");
   // создание n рефов из массива с названиями категории ингредиента
   // рефы будут использованы для прокрутки к нужному месту в списке
   // при нажатии на соответствующий таб
@@ -30,7 +30,7 @@ function BurgerIngredients() {
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
-    setCurrentIngredient(value);
+    setCurrentIngredientType(value);
   }
 
   const renderIngredientsList = (ingredient: Ingredient) => {
@@ -40,7 +40,7 @@ function BurgerIngredients() {
   function onChangeView(isView: boolean, entry: IntersectionObserverEntry) {
     const nameIngredient = entry.target.id;
     if (isView) {
-      setCurrentIngredient(nameIngredient);
+      setCurrentIngredientType(nameIngredient);
     }
   }
 
@@ -54,7 +54,12 @@ function BurgerIngredients() {
       <div className={style.tabs + " pt-5 pb-10"}>
         {ingredientNames.map((name: string, i) => {
           return (
-            <Tab key={i} value={name} active={currentIngredient === name} onClick={handleTabClick}>
+            <Tab
+              key={i}
+              value={name}
+              active={currentIngredientType === name}
+              onClick={handleTabClick}
+            >
               {name}
             </Tab>
           );

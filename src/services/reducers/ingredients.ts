@@ -30,6 +30,8 @@ export const ingredientsSlice = createSlice({
       // сортировка всех ингредиентов по типу
       state.sortedIngredients = action.payload.reduce(
         (object: ISorted, currentItem: Ingredient) => {
+          // записать поле для счетчика
+          currentItem.count = 0;
           const key = ingredientsName[currentItem.type];
           if (object[key]) {
             object[key] = [...object[key], currentItem];
