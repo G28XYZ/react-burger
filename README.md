@@ -7,21 +7,26 @@
 ### Стек:
 
 <div style="display:flex; gap: 10px;">
-  
-  <a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/css/css.png">
-    CSS
-    <img src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/css/css.png" alt="CSS" height="24" style="max-width: 100%;"></a>
-  
-  <a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/styled-components/brand/master/styled-components.png">
-    GITHUB
-    <img src="https://raw.githubusercontent.com/jmnote/z-icons/master/svg/github.svg" alt="Github" height="24" style="max-width: 100%;"></a>
-  
-  <a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/react/react.png">
+  <ul>
+  <li>  <a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/react/react.png">
 REACT
-<img src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/react/react.png" alt="React" height="22" style="max-width: 100%;"></a>
-  
-  <a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/redux/redux.png">
+<img src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/react/react.png" alt="React" height="22" style="max-width: 100%;"></a></li>
+  <li>  <a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/redux/redux.png">
     REDUX
-  <img src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/redux/redux.png" alt="React" height="22" style="max-width: 100%;"></a>
+  <img src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/redux/redux.png" alt="React" height="22" style="max-width: 100%;"></a></li>
+  <li>  <a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/css/css.png">
+    CSS
+    <img src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/css/css.png" alt="CSS" height="24" style="max-width: 100%;"></a></li>
+  <li>  <a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/styled-components/brand/master/styled-components.png">
+    GITHUB
+    <img src="https://raw.githubusercontent.com/jmnote/z-icons/master/svg/github.svg" alt="Github" height="24" style="max-width: 100%;"></a></li>
+  </ul>
+
+  
+
+  
+
+  
+
   
 </div>
