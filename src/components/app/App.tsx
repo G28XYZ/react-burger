@@ -1,15 +1,15 @@
-import { useEffect, useLayoutEffect } from "react";
+import { useLayoutEffect } from "react";
 import AppHeader from "../app-header/AppHeader";
-import BurgerIngredients from "../burger-ingredients/BurgerIngredients";
 import appStyle from "./app.module.css";
-import BurgerConstructor from "../burger-constructor/BurgerConstructor";
 import { fetchIngredients } from "../../services/actions/ingredients";
 // import Preloader from "../Preloader";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Main from "../main/Main";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
-import Login from "../login/Login";
+import Login from "../auth/Login";
+import Profile from "../Profile/Profile";
+import Register from "../auth/Register";
 
 // по совету наставника временно задана декларация чтобы обойти ошибку TS2322 возникающая на ui элементе Tab
 declare module "react" {
@@ -41,7 +41,9 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/sign-in" element={<Login />} />
+          <Route path="/sign-up" element={<Register />} />
         </Routes>
       </BrowserRouter>
     </div>

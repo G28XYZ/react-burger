@@ -1,0 +1,37 @@
+.profile {
+  display: flex;
+  gap: 60px;
+  padding-top: 120px;
+}
+
+.navigation {
+  max-width: 320px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  padding-bottom: 80px;
+}
+
+.item {
+  height: 64px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.link {
+  text-decoration: none;
+}
+
+.info {
+  color: #8585ad;
+  opacity: 0.4;
+}
