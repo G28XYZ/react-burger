@@ -7,6 +7,7 @@ import { ingredientsSlice } from "./reducers/ingredients";
 import thunk from "redux-thunk";
 import { useDispatch, useSelector } from "react-redux";
 import { TypedUseSelectorHook } from "react-redux";
+import userSlice from "./reducers/user";
 
 declare global {
   interface Window {
@@ -19,6 +20,7 @@ export const store = configureStore({
     ingredients: ingredientsSlice.reducer,
     order: orderSlice.reducer,
     modal: modalSlice.reducer,
+    user: userSlice.reducer,
   },
   enhancers: (defaultEnhancers) => [
     applyMiddleware(thunk),

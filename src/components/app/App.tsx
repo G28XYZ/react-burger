@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import AppHeader from "../app-header/AppHeader";
 import BurgerIngredients from "../burger-ingredients/BurgerIngredients";
 import appStyle from "./app.module.css";
@@ -6,6 +6,10 @@ import BurgerConstructor from "../burger-constructor/BurgerConstructor";
 import { fetchIngredients } from "../../services/actions/ingredients";
 // import Preloader from "../Preloader";
 import { useAppDispatch, useAppSelector } from "../../services/store";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Main from "../main/Main";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import Login from "../login/Login";
 
 // по совету наставника временно задана декларация чтобы обойти ошибку TS2322 возникающая на ui элементе Tab
 declare module "react" {
@@ -19,20 +23,27 @@ function App() {
   const dispatch = useAppDispatch();
   const { loading } = ingredientsState;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     dispatch(fetchIngredients());
     console.log("render app");
   }, [dispatch]);
 
   return (
     <div className={appStyle.page}>
-      <AppHeader />
-      {loading && (
-        <main className={appStyle.main}>
-          <BurgerIngredients />
-          <BurgerConstructor />
-        </main>
-      )}
+      <BrowserRouter>
+        <AppHeader />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Main />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/sign-in" element={<Login />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
