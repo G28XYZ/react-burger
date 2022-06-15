@@ -10,6 +10,8 @@ import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import Login from "../auth/Login";
 import Profile from "../Profile/Profile";
 import Register from "../auth/Register";
+import FogotPassword from "../auth/FogotPassword";
+import ResetPassword from "../auth/ResetPassword";
 
 // по совету наставника временно задана декларация чтобы обойти ошибку TS2322 возникающая на ui элементе Tab
 declare module "react" {
@@ -44,6 +46,8 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/sign-in" element={<Login />} />
           <Route path="/sign-up" element={<Register />} />
+          <Route path="/fogot-password" element={<FogotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
         </Routes>
       </BrowserRouter>
     </div>

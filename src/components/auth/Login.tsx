@@ -44,14 +44,12 @@ function Login() {
           <li className="text text_type_main-default text_color_inactive">
             Вы — новый пользователь?
             <Link to="/sign-up" className={style.link}>
-              {" "}
               Зарегистрироваться
             </Link>
           </li>
           <li className="text text_type_main-default text_color_inactive">
             Забыли пароль?
-            <Link to="/" className={style.link}>
-              {" "}
+            <Link to="/fogot-password" className={style.link}>
               Восстановить пароль
             </Link>
           </li>

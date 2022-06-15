@@ -1,14 +1,13 @@
 import {
   Button,
   Input,
-  PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import style from "./auth.module.css";
 
-function Register() {
-  const [form, setForm] = useState({ email: "", password: "", name: "" });
+function ResetPassword() {
+  const [form, setForm] = useState({ code: "", password: "" });
 
   const handleChangeForm = (e: any) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -17,46 +16,41 @@ function Register() {
   return (
     <div className={style.auth}>
       <form className={style.form}>
-        <h2 className="text text_type_main-medium">Регистрация</h2>
+        <h2 className="text text_type_main-medium">Восстановление пароля</h2>
         <Input
-          type={"text"}
-          placeholder={"Имя"}
-          onChange={handleChangeForm}
-          value={form.name}
-          name={"name"}
-          error={false}
-          errorText={"Ошибка"}
-          size={"default"}
-        />
-        <Input
-          type={"text"}
-          placeholder={"E-mail"}
-          onChange={handleChangeForm}
-          value={form.email}
-          name={"email"}
-          error={false}
-          errorText={"Ошибка"}
-          size={"default"}
-        />
-        <PasswordInput
+          type={"password"}
+          placeholder={"Введите новый пароль"}
           onChange={handleChangeForm}
           value={form.password}
           name={"password"}
+          error={false}
+          errorText={"Ошибка"}
+          size={"default"}
+        />
+        <Input
+          type={"text"}
+          placeholder={"Введите код из письма"}
+          onChange={handleChangeForm}
+          value={form.code}
+          name={"code"}
+          error={false}
+          errorText={"Ошибка"}
+          size={"default"}
         />
         <Button type="primary" size="large">
-          Зарегистрироваться
+          Сохранить
         </Button>
       </form>
       <div>
         <p className="text text_type_main-default text_color_inactive">
-          Уже зарегистрированы?
+          Вспомнили пароль?
+          <Link to="/sign-in" className={style.link}>
+            Войти
+          </Link>
         </p>
-        <Link to="/sign-in" className={style.link}>
-          Войти
-        </Link>
       </div>
     </div>
   );
 }
 
-export default Register;
+export default ResetPassword;
