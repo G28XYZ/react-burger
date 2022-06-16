@@ -10,12 +10,13 @@ import { useAppDispatch, useAppSelector } from "../../services/store";
 import style from "./auth.module.css";
 
 function Login() {
-  const state = useAppSelector((state) => state.user);
+  const { loggedIn } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   useEffect(() => {
-    if (state.loggedIn) navigate("/");
-  }, [state.loggedIn, navigate]);
+    if (loggedIn) navigate("/");
+  }, [loggedIn, navigate]);
 
   const [form, setForm] = useState({ email: "", password: "" });
 
@@ -32,16 +33,8 @@ function Login() {
     <div className={style.auth}>
       <form className={style.form} onSubmit={handleSubmit}>
         <h2 className="text text_type_main-medium">Вход</h2>
-        <EmailInput
-          onChange={handleChangeForm}
-          value={form.email}
-          name={"email"}
-        />
-        <PasswordInput
-          onChange={handleChangeForm}
-          value={form.password}
-          name={"password"}
-        />
+        <EmailInput onChange={handleChangeForm} value={form.email} name={"email"} />
+        <PasswordInput onChange={handleChangeForm} value={form.password} name={"password"} />
         <Button type="primary" size="large">
           Войти
         </Button>

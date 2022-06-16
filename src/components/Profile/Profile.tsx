@@ -1,10 +1,12 @@
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAppSelector } from "../../services/store";
 import style from "./profile.module.css";
 
 function Profile() {
-  const [form, setForm] = useState({ email: "", password: "", name: "" });
+  const { name, email } = useAppSelector((state) => state.user);
+  const [form, setForm] = useState({ email, password: "", name });
 
   const handleChangeForm = (e: any) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -74,7 +76,7 @@ function Profile() {
         />
         <Input
           type={"password"}
-          placeholder={"Парль"}
+          placeholder={"Пароль"}
           onChange={handleChangeForm}
           icon={"EditIcon"}
           value={form.password}

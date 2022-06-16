@@ -1,11 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { setCookie } from "../../utils/setCookie";
-import {
-  onGetUser,
-  onLogin,
-  onRefreshToken,
-  onRegister,
-} from "../actions/user";
+import { onGetUser, onLogin, onRefreshToken, onRegister } from "../actions/user";
 
 const initialState = {
   name: "",
@@ -19,33 +14,54 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(onLogin.fulfilled, (state, action) => {
-      if (action.payload.success) {
-        const { name, email } = action.payload;
-        state.name = name;
-        state.email = email;
-        const token = action.payload.accessToken.replace("Bearer ", "");
-        const refreshToken = action.payload.refreshToken;
-        if (token) {
-          setCookie("token", token, {});
-          setCookie("refreshToken", refreshToken, {});
-          sessionStorage.setItem("refreshToken", refreshToken);
-        }
-        console.log(action.payload);
+      const { accessToken, refreshToken, success } = action.payload;
+      const token = accessToken.replace("Bearer ", "");
+      if (token) {
+        setCookie("token", token, {});
+        setCookie("refreshToken", refreshToken, {});
+        sessionStorage.setItem("refreshToken", refreshToken);
+        state.loggedIn = success;
+      } else {
+        state.loggedIn = false;
       }
     });
+
     builder.addCase(onRegister.fulfilled, (state, action) => {
-      if (action.payload) {
-        console.log(action.payload);
+      const { accessToken, refreshToken, success } = action.payload;
+      const token = accessToken.replace("Bearer ", "");
+      if (token) {
+        setCookie("token", token, {});
+        setCookie("refreshToken", refreshToken, {});
+        sessionStorage.setItem("refreshToken", refreshToken);
+        state.loggedIn = success;
+      } else {
+        state.loggedIn = false;
       }
     });
+
     builder.addCase(onGetUser.fulfilled, (state, action) => {
-      if (action.payload) {
-        console.log(action.payload);
+      const { success, user } = action.payload;
+      if (success) {
+        state.email = user.email;
+        state.name = user.name;
+        state.loggedIn = true;
+      } else {
+        state.email = "";
+        state.name = "";
+        state.loggedIn = false;
       }
     });
+
     builder.addCase(onRefreshToken.fulfilled, (state, action) => {
-      if (action.payload) {
-        console.log(action.payload);
+      const { accessToken, refreshToken, success } = action.payload;
+      const token = accessToken.replace("Bearer ", "");
+      if (token) {
+        setCookie("token", token, {});
+        setCookie("refreshToken", refreshToken, {});
+        sessionStorage.setItem("refreshToken", refreshToken);
+        state.loggedIn = success;
+      } else {
+        state.loggedIn = false;
       }
     });
   },

@@ -1,16 +1,13 @@
-import {
-  Button,
-  Input,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import style from "./auth.module.css";
 
-function FogotPassword() {
+function ForgotPassword() {
   const [form, setForm] = useState({ email: "" });
 
   const handleChangeForm = (e: any) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm({ email: e.target.value });
   };
 
   return (
@@ -43,4 +40,4 @@ function FogotPassword() {
   );
 }
 
-export default FogotPassword;
+export default ForgotPassword;

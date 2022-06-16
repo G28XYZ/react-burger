@@ -1,4 +1,4 @@
-import { useLayoutEffect } from "react";
+import { useEffect } from "react";
 import AppHeader from "../app-header/AppHeader";
 import appStyle from "./app.module.css";
 import { fetchIngredients } from "../../services/actions/ingredients";
@@ -6,13 +6,14 @@ import { fetchIngredients } from "../../services/actions/ingredients";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Main from "../main/Main";
-import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import ProtectedRoute from "../protected-route/ProtectedRoute";
 import Login from "../auth/Login";
-import Profile from "../Profile/Profile";
+import Profile from "../profile/Profile";
 import Register from "../auth/Register";
-import FogotPassword from "../auth/FogotPassword";
+import ForgotPassword from "../auth/ForgotPassword";
 import ResetPassword from "../auth/ResetPassword";
-import { onGetUser } from "../../services/actions/user";
+import { onGetUser, onRefreshToken } from "../../services/actions/user";
+import { getCookie } from "../../utils/getCookie";
 
 // по совету наставника временно задана декларация чтобы обойти ошибку TS2322 возникающая на ui элементе Tab
 declare module "react" {
@@ -22,13 +23,26 @@ declare module "react" {
 }
 
 function App() {
-  const ingredientsState = useAppSelector((state) => state.ingredients);
+  const state = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
-  const { loading } = ingredientsState;
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     dispatch(fetchIngredients());
-    dispatch(onGetUser());
+    const token = getCookie("token");
+    const refreshToken = sessionStorage.getItem("refreshToken");
+    if (token) {
+      dispatch(onGetUser(token)).then(({ payload }) => {
+        if (!refreshToken) {
+          console.log("Авторизуйтесь");
+          return;
+        }
+        if (!payload) {
+          dispatch(onRefreshToken(refreshToken));
+        }
+      });
+    } else {
+      console.log("Авторизуйтесь");
+    }
     console.log("render app");
   }, [dispatch]);
 
@@ -48,7 +62,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/sign-in" element={<Login />} />
           <Route path="/sign-up" element={<Register />} />
-          <Route path="/fogot-password" element={<FogotPassword />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
         </Routes>
       </BrowserRouter>

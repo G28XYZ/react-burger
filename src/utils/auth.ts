@@ -1,5 +1,4 @@
 import { address } from "./constants";
-import { getCookie } from "./getCookie";
 
 class Auth {
   _address: string;
@@ -46,20 +45,23 @@ class Auth {
   async refreshToken(token: string) {
     return await fetch(`${this._address}/auth/token`, {
       method: "POST",
+      mode: "cors",
+      cache: "no-cache",
       headers: this._headers,
       credentials: "same-origin",
       body: JSON.stringify({ token }),
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
     } as {}).then(this._handleResponse);
   }
 
-  getUser() {
-    console.log(getCookie("refreshToken"));
-    return fetch(`${this._address}/auth/user`, {
+  async getUser(token: string) {
+    return await fetch(`${this._address}/auth/user`, {
       method: "GET",
-      credentials: "includes",
+      credentials: "same-origin",
       headers: {
         ...this._headers,
-        authorization: "Bearer " + getCookie("refreshToken"),
+        Authorization: "Bearer " + token,
       },
     } as {}).then(this._handleResponse);
   }
