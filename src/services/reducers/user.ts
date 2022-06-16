@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { setCookie } from "../../utils/setCookie";
-import { onGetUser, onLogin, onRefreshToken, onRegister } from "../actions/user";
+import { onGetUser, onLogin, onLogout, onRefreshToken, onRegister } from "../actions/user";
 
 const initialState = {
   name: "",
@@ -62,6 +62,20 @@ export const userSlice = createSlice({
         state.loggedIn = success;
       } else {
         state.loggedIn = false;
+      }
+    });
+
+    builder.addCase(onLogout.fulfilled, (state, action) => {
+      const { success } = action.payload;
+      if (success) {
+        sessionStorage.clear();
+        setCookie("token", "", {});
+        setCookie("refreshToken", "", {});
+        state.loggedIn = false;
+        state.name = "";
+        state.email = "";
+      } else {
+        console.log("Ошибка выхода из системы");
       }
     });
   },

@@ -57,8 +57,7 @@ const BurgerIngredient = ({ ingredient }: IngredientProp) => {
   useEffect(() => {
     checkTotalPrice();
     checkCount();
-    dispatch(setDrag({ onDrag }));
-  }, [onDrag, orderList.filter((item) => item._id === ingredient._id).length]);
+  }, [orderList.filter((item) => item._id === ingredient._id).length]);
 
   return (
     <li className={style.item + " pb-10"} key={ingredient._id} style={{ opacity }}>

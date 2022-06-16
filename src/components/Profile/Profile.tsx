@@ -1,10 +1,12 @@
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useAppSelector } from "../../services/store";
+import { onLogout } from "../../services/actions/user";
+import { useAppDispatch, useAppSelector } from "../../services/store";
 import style from "./profile.module.css";
 
 function Profile() {
+  const dispatch = useAppDispatch();
   const { name, email } = useAppSelector((state) => state.user);
   const [form, setForm] = useState({ email, password: "", name });
 
@@ -13,6 +15,11 @@ function Profile() {
   };
 
   const onIconClick = (e: any) => {};
+
+  const handleClickLogout = () => {
+    const refreshToken = sessionStorage.getItem("refreshToken");
+    if (refreshToken) dispatch(onLogout(refreshToken));
+  };
 
   return (
     <div className={style.profile}>
@@ -37,8 +44,9 @@ function Profile() {
             </li>
             <li className={style.item}>
               <Link
-                to="/"
+                to="/profile"
                 className={`${style.link} text text_type_main-medium text_color_inactive`}
+                onClick={handleClickLogout}
               >
                 Выход
               </Link>

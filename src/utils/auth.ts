@@ -33,12 +33,12 @@ class Auth {
     } as {}).then(this._handleResponse);
   }
 
-  async logout(form: {}) {
+  async logout(token: string) {
     return await fetch(`${this._address}/auth/logout`, {
       method: "POST",
       headers: this._headers,
       credentials: "same-origin",
-      body: JSON.stringify(form),
+      body: JSON.stringify({ token }),
     } as {}).then(this._handleResponse);
   }
 

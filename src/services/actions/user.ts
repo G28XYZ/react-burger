@@ -40,3 +40,13 @@ export const onGetUser = createAsyncThunk("user/onGetUser", async (token: string
     return false;
   }
 });
+
+export const onLogout = createAsyncThunk("user/onLogout", async (token: string) => {
+  const response = await auth.logout(token);
+  if (response.success) {
+    return response;
+  } else {
+    console.log(response);
+    return false;
+  }
+});
