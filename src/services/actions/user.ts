@@ -23,3 +23,27 @@ export const onRegister = createAsyncThunk(
     }
   }
 );
+
+export const onRefreshToken = createAsyncThunk(
+  "user/onRefreshToken",
+  async (token: string) => {
+    const response = await auth.refreshToken(token);
+    if (response.success) {
+      return response;
+    } else {
+      console.log(response);
+      return false;
+    }
+  }
+);
+
+export const onGetUser = createAsyncThunk("user/onGetUser", async () => {
+  const response = await auth.getUser();
+  console.log(response);
+  if (response.success) {
+    return response;
+  } else {
+    console.log(response);
+    return false;
+  }
+});

@@ -12,6 +12,7 @@ import Profile from "../Profile/Profile";
 import Register from "../auth/Register";
 import FogotPassword from "../auth/FogotPassword";
 import ResetPassword from "../auth/ResetPassword";
+import { onGetUser } from "../../services/actions/user";
 
 // по совету наставника временно задана декларация чтобы обойти ошибку TS2322 возникающая на ui элементе Tab
 declare module "react" {
@@ -27,6 +28,7 @@ function App() {
 
   useLayoutEffect(() => {
     dispatch(fetchIngredients());
+    dispatch(onGetUser());
     console.log("render app");
   }, [dispatch]);
 

@@ -44,7 +44,7 @@ export interface IStateIngredients {
 
 export interface IStateUser {
   name: string;
-  id: string;
+  email: string;
   loggedIn: boolean;
 }
 

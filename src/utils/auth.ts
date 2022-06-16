@@ -1,8 +1,5 @@
 import { address } from "./constants";
-
-export type IResponse = Response & {
-  success?: boolean;
-};
+import { getCookie } from "./getCookie";
 
 class Auth {
   _address: string;
@@ -19,34 +16,59 @@ class Auth {
     return response.ok ? response.json() : Promise.reject(response.status);
   }
 
-  login(form: {}) {
-    return fetch(`${this._address}/auth/login`, {
+  async login(form: {}) {
+    return await fetch(`${this._address}/auth/login`, {
       method: "POST",
       headers: this._headers,
+      credentials: "same-origin",
       body: JSON.stringify(form),
     } as {}).then(this._handleResponse);
   }
 
-  register(form: {}) {
-    return fetch(`${this._address}/auth/register`, {
+  async register(form: {}) {
+    return await fetch(`${this._address}/auth/register`, {
       method: "POST",
       headers: this._headers,
+      credentials: "same-origin",
       body: JSON.stringify(form),
     } as {}).then(this._handleResponse);
   }
 
-  logout(form: {}) {
-    return fetch(`${this._address}/auth/logout`, {
+  async logout(form: {}) {
+    return await fetch(`${this._address}/auth/logout`, {
       method: "POST",
       headers: this._headers,
+      credentials: "same-origin",
       body: JSON.stringify(form),
     } as {}).then(this._handleResponse);
   }
 
-  refreshToken(form: {}) {
-    return fetch(`${this._address}/auth/token`, {
+  async refreshToken(token: string) {
+    return await fetch(`${this._address}/auth/token`, {
       method: "POST",
       headers: this._headers,
+      credentials: "same-origin",
+      body: JSON.stringify({ token }),
+    } as {}).then(this._handleResponse);
+  }
+
+  getUser() {
+    console.log(getCookie("refreshToken"));
+    return fetch(`${this._address}/auth/user`, {
+      method: "GET",
+      credentials: "includes",
+      headers: {
+        ...this._headers,
+        authorization: "Bearer " + getCookie("refreshToken"),
+      },
+    } as {}).then(this._handleResponse);
+  }
+
+  async editUser(form: {}) {
+    return await fetch(`${this._address}/auth/user`, {
+      method: "PATCH",
+      headers: this._headers,
+      credentials: "same-origin",
       body: JSON.stringify(form),
     } as {}).then(this._handleResponse);
   }
