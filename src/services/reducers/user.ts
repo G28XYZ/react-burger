@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login } from "../actions/user";
+import { onLogin, onRegister } from "../actions/user";
 
 const initialState = {
   name: "",
@@ -10,8 +10,18 @@ const initialState = {
 export const userSlice = createSlice({
   name: "modal",
   initialState,
-  reducers: {
-    login,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(onLogin.fulfilled, (state, action) => {
+      if (action.payload) {
+        console.log(action.payload);
+      }
+    });
+    builder.addCase(onRegister.fulfilled, (state, action) => {
+      if (action.payload) {
+        console.log(action.payload);
+      }
+    });
   },
 });
 

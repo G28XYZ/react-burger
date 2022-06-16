@@ -3,20 +3,28 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
+import { onRegister } from "../../services/actions/user";
+import { useAppDispatch } from "../../services/store";
 import style from "./auth.module.css";
 
 function Register() {
+  const dispatch = useAppDispatch();
   const [form, setForm] = useState({ email: "", password: "", name: "" });
 
   const handleChangeForm = (e: any) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    dispatch(onRegister(form));
+  };
+
   return (
     <div className={style.auth}>
-      <form className={style.form}>
+      <form className={style.form} onSubmit={handleSubmit}>
         <h2 className="text text_type_main-medium">Регистрация</h2>
         <Input
           type={"text"}

@@ -3,13 +3,15 @@ import {
   EmailInput,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAppSelector } from "../../services/store";
+import { onLogin } from "../../services/actions/user";
+import { useAppDispatch, useAppSelector } from "../../services/store";
 import style from "./auth.module.css";
 
 function Login() {
   const state = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   useEffect(() => {
     if (state.loggedIn) navigate("/");
@@ -21,9 +23,14 @@ function Login() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    dispatch(onLogin(form));
+  };
+
   return (
     <div className={style.auth}>
-      <form className={style.form}>
+      <form className={style.form} onSubmit={handleSubmit}>
         <h2 className="text text_type_main-medium">Вход</h2>
         <EmailInput
           onChange={handleChangeForm}
