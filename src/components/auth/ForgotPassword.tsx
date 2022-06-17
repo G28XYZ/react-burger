@@ -20,9 +20,7 @@ function ForgotPassword() {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     dispatch(onForgotPassword(form.email)).then(({ payload }) => {
-      if (payload) {
-        navigate("/reset-password");
-      }
+      if (payload) navigate("/reset-password");
     });
   };
 

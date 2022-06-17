@@ -20,9 +20,7 @@ function ResetPassword() {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     dispatch(onResetPassword(form)).then(({ payload }) => {
-      if (payload) {
-        navigate("/sign-in");
-      }
+      if (payload) navigate("/login");
     });
   };
 

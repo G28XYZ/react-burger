@@ -3,20 +3,14 @@ import {
   EmailInput,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { FormEvent, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { FormEvent, useState } from "react";
+import { Link } from "react-router-dom";
 import { onLogin } from "../../services/actions/user";
-import { useAppDispatch, useAppSelector } from "../../services/store";
+import { useAppDispatch } from "../../services/store";
 import style from "./auth.module.css";
 
 function Login() {
-  const { loggedIn } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (loggedIn) navigate("/");
-  }, [loggedIn, navigate]);
 
   const [form, setForm] = useState({ email: "", password: "" });
 
