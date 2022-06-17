@@ -33,8 +33,16 @@ function Login() {
     <div className={style.auth}>
       <form className={style.form} onSubmit={handleSubmit}>
         <h2 className="text text_type_main-medium">Вход</h2>
-        <EmailInput onChange={handleChangeForm} value={form.email} name={"email"} />
-        <PasswordInput onChange={handleChangeForm} value={form.password} name={"password"} />
+        <EmailInput
+          onChange={handleChangeForm}
+          value={form.email}
+          name={"email"}
+        />
+        <PasswordInput
+          onChange={handleChangeForm}
+          value={form.password}
+          name={"password"}
+        />
         <Button type="primary" size="large">
           Войти
         </Button>
@@ -49,7 +57,7 @@ function Login() {
           </li>
           <li className="text text_type_main-default text_color_inactive">
             Забыли пароль?
-            <Link to="/fogot-password" className={style.link}>
+            <Link to="/forgot-password" className={style.link}>
               Восстановить пароль
             </Link>
           </li>

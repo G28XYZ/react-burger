@@ -42,6 +42,24 @@ class Auth {
     } as {}).then(this._handleResponse);
   }
 
+  async forgotPassword(email: string) {
+    return await fetch(`${this._address}/password-reset`, {
+      method: "POST",
+      headers: this._headers,
+      credentials: "same-origin",
+      body: JSON.stringify({ email }),
+    } as {}).then(this._handleResponse);
+  }
+
+  async resetPassword(password: string, token: string) {
+    return await fetch(`${this._address}/password-reset/reset`, {
+      method: "POST",
+      headers: this._headers,
+      credentials: "same-origin",
+      body: JSON.stringify({ password, token }),
+    } as {}).then(this._handleResponse);
+  }
+
   async refreshToken(token: string) {
     return await fetch(`${this._address}/auth/token`, {
       method: "POST",

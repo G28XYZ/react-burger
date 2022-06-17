@@ -1,6 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { setCookie } from "../../utils/setCookie";
-import { onGetUser, onLogin, onLogout, onRefreshToken, onRegister } from "../actions/user";
+import {
+  onForgotPassword,
+  onGetUser,
+  onLogin,
+  onLogout,
+  onRefreshToken,
+  onRegister,
+  onResetPassword,
+} from "../actions/user";
 
 const initialState = {
   name: "",
@@ -14,12 +22,14 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(onLogin.fulfilled, (state, action) => {
-      const { accessToken, refreshToken, success } = action.payload;
+      const { accessToken, refreshToken, success, user } = action.payload;
       const token = accessToken.replace("Bearer ", "");
       if (token) {
         setCookie("token", token, {});
         setCookie("refreshToken", refreshToken, {});
         sessionStorage.setItem("refreshToken", refreshToken);
+        state.name = user.name;
+        state.email = user.email;
         state.loggedIn = success;
       } else {
         state.loggedIn = false;
@@ -76,6 +86,24 @@ export const userSlice = createSlice({
         state.email = "";
       } else {
         console.log("Ошибка выхода из системы");
+      }
+    });
+
+    builder.addCase(onForgotPassword.fulfilled, (state, action) => {
+      const { success, message } = action.payload;
+      if (success) {
+        console.log(message);
+      } else {
+        console.log("Ошибка восстановления пароля");
+      }
+    });
+
+    builder.addCase(onResetPassword.fulfilled, (state, action) => {
+      const { success, message } = action.payload;
+      if (success) {
+        console.log(message);
+      } else {
+        console.log("Ошибка сброса пароля");
       }
     });
   },

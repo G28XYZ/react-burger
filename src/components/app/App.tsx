@@ -35,6 +35,7 @@ function App() {
           console.log("Авторизуйтесь");
           return;
         }
+        // accessToken истек
         if (!payload) {
           dispatch(onRefreshToken(refreshToken));
         }
@@ -65,22 +66,8 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/forgot-password"
-          element={
-            <ProtectedRoute>
-              <ForgotPassword />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/reset-password"
-          element={
-            <ProtectedRoute>
-              <ResetPassword />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/sign-in" element={<Login />} />
         <Route path="/sign-up" element={<Register />} />
       </Routes>
