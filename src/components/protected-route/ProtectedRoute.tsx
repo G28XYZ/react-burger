@@ -1,10 +1,9 @@
-import { ReactNode } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { useAppSelector } from "../../services/store";
 
-function ProtectedRoute({ children }: { children: ReactNode }) {
+function ProtectedRoute() {
   const { loggedIn } = useAppSelector((state) => state.user);
-  return <>{loggedIn ? children : <Navigate to="/login" />}</>;
+  return loggedIn ? <Outlet /> : <Navigate to="/login" />;
 }
 
 export default ProtectedRoute;

@@ -1,9 +1,21 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useAppSelector } from "../../services/store";
+import { initialBun } from "../../utils/constants";
 import { Ingredient } from "../../utils/types";
 import style from "./ingredient-details.module.css";
 
 const shortid = require("shortid");
 
-function IngredientDetails({ ingredient }: { ingredient: Ingredient }) {
+function IngredientDetails() {
+  const params = useParams();
+  const { loading, ingredients } = useAppSelector((state) => state.ingredients);
+  const [ingredient, setIngredient] = useState({} as Ingredient);
+
+  useEffect(() => {
+    if (loading) setIngredient(ingredients.filter((item: Ingredient) => item._id === params.id)[0]);
+  }, [loading]);
+
   const structureList = [
     ["calories", "Калории, ккал"],
     ["proteins", "Белки, г"],

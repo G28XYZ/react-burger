@@ -1,9 +1,10 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../services/store";
 
 function PrivateRoute() {
   const { loggedIn } = useAppSelector((state) => state.user);
-  return loggedIn ? <Navigate to={"/"} /> : <Outlet />;
+  const navigate = useNavigate();
+  return loggedIn ? <>{navigate(-1)}</> : <Outlet />;
 }
 
 export default PrivateRoute;
