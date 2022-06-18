@@ -3,7 +3,7 @@ import { ChangeEvent, useState } from "react";
 import { useAppSelector } from "../../services/store";
 import style from "./profile.module.css";
 
-function Form() {
+function ProfileForm() {
   const { name, email } = useAppSelector((state) => state.user);
   const [form, setForm] = useState({ email, password: "", name });
 
@@ -50,4 +50,4 @@ function Form() {
   );
 }
 
-export default Form;
+export default ProfileForm;
