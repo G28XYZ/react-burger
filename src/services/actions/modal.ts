@@ -1,13 +1,4 @@
-import { PayloadAction } from "@reduxjs/toolkit";
-import { IActionModal, IModal } from "../../utils/types";
-
-export const openModalWithIngredient = (
-  state: IModal,
-  action: PayloadAction<IActionModal>
-) => {
-  state.title = action.payload.title;
-  state.ingredientInModal = action.payload.ingredient;
-};
+import { IModal } from "../../utils/types";
 
 export const openModalWithOrder = (state: IModal) => {
   state.orderInModal = true;

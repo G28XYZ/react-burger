@@ -109,7 +109,7 @@ function BurgerConstructor() {
       </div>
 
       {state.modal.orderInModal && (
-        <Modal onCloseModal={handleCloseModal} title="">
+        <Modal onCloseModal={handleCloseModal}>
           <OrderDetails orderId={state.order.id} />
         </Modal>
       )}

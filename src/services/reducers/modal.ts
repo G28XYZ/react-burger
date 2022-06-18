@@ -1,9 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  openModalWithIngredient,
-  openModalWithOrder,
-  closeModal,
-} from "../actions/modal";
+import { openModalWithOrder, closeModal } from "../actions/modal";
 
 const initialState = {
   title: "",
@@ -15,7 +11,6 @@ export const modalSlice = createSlice({
   name: "modal",
   initialState,
   reducers: {
-    openModalWithIngredient,
     openModalWithOrder,
     closeModal,
   },
