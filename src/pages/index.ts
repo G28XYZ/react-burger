@@ -4,6 +4,8 @@ import Login from "./auth/Login";
 import Register from "./auth/Register";
 import ForgotPassword from "./auth/ForgotPassword";
 import ResetPassword from "./auth/ResetPassword";
+import Orders from "./orders/Orders";
+import Feed from "./feed/Feed";
 import NotFound from "./not-found/NotFound";
 
-export { Main, Profile, Login, Register, ForgotPassword, ResetPassword, NotFound };
+export { Main, Profile, Login, Register, ForgotPassword, ResetPassword, Orders, Feed, NotFound };

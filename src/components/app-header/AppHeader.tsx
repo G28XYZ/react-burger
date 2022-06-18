@@ -4,7 +4,8 @@ import {
   ListIcon,
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import { onActiveLink } from "../../utils/onActiveLink";
 import appHeaderStyle from "./app-header.module.css";
 
 function AppHeader() {
@@ -13,16 +14,20 @@ function AppHeader() {
       <nav className={appHeaderStyle.menu}>
         <ul className={appHeaderStyle.interface}>
           <li className={appHeaderStyle.interface__item}>
-            <Link to="/" className={appHeaderStyle.link}>
+            <NavLink
+              to="/"
+              className={appHeaderStyle.link + " text_color_inactive"}
+              style={onActiveLink}
+            >
               <BurgerIcon type="primary" />
-              <p className="pl-3 text text_type_main-default">Конструктор</p>
-            </Link>
+              <p className="pl-3 text text_type_main-default ">Конструктор</p>
+            </NavLink>
           </li>
           <li className={appHeaderStyle.interface__item}>
-            <Link to="/" className={appHeaderStyle.link}>
+            <NavLink to="/feed" className={appHeaderStyle.link} style={onActiveLink}>
               <ListIcon type="secondary" />
-              <p className="pl-3 text text_type_main-default text_color_inactive">Лента заказов</p>
-            </Link>
+              <p className="pl-3 text text_type_main-default">Лента заказов</p>
+            </NavLink>
           </li>
           <li className={appHeaderStyle.interface__item}>
             <Link to="/" className={appHeaderStyle.link}>
@@ -30,10 +35,10 @@ function AppHeader() {
             </Link>
           </li>
           <li className={appHeaderStyle.interface__item}>
-            <Link to="/profile" className={appHeaderStyle.link}>
+            <NavLink to="/profile" className={appHeaderStyle.link} style={onActiveLink}>
               <ProfileIcon type="secondary" />
-              <p className="pl-3 text text_type_main-default text_color_inactive">Личный кабинет</p>
-            </Link>
+              <p className="pl-3 text text_type_main-default">Личный кабинет</p>
+            </NavLink>
           </li>
         </ul>
       </nav>

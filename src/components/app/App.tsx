@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import AppHeader from "../app-header/AppHeader";
 import appStyle from "./app.module.css";
 import { fetchIngredients } from "../../services/actions/ingredients";
-// import Preloader from "../preloader";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import {
@@ -12,13 +11,15 @@ import {
   Register,
   ForgotPassword,
   ResetPassword,
+  Orders,
+  Feed,
   NotFound,
 } from "../../pages";
 import ProtectedRoute from "../protected-route/ProtectedRoute";
 import { onGetUser, onRefreshToken } from "../../services/actions/user";
 import { getCookie } from "../../utils/getCookie";
 import PrivateRoute from "../private-route/PrivateRoute";
-import IngredientDetails from "../ingredient-modal/IngredientDetails";
+import IngredientDetails from "../ingredient-details/IngredientDetails";
 import Modal from "../modal/Modal";
 
 // по совету наставника временно задана декларация чтобы обойти ошибку TS2322 возникающая на ui элементе Tab
@@ -72,9 +73,13 @@ function App() {
         </Route>
         <Route path="/profile" element={<ProtectedRoute />}>
           <Route path="" element={<Profile />} />
+          <Route path="orders" element={<Orders />} />
         </Route>
         <Route path="/ingredient/:id" element={<ProtectedRoute />}>
           <Route path="" element={<IngredientDetails />} />
+        </Route>
+        <Route path="/feed" element={<ProtectedRoute />}>
+          <Route path="" element={<Feed />} />
         </Route>
 
         <Route path="/forgot-password" element={<PrivateRoute />}>

@@ -43,7 +43,7 @@ function Register() {
           size={"default"}
         />
         <PasswordInput onChange={handleChangeForm} value={form.password} name={"password"} />
-        <Button type="primary" size="large">
+        <Button type="primary" size="medium">
           Зарегистрироваться
         </Button>
       </form>

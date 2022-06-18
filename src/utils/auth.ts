@@ -2,7 +2,7 @@ import { address } from "./constants";
 
 class Auth {
   _address: string;
-  _headers: { [ket: string]: string | number };
+  _headers: HeadersInit;
 
   constructor(address: string) {
     this._address = address;
@@ -21,7 +21,7 @@ class Auth {
       headers: this._headers,
       credentials: "same-origin",
       body: JSON.stringify(form),
-    } as {}).then(this._handleResponse);
+    }).then(this._handleResponse);
   }
 
   async register(form: {}) {
@@ -30,7 +30,7 @@ class Auth {
       headers: this._headers,
       credentials: "same-origin",
       body: JSON.stringify(form),
-    } as {}).then(this._handleResponse);
+    }).then(this._handleResponse);
   }
 
   async logout(token: string) {
@@ -39,7 +39,7 @@ class Auth {
       headers: this._headers,
       credentials: "same-origin",
       body: JSON.stringify({ token }),
-    } as {}).then(this._handleResponse);
+    }).then(this._handleResponse);
   }
 
   async forgotPassword(email: string) {
@@ -48,7 +48,7 @@ class Auth {
       headers: this._headers,
       credentials: "same-origin",
       body: JSON.stringify({ email }),
-    } as {}).then(this._handleResponse);
+    }).then(this._handleResponse);
   }
 
   async resetPassword(password: string, token: string) {
@@ -57,7 +57,7 @@ class Auth {
       headers: this._headers,
       credentials: "same-origin",
       body: JSON.stringify({ password, token }),
-    } as {}).then(this._handleResponse);
+    }).then(this._handleResponse);
   }
 
   async refreshToken(token: string) {
@@ -70,7 +70,7 @@ class Auth {
       body: JSON.stringify({ token }),
       redirect: "follow",
       referrerPolicy: "no-referrer",
-    } as {}).then(this._handleResponse);
+    }).then(this._handleResponse);
   }
 
   async getUser(token: string) {
@@ -81,7 +81,7 @@ class Auth {
         ...this._headers,
         Authorization: "Bearer " + token,
       },
-    } as {}).then(this._handleResponse);
+    }).then(this._handleResponse);
   }
 
   async editUser(form: {}) {
@@ -90,7 +90,7 @@ class Auth {
       headers: this._headers,
       credentials: "same-origin",
       body: JSON.stringify(form),
-    } as {}).then(this._handleResponse);
+    }).then(this._handleResponse);
   }
 }
 

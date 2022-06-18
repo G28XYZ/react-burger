@@ -1,4 +1,4 @@
-import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button, Input, Logo } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { onForgotPassword } from "../../services/actions/user";
@@ -22,9 +22,10 @@ function ForgotPassword() {
   };
 
   return (
-    <div className={style.auth}>
+    <div className={`${style.auth} pt-30`}>
+      <Logo />
       <form className={style.form} onSubmit={handleSubmit}>
-        <h2 className="text text_type_main-medium">Восстановление пароля</h2>
+        <h2 className="text text_type_main-medium pt-20">Восстановление пароля</h2>
         <Input
           type={"text"}
           placeholder={"Укажите e-mail"}
@@ -35,7 +36,7 @@ function ForgotPassword() {
           errorText={"Ошибка"}
           size={"default"}
         />
-        <Button type="primary" size="large">
+        <Button type="primary" size="medium">
           Восстановить
         </Button>
       </form>

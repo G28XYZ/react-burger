@@ -1,15 +1,15 @@
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ChangeEvent, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { onLogout } from "../../services/actions/user";
 import { useAppDispatch, useAppSelector } from "../../services/store";
+import { onActiveLink } from "../../utils/onActiveLink";
 import style from "./profile.module.css";
 
 function Profile() {
   const dispatch = useAppDispatch();
   const { name, email } = useAppSelector((state) => state.user);
   const [form, setForm] = useState({ email, password: "", name });
-  const location = useLocation();
 
   const handleChangeForm = (e: ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -20,7 +20,7 @@ function Profile() {
     if (refreshToken) dispatch(onLogout(refreshToken));
   };
 
-  const styleLink = "text text_type_main-medium text_color_inactive";
+  const styleLink = "text text_type_main-medium";
 
   return (
     <div className={style.profile}>
@@ -28,28 +28,28 @@ function Profile() {
         <nav>
           <ul className={style.list}>
             <li className={style.item}>
-              <Link
-                to="/profile"
-                className={`${style.link} ${styleLink} ${
-                  location.pathname === "/profile" && style.active
-                }`}
-              >
+              <NavLink to="/profile" className={`${style.link} ${styleLink}`} style={onActiveLink}>
                 Профиль
-              </Link>
+              </NavLink>
             </li>
             <li className={style.item}>
-              <Link to="/" className={`${style.link} ${styleLink}`}>
+              <NavLink
+                to="/profile/orders"
+                className={`${style.link} ${styleLink}`}
+                style={onActiveLink}
+              >
                 История заказов
-              </Link>
+              </NavLink>
             </li>
             <li className={style.item}>
-              <Link
-                to="/profile"
+              <NavLink
+                to="/login"
                 className={`${style.link} ${styleLink}`}
                 onClick={handleClickLogout}
+                style={onActiveLink}
               >
                 Выход
-              </Link>
+              </NavLink>
             </li>
           </ul>
         </nav>

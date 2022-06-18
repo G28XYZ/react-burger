@@ -24,12 +24,12 @@ function Login() {
   };
 
   return (
-    <div className={style.auth}>
+    <div className={`${style.auth} pt-30`}>
       <form className={style.form} onSubmit={handleSubmit}>
         <h2 className="text text_type_main-medium">Вход</h2>
         <EmailInput onChange={handleChangeForm} value={form.email} name={"email"} />
         <PasswordInput onChange={handleChangeForm} value={form.password} name={"password"} />
-        <Button type="primary" size="large">
+        <Button type="primary" size="medium">
           Войти
         </Button>
       </form>
