@@ -12,12 +12,12 @@ import {
   ForgotPassword,
   ResetPassword,
   Orders,
+  ProfileForm,
   Feed,
   NotFound,
 } from "../../pages";
 import ProtectedRoute from "../protected-route/ProtectedRoute";
 import { onGetUser, onRefreshToken } from "../../services/actions/user";
-import { getCookie } from "../../utils/getCookie";
 import PrivateRoute from "../private-route/PrivateRoute";
 import IngredientDetails from "../ingredient-details/IngredientDetails";
 import Modal from "../modal/Modal";
@@ -41,7 +41,7 @@ function App() {
   };
 
   useEffect(() => {
-    const token = getCookie("token");
+    const token = sessionStorage.getItem("token");
     const refreshToken = sessionStorage.getItem("refreshToken");
     if (token) {
       dispatch(onGetUser(token)).then(({ payload }) => {
@@ -49,8 +49,8 @@ function App() {
           console.log("Авторизуйтесь");
           return;
         }
-        // accessToken истек
         if (!payload) {
+          console.log("accessToken истек");
           dispatch(onRefreshToken(refreshToken));
         }
       });
@@ -70,29 +70,21 @@ function App() {
       <Routes location={locationState?.backgroundLocation || location}>
         <Route path="/" element={<ProtectedRoute />}>
           <Route path="" element={<Main />} />
-        </Route>
-        <Route path="/profile" element={<ProtectedRoute />}>
-          <Route path="" element={<Profile />} />
-          <Route path="orders" element={<Orders />} />
-        </Route>
-        <Route path="/ingredient/:id" element={<ProtectedRoute />}>
-          <Route path="" element={<IngredientDetails />} />
-        </Route>
-        <Route path="/feed" element={<ProtectedRoute />}>
-          <Route path="" element={<Feed />} />
+
+          <Route path="profile" element={<Profile />}>
+            <Route path="" element={<ProfileForm />} />
+            <Route path="orders" element={<Orders />} />
+          </Route>
+
+          <Route path="ingredient/:id" element={<IngredientDetails />} />
+          <Route path="feed" element={<Feed />} />
         </Route>
 
-        <Route path="/forgot-password" element={<PrivateRoute />}>
-          <Route path="" element={<ForgotPassword />} />
-        </Route>
-        <Route path="/reset-password" element={<PrivateRoute />}>
-          <Route path="" element={<ResetPassword />} />
-        </Route>
-        <Route path="/login" element={<PrivateRoute />}>
-          <Route path="" element={<Login />} />
-        </Route>
-        <Route path="/register" element={<PrivateRoute />}>
-          <Route path="" element={<Register />} />
+        <Route path="/" element={<PrivateRoute />}>
+          <Route path="forgot-password" element={<ForgotPassword />} />
+          <Route path="reset-password" element={<ResetPassword />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

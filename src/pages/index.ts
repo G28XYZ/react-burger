@@ -6,6 +6,18 @@ import ForgotPassword from "./auth/ForgotPassword";
 import ResetPassword from "./auth/ResetPassword";
 import Orders from "./orders/Orders";
 import Feed from "./feed/Feed";
+import ProfileForm from "./profile/ProfileForm";
 import NotFound from "./not-found/NotFound";
 
-export { Main, Profile, Login, Register, ForgotPassword, ResetPassword, Orders, Feed, NotFound };
+export {
+  Main,
+  Profile,
+  Login,
+  Register,
+  ForgotPassword,
+  ResetPassword,
+  Orders,
+  Feed,
+  ProfileForm,
+  NotFound,
+};

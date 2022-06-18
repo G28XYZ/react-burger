@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { setCookie } from "../../utils/setCookie";
+import { setSessionStorage } from "../../utils/setSessionStorage";
 import {
   onForgotPassword,
   onGetUser,
@@ -27,7 +28,8 @@ export const userSlice = createSlice({
       if (token) {
         setCookie("token", token, {});
         setCookie("refreshToken", refreshToken, {});
-        sessionStorage.setItem("refreshToken", refreshToken);
+        setSessionStorage("token", token);
+        setSessionStorage("refreshToken", refreshToken);
         state.name = user.name;
         state.email = user.email;
         state.loggedIn = success;
@@ -42,7 +44,8 @@ export const userSlice = createSlice({
       if (token) {
         setCookie("token", token, {});
         setCookie("refreshToken", refreshToken, {});
-        sessionStorage.setItem("refreshToken", refreshToken);
+        setSessionStorage("token", token);
+        setSessionStorage("refreshToken", refreshToken);
         state.name = user.name;
         state.email = user.email;
         state.loggedIn = success;
@@ -70,7 +73,8 @@ export const userSlice = createSlice({
       if (token) {
         setCookie("token", token, {});
         setCookie("refreshToken", refreshToken, {});
-        sessionStorage.setItem("refreshToken", refreshToken);
+        setSessionStorage("token", token);
+        setSessionStorage("refreshToken", refreshToken);
         state.loggedIn = success;
       } else {
         state.loggedIn = false;

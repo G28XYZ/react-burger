@@ -19,14 +19,22 @@ function AppHeader() {
               className={appHeaderStyle.link + " text_color_inactive"}
               style={onActiveLink}
             >
-              <BurgerIcon type="primary" />
-              <p className="pl-3 text text_type_main-default ">Конструктор</p>
+              {({ isActive }) => (
+                <>
+                  <BurgerIcon type={isActive ? "primary" : "secondary"} />
+                  <p className="pl-3 text text_type_main-default">Конструктор</p>
+                </>
+              )}
             </NavLink>
           </li>
           <li className={appHeaderStyle.interface__item}>
             <NavLink to="/feed" className={appHeaderStyle.link} style={onActiveLink}>
-              <ListIcon type="secondary" />
-              <p className="pl-3 text text_type_main-default">Лента заказов</p>
+              {({ isActive }) => (
+                <>
+                  <ListIcon type={isActive ? "primary" : "secondary"} />
+                  <p className="pl-3 text text_type_main-default">Лента заказов</p>
+                </>
+              )}
             </NavLink>
           </li>
           <li className={appHeaderStyle.interface__item}>
@@ -36,8 +44,12 @@ function AppHeader() {
           </li>
           <li className={appHeaderStyle.interface__item}>
             <NavLink to="/profile" className={appHeaderStyle.link} style={onActiveLink}>
-              <ProfileIcon type="secondary" />
-              <p className="pl-3 text text_type_main-default">Личный кабинет</p>
+              {({ isActive }) => (
+                <>
+                  <ProfileIcon type={isActive ? "primary" : "secondary"} />
+                  <p className="pl-3 text text_type_main-default">Личный кабинет</p>
+                </>
+              )}
             </NavLink>
           </li>
         </ul>
