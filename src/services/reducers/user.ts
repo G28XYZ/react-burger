@@ -37,12 +37,14 @@ export const userSlice = createSlice({
     });
 
     builder.addCase(onRegister.fulfilled, (state, action) => {
-      const { accessToken, refreshToken, success } = action.payload;
+      const { accessToken, refreshToken, success, user } = action.payload;
       const token = accessToken.replace("Bearer ", "");
       if (token) {
         setCookie("token", token, {});
         setCookie("refreshToken", refreshToken, {});
         sessionStorage.setItem("refreshToken", refreshToken);
+        state.name = user.name;
+        state.email = user.email;
         state.loggedIn = success;
       } else {
         state.loggedIn = false;

@@ -2,22 +2,24 @@ import { useEffect } from "react";
 import AppHeader from "../app-header/AppHeader";
 import appStyle from "./app.module.css";
 import { fetchIngredients } from "../../services/actions/ingredients";
-// import Preloader from "../Preloader";
+// import Preloader from "../preloader";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import Main from "../main/Main";
+import {
+  Main,
+  Profile,
+  Login,
+  Register,
+  ForgotPassword,
+  ResetPassword,
+  NotFound,
+} from "../../pages";
 import ProtectedRoute from "../protected-route/ProtectedRoute";
-import Login from "../auth/Login";
-import Profile from "../profile/Profile";
-import Register from "../auth/Register";
-import ForgotPassword from "../auth/ForgotPassword";
-import ResetPassword from "../auth/ResetPassword";
 import { onGetUser, onRefreshToken } from "../../services/actions/user";
 import { getCookie } from "../../utils/getCookie";
 import PrivateRoute from "../private-route/PrivateRoute";
 import IngredientDetails from "../ingredient-modal/IngredientDetails";
 import Modal from "../modal/Modal";
-import NotFound from "../NotFound/NotFound";
 
 // по совету наставника временно задана декларация чтобы обойти ошибку TS2322 возникающая на ui элементе Tab
 declare module "react" {
@@ -87,6 +89,7 @@ function App() {
         <Route path="/register" element={<PrivateRoute />}>
           <Route path="" element={<Register />} />
         </Route>
+
         <Route path="*" element={<NotFound />} />
       </Routes>
 

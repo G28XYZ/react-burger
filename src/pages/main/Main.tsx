@@ -1,6 +1,6 @@
-import BurgerConstructor from "../burger-constructor/BurgerConstructor";
-import BurgerIngredients from "../burger-ingredients/BurgerIngredients";
-import style from "../app/app.module.css";
+import BurgerConstructor from "../../components/burger-constructor/BurgerConstructor";
+import BurgerIngredients from "../../components/burger-ingredients/BurgerIngredients";
+import style from "../../components/app/app.module.css";
 import { useAppSelector } from "../../services/store";
 
 function Main() {
