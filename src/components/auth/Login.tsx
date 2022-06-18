@@ -3,7 +3,7 @@ import {
   EmailInput,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import { onLogin } from "../../services/actions/user";
 import { useAppDispatch } from "../../services/store";
@@ -14,7 +14,7 @@ function Login() {
 
   const [form, setForm] = useState({ email: "", password: "" });
 
-  const handleChangeForm = (e: any) => {
+  const handleChangeForm = (e: ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -27,16 +27,8 @@ function Login() {
     <div className={style.auth}>
       <form className={style.form} onSubmit={handleSubmit}>
         <h2 className="text text_type_main-medium">Вход</h2>
-        <EmailInput
-          onChange={handleChangeForm}
-          value={form.email}
-          name={"email"}
-        />
-        <PasswordInput
-          onChange={handleChangeForm}
-          value={form.password}
-          name={"password"}
-        />
+        <EmailInput onChange={handleChangeForm} value={form.email} name={"email"} />
+        <PasswordInput onChange={handleChangeForm} value={form.password} name={"password"} />
         <Button type="primary" size="large">
           Войти
         </Button>
@@ -45,13 +37,13 @@ function Login() {
         <ul className={style.list}>
           <li className="text text_type_main-default text_color_inactive">
             Вы — новый пользователь?
-            <Link to="/sign-up" className={style.link}>
+            <Link to="/register" className={style.link + " pl-3"}>
               Зарегистрироваться
             </Link>
           </li>
           <li className="text text_type_main-default text_color_inactive">
             Забыли пароль?
-            <Link to="/forgot-password" className={style.link}>
+            <Link to="/forgot-password" className={style.link + " pl-3"}>
               Восстановить пароль
             </Link>
           </li>

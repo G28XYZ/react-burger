@@ -1,8 +1,5 @@
-import {
-  Button,
-  Input,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState } from "react";
+import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { onForgotPassword } from "../../services/actions/user";
 import { useAppDispatch } from "../../services/store";
@@ -13,11 +10,11 @@ function ForgotPassword() {
   const [form, setForm] = useState({ email: "" });
   const navigate = useNavigate();
 
-  const handleChangeForm = (e: any) => {
+  const handleChangeForm = (e: ChangeEvent<HTMLInputElement>) => {
     setForm({ email: e.target.value });
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(onForgotPassword(form.email)).then(({ payload }) => {
       if (payload) navigate("/reset-password");
@@ -45,7 +42,7 @@ function ForgotPassword() {
       <div>
         <p className="text text_type_main-default text_color_inactive">
           Вспомнили пароль?
-          <Link to="/sign-in" className={style.link}>
+          <Link to="/login" className={style.link + " pl-3"}>
             Войти
           </Link>
         </p>

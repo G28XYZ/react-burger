@@ -17,6 +17,7 @@ import { getCookie } from "../../utils/getCookie";
 import PrivateRoute from "../private-route/PrivateRoute";
 import IngredientDetails from "../ingredient-modal/IngredientDetails";
 import Modal from "../modal/Modal";
+import NotFound from "../NotFound/NotFound";
 
 // по совету наставника временно задана декларация чтобы обойти ошибку TS2322 возникающая на ui элементе Tab
 declare module "react" {
@@ -86,6 +87,7 @@ function App() {
         <Route path="/register" element={<PrivateRoute />}>
           <Route path="" element={<Register />} />
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
 
       {locationState?.backgroundLocation && (

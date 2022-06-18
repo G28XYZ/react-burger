@@ -1,9 +1,5 @@
-import {
-  Button,
-  Input,
-  PasswordInput,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import { FormEvent, useState } from "react";
+import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import { onRegister } from "../../services/actions/user";
 import { useAppDispatch } from "../../services/store";
@@ -13,7 +9,7 @@ function Register() {
   const dispatch = useAppDispatch();
   const [form, setForm] = useState({ email: "", password: "", name: "" });
 
-  const handleChangeForm = (e: any) => {
+  const handleChangeForm = (e: ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -46,23 +42,21 @@ function Register() {
           errorText={"Ошибка"}
           size={"default"}
         />
-        <PasswordInput
-          onChange={handleChangeForm}
-          value={form.password}
-          name={"password"}
-        />
+        <PasswordInput onChange={handleChangeForm} value={form.password} name={"password"} />
         <Button type="primary" size="large">
           Зарегистрироваться
         </Button>
       </form>
-      <div>
-        <p className="text text_type_main-default text_color_inactive">
-          Уже зарегистрированы?
-        </p>
-        <Link to="/sign-in" className={style.link}>
-          Войти
-        </Link>
-      </div>
+      <nav>
+        <ul className={style.list}>
+          <li className="text text_type_main-default text_color_inactive">
+            Уже зарегистрированы?
+            <Link to="/login" className={style.link + " pl-3"}>
+              Войти
+            </Link>
+          </li>
+        </ul>
+      </nav>
     </div>
   );
 }
