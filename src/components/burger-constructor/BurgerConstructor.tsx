@@ -5,7 +5,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-constructor.module.css";
 import { Ingredient } from "../../utils/types";
-import OrderDetails from "../order-modal/OrderDetails";
+import OrderDetails from "../order-details/OrderDetails";
 import Modal from "../modal/Modal";
 import { onRegisterOrder } from "../../services/actions/order";
 import { useAppDispatch, useAppSelector } from "../../services/store";
@@ -109,7 +109,7 @@ function BurgerConstructor() {
       </div>
 
       {state.modal.orderInModal && (
-        <Modal onCloseModal={handleCloseModal} title="">
+        <Modal onCloseModal={handleCloseModal}>
           <OrderDetails orderId={state.order.id} />
         </Modal>
       )}

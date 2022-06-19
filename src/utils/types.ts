@@ -42,6 +42,12 @@ export interface IStateIngredients {
   isDrag: boolean | undefined;
 }
 
+export interface IStateUser {
+  name: string;
+  email: string;
+  loggedIn: boolean;
+}
+
 export interface IModal {
   orderInModal: boolean;
   ingredientInModal: Ingredient | null;

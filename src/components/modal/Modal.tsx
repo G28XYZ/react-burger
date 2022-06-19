@@ -6,12 +6,11 @@ import ModalOverlay from "../modal-overlay/ModalOverlay";
 const modal = document.getElementById("react-modals") as HTMLElement;
 
 export interface ModalProps {
-  title?: string;
   children: ReactNode;
   onCloseModal: () => void;
 }
 
-function Modal({ title = "", children, onCloseModal }: ModalProps) {
+function Modal({ children, onCloseModal }: ModalProps) {
   const [popupClass, setPopupClass] = useState(style.popup);
 
   const handleCloseModalByEsc = useCallback(
@@ -37,7 +36,6 @@ function Modal({ title = "", children, onCloseModal }: ModalProps) {
       <ModalOverlay onCloseModal={onCloseModal} />
       <div className={style.container}>
         <div className={style.header}>
-          <h2 className="text text_type_main-large">{title}</h2>
           <button className={style.close} onClick={onCloseModal}></button>
         </div>
         {children}

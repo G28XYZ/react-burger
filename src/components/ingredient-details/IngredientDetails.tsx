@@ -1,9 +1,25 @@
-import { Ingredient } from "../../utils/types";
+import { useEffect, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
+import { useAppSelector } from "../../services/store";
+import { Ingredient, IStateIngredients } from "../../utils/types";
 import style from "./ingredient-details.module.css";
 
 const shortid = require("shortid");
 
-function IngredientDetails({ ingredient }: { ingredient: Ingredient }) {
+function IngredientDetails() {
+  const params = useParams();
+  const { loading, ingredients } = useAppSelector(
+    (state) => state.ingredients as IStateIngredients
+  );
+  const [ingredient, setIngredient] = useState({} as Ingredient);
+  const location = useLocation() as { state: { backgroundLocation: Location } };
+  const background = location.state?.backgroundLocation;
+
+  useEffect(() => {
+    if (loading)
+      setIngredient(ingredients.find((item: Ingredient) => item._id === params.id) as Ingredient);
+  }, [ingredients, loading, params.id]);
+
   const structureList = [
     ["calories", "Калории, ккал"],
     ["proteins", "Белки, г"],
@@ -12,7 +28,8 @@ function IngredientDetails({ ingredient }: { ingredient: Ingredient }) {
   ];
 
   return (
-    <div className={style.modal}>
+    <div className={`${style.modal} ${!background && "pt-30"}`}>
+      <h2 className="text text_type_main-large">Детали ингредиента</h2>
       <img src={ingredient.image_large} alt={ingredient.name} />
       <p className="text text_type_main-medium  pb-5">{ingredient.name}</p>
       <ul className={style.structure + " text text_type_main-default text_color_inactive"}>

@@ -1,14 +1,17 @@
 import { address } from "./constants";
 
 class Api {
-  constructor(address) {
+  _address: string;
+  _headers: { [ket: string]: string | number };
+
+  constructor(address: string) {
     this._address = address;
     this._headers = {
       "Content-type": "application/json",
     };
   }
 
-  _handleResponse(response) {
+  _handleResponse(response: Response) {
     return response.ok ? response.json() : Promise.reject(response.status);
   }
 
@@ -16,12 +19,12 @@ class Api {
     return fetch(`${this._address}/ingredients`).then(this._handleResponse);
   }
 
-  getOrder(ingredients) {
+  getOrder(ingredients: {}) {
     return fetch(`${this._address}/orders`, {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify(ingredients),
-    }).then(this._handleResponse);
+    } as {}).then(this._handleResponse);
   }
 }
 

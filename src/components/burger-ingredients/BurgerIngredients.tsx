@@ -3,18 +3,13 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredient from "../burger-ingredient/BurgerIngredient";
 import style from "./burger-ingredients.module.css";
 import { Ingredient, ISorted } from "../../utils/types";
-import Modal from "../modal/Modal";
-import IngredientDetails from "../ingredient-modal/IngredientDetails";
-import { useAppDispatch, useAppSelector } from "../../services/store";
+import { useAppSelector } from "../../services/store";
 import { InView } from "react-intersection-observer";
-import modalSlice from "../../services/reducers/modal";
 
 function BurgerIngredients() {
-  const state = useAppSelector((state) => state);
-  const dispatch = useAppDispatch();
-  const { ingredientInModal } = state.modal;
-  const { closeModal } = modalSlice.actions;
-  const ingredients: ISorted = state.ingredients.sortedIngredients;
+  const state = useAppSelector((state) => state.ingredients);
+
+  const ingredients: ISorted = state.sortedIngredients;
   const ingredientNames = Object.keys(ingredients);
   const [currentIngredient, setCurrentIngredient] = useState("Булки");
   // создание n рефов из массива с названиями категории ингредиента
@@ -42,10 +37,6 @@ function BurgerIngredients() {
     if (isView) {
       setCurrentIngredient(nameIngredient);
     }
-  }
-
-  function handleCloseModal() {
-    dispatch(closeModal());
   }
 
   return (
@@ -81,11 +72,6 @@ function BurgerIngredients() {
           );
         })}
       </div>
-      {ingredientInModal && (
-        <Modal title="Детали заказа" onCloseModal={handleCloseModal}>
-          <IngredientDetails ingredient={ingredientInModal} />
-        </Modal>
-      )}
     </section>
   );
 }

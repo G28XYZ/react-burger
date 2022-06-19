@@ -1,19 +1,13 @@
 .header {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   box-sizing: border-box;
   width: 100%;
   background-color: rgba(28, 28, 33, 1);
 }
 
 .menu {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   max-width: 1280px;
   width: 100%;
+  margin: 0 auto;
 }
 
 .interface {
@@ -22,39 +16,38 @@
   gap: 20px;
   margin: 0;
   padding: 0;
+  width: 100%;
 }
 
 .interface__item {
   display: flex;
   align-items: center;
+  width: 14%;
 }
 
-.profile {
+.interface__item:nth-child(3) {
+  width: 40%;
+  justify-content: center;
+}
+
+.interface__item:last-child {
+  width: 30%;
+  justify-content: end;
+}
+
+.link {
   display: flex;
   text-decoration: none;
-  color: white;
   align-items: center;
 }
 
-.logo {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 0);
-}
-
 @media screen and (max-width: 1200px) {
-  .menu {
-    flex-direction: column-reverse;
-    padding-top: 50px;
-    gap: 20px;
-  }
-  .logo {
-    top: 10px;
-  }
   .interface {
-    flex-direction: column;
+    flex-direction: column-reverse;
+    align-items: center;
   }
-  .profile {
-    padding-bottom: 20px;
+  .interface__item:nth-child(n) {
+    width: auto;
+    justify-content: center;
   }
 }
