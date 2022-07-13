@@ -1,12 +1,12 @@
-import { Ingredient } from "../../utils/types";
+import { CollectedProps, DragObject, DropResult, Ingredient } from "../../utils/types";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "../burger-constructor/burger-constructor.module.css";
 import { useDrag, useDrop, XYCoord } from "react-dnd";
-import { useRef } from "react";
+import { FC, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import orderSlice from "../../services/reducers/order";
 
-function ConstructorIngredient({ item }: { item: Ingredient }) {
+const ConstructorIngredient: FC<{ item: Ingredient }> = ({ item }) => {
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state);
   const { isDrag } = state.ingredients;
@@ -14,7 +14,7 @@ function ConstructorIngredient({ item }: { item: Ingredient }) {
   const { setDragged, moveIngredient, deleteInOrder } = orderSlice.actions;
   const ref = useRef<HTMLDivElement>(null);
 
-  const [{ opacity }, drag] = useDrag({
+  const [{ opacity }, drag] = useDrag<DragObject, DropResult, CollectedProps>({
     type: "constructor_ingredient",
     item: item as Ingredient,
     collect: (monitor) => ({
@@ -25,7 +25,7 @@ function ConstructorIngredient({ item }: { item: Ingredient }) {
     },
   });
 
-  const [, dropTarget] = useDrop({
+  const [, dropTarget] = useDrop<CollectedProps>({
     accept: ["constructor_ingredient", "ingredient"],
     collect: (monitor) => ({
       isHover: monitor.isOver(),
@@ -66,7 +66,7 @@ function ConstructorIngredient({ item }: { item: Ingredient }) {
     dispatch(deleteInOrder({ deletedItem: item }));
   }
 
-  const [, dropDragIcon] = useDrop({
+  const [, dropDragIcon] = useDrop<CollectedProps>({
     accept: "ingredient",
     hover: (ingredient) => {
       const dragItem = ingredient as Ingredient;
@@ -94,6 +94,6 @@ function ConstructorIngredient({ item }: { item: Ingredient }) {
       </div>
     </div>
   ) : null;
-}
+};
 
 export default ConstructorIngredient;

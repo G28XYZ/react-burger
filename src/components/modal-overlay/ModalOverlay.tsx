@@ -1,7 +1,10 @@
+import { FC } from "react";
 import style from "./modal-overlay.module.css";
 
-function ModalOverlay({ onCloseModal }: { onCloseModal: () => void }) {
+const ModalOverlay: FC<{
+  onCloseModal: () => void;
+}> = ({ onCloseModal }) => {
   return <div onClick={onCloseModal} className={style.overlay}></div>;
-}
+};
 
 export default ModalOverlay;

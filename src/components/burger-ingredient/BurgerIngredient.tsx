@@ -1,18 +1,14 @@
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-ingredient.module.css";
-import { Ingredient } from "../../utils/types";
+import { CollectedProps, DragObject, DropResult, IngredientProp } from "../../utils/types";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import { useDrag } from "react-dnd";
-import { useEffect, useMemo, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import orderSlice from "../../services/reducers/order";
 import { Link, useLocation } from "react-router-dom";
 import ingredientsSlice from "../../services/reducers/ingredients";
 
-export interface IngredientProp {
-  ingredient: Ingredient;
-}
-
-const BurgerIngredient = ({ ingredient }: IngredientProp) => {
+const BurgerIngredient: FC<IngredientProp> = ({ ingredient }) => {
   const state = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
   const location = useLocation();
@@ -20,16 +16,16 @@ const BurgerIngredient = ({ ingredient }: IngredientProp) => {
   const { setDrag } = ingredientsSlice.actions;
 
   const orderList = Array.from([...state.order.list, state.order.bun]);
-  const orderListLength = useMemo(
+  const orderListLength = useMemo<number>(
     () => orderList.filter((item) => item._id === ingredient._id).length,
     [ingredient._id, orderList]
   );
 
-  const [count, setCount] = useState(orderListLength);
+  const [count, setCount] = useState<number>(orderListLength);
 
-  const [{ opacity, onDrag }, ref] = useDrag({
+  const [{ opacity, onDrag }, ref] = useDrag<DragObject, DropResult, CollectedProps>({
     type: "ingredient",
-    item: ingredient as Ingredient,
+    item: ingredient,
     collect: (monitor) => ({
       opacity: monitor.isDragging() ? 0.5 : 1,
       onDrag: monitor.isDragging(),

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { FC, useEffect } from "react";
 import AppHeader from "../app-header/AppHeader";
 import appStyle from "./app.module.css";
 import { fetchIngredients } from "../../services/actions/ingredients";
@@ -29,7 +29,7 @@ declare module "react" {
   }
 }
 
-function App() {
+const App: FC = () => {
   const dispatch = useAppDispatch();
   const { loggedIn } = useAppSelector((state) => state.user);
   const location = useLocation();
@@ -61,7 +61,9 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (loggedIn) dispatch(fetchIngredients());
+    if (loggedIn) {
+      dispatch(fetchIngredients());
+    }
   }, [dispatch, loggedIn]);
 
   return (
@@ -104,6 +106,6 @@ function App() {
       )}
     </div>
   );
-}
+};
 
 export default App;

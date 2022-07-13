@@ -1,17 +1,18 @@
-import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { FC, useEffect, useState } from "react";
+import { Params, useLocation, useParams } from "react-router-dom";
 import { useAppSelector } from "../../services/store";
+import { structureNames } from "../../utils/constants";
 import { Ingredient, IStateIngredients } from "../../utils/types";
 import style from "./ingredient-details.module.css";
 
 const shortid = require("shortid");
 
-function IngredientDetails() {
-  const params = useParams();
+const IngredientDetails: FC = () => {
+  const params = useParams<Params>();
   const { loading, ingredients } = useAppSelector(
     (state) => state.ingredients as IStateIngredients
   );
-  const [ingredient, setIngredient] = useState({} as Ingredient);
+  const [ingredient, setIngredient] = useState<Ingredient>({} as Ingredient);
   const location = useLocation() as { state: { backgroundLocation: Location } };
   const background = location.state?.backgroundLocation;
 
@@ -20,20 +21,13 @@ function IngredientDetails() {
       setIngredient(ingredients.find((item: Ingredient) => item._id === params.id) as Ingredient);
   }, [ingredients, loading, params.id]);
 
-  const structureList = [
-    ["calories", "Калории, ккал"],
-    ["proteins", "Белки, г"],
-    ["fat", "Жиры, г"],
-    ["carbohydrates", "Углеводы, г"],
-  ];
-
   return (
     <div className={`${style.modal} ${!background && "pt-30"}`}>
       <h2 className="text text_type_main-large">Детали ингредиента</h2>
       <img src={ingredient.image_large} alt={ingredient.name} />
       <p className="text text_type_main-medium  pb-5">{ingredient.name}</p>
       <ul className={style.structure + " text text_type_main-default text_color_inactive"}>
-        {structureList.map((element, i) => {
+        {structureNames.map((element: string[]) => {
           const key = element[0] as keyof Ingredient;
           const title = element[1];
           return (
@@ -46,6 +40,6 @@ function IngredientDetails() {
       </ul>
     </div>
   );
-}
+};
 
 export default IngredientDetails;

@@ -1,20 +1,16 @@
-import { ReactNode, useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import style from "./modal.module.css";
 import ModalOverlay from "../modal-overlay/ModalOverlay";
+import { IModalProps, TCallbackModalCloseByEsc } from "../../utils/types";
 
 const modal = document.getElementById("react-modals") as HTMLElement;
 
-export interface ModalProps {
-  children: ReactNode;
-  onCloseModal: () => void;
-}
+const Modal: FC<IModalProps> = ({ children, onCloseModal }) => {
+  const [popupClass, setPopupClass] = useState<string>(style.popup);
 
-function Modal({ children, onCloseModal }: ModalProps) {
-  const [popupClass, setPopupClass] = useState(style.popup);
-
-  const handleCloseModalByEsc = useCallback(
-    (e: KeyboardEvent) => {
+  const handleCloseModalByEsc = useCallback<TCallbackModalCloseByEsc>(
+    (e) => {
       if (e.code === "Escape") {
         onCloseModal();
       }
@@ -43,6 +39,6 @@ function Modal({ children, onCloseModal }: ModalProps) {
     </div>,
     modal
   );
-}
+};
 
 export default Modal;

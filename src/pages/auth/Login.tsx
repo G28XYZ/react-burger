@@ -3,16 +3,19 @@ import {
   EmailInput,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FC, FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import { onLogin } from "../../services/actions/user";
 import { useAppDispatch } from "../../services/store";
 import style from "./auth.module.css";
 
-function Login() {
+const Login: FC = () => {
   const dispatch = useAppDispatch();
 
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [form, setForm] = useState<{ [key: string]: string }>({
+    email: "",
+    password: "",
+  });
 
   const handleChangeForm = (e: ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -51,6 +54,6 @@ function Login() {
       </nav>
     </div>
   );
-}
+};
 
 export default Login;

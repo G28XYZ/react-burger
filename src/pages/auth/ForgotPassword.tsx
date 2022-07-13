@@ -1,13 +1,13 @@
 import { Button, Input, Logo } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FC, FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { onForgotPassword } from "../../services/actions/user";
 import { useAppDispatch } from "../../services/store";
 import style from "./auth.module.css";
 
-function ForgotPassword() {
+const ForgotPassword: FC = () => {
   const dispatch = useAppDispatch();
-  const [form, setForm] = useState({ email: "" });
+  const [form, setForm] = useState<{ email: string }>({ email: "" });
   const navigate = useNavigate();
 
   const handleChangeForm = (e: ChangeEvent<HTMLInputElement>) => {
@@ -50,6 +50,6 @@ function ForgotPassword() {
       </div>
     </div>
   );
-}
+};
 
 export default ForgotPassword;

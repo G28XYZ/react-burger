@@ -1,7 +1,10 @@
+import { FC } from "react";
 import doneImage from "../../images/done.png";
 import style from "./order-details.module.css";
 
-function OrderDetails({ orderId }: { orderId: string }) {
+const OrderDetails: FC<{
+  orderId: string;
+}> = ({ orderId }: { orderId: string }) => {
   return (
     <div className={style.modal}>
       <h2 className={style.title + " text text_type_digits-large"}>{orderId}</h2>
@@ -13,6 +16,6 @@ function OrderDetails({ orderId }: { orderId: string }) {
       </p>
     </div>
   );
-}
+};
 
 export default OrderDetails;

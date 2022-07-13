@@ -16,3 +16,10 @@ export const initialBun = {
   image_large: "",
   __v: 0,
 };
+
+export const structureNames = [
+  ["calories", "Калории, ккал"],
+  ["proteins", "Белки, г"],
+  ["fat", "Жиры, г"],
+  ["carbohydrates", "Углеводы, г"],
+];

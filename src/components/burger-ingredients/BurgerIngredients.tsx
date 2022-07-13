@@ -1,21 +1,21 @@
-import { createRef, useRef, useState } from "react";
+import { createRef, FC, useRef, useState } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredient from "../burger-ingredient/BurgerIngredient";
 import style from "./burger-ingredients.module.css";
-import { Ingredient, ISorted } from "../../utils/types";
+import { Ingredient, ISorted, TRefsElement } from "../../utils/types";
 import { useAppSelector } from "../../services/store";
 import { InView } from "react-intersection-observer";
 
-function BurgerIngredients() {
+const BurgerIngredients: FC = () => {
   const state = useAppSelector((state) => state.ingredients);
 
   const ingredients: ISorted = state.sortedIngredients;
   const ingredientNames = Object.keys(ingredients);
-  const [currentIngredient, setCurrentIngredient] = useState("Булки");
+  const [currentIngredient, setCurrentIngredient] = useState<string>("Булки");
   // создание n рефов из массива с названиями категории ингредиента
   // рефы будут использованы для прокрутки к нужному месту в списке
   // при нажатии на соответствующий таб
-  const refsElement = useRef(
+  const refsElement = useRef<TRefsElement>(
     ingredientNames.map((): { current: null | HTMLDivElement } => createRef())
   );
 
@@ -28,7 +28,7 @@ function BurgerIngredients() {
     setCurrentIngredient(value);
   }
 
-  const renderIngredientsList = (ingredient: Ingredient) => {
+  const renderIngredientsList: FC<Ingredient> = (ingredient) => {
     return <BurgerIngredient key={ingredient._id} ingredient={ingredient} />;
   };
 
@@ -53,7 +53,7 @@ function BurgerIngredients() {
       </div>
       <div className={style.container + " custom-scroll"}>
         {ingredientNames.map((name, i) => {
-          const divRef: { current: null | HTMLDivElement } = refsElement.current[i];
+          const divRef = refsElement.current[i];
           return (
             <div key={i} className="pb-10" id={name} ref={divRef}>
               <InView threshold={0.5} onChange={onChangeView}>
@@ -74,6 +74,6 @@ function BurgerIngredients() {
       </div>
     </section>
   );
-}
+};
 
 export default BurgerIngredients;

@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { fetchIngredients } from "../actions/ingredients";
 import { setDrag } from "../actions/ingredients";
 
-interface Names {
+interface INames {
   [key: string]: string;
 }
 
@@ -22,7 +22,8 @@ export const ingredientsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchIngredients.fulfilled, (state, action) => {
-      const ingredientsName: Names = {
+      console.log(action);
+      const ingredientsName: INames = {
         bun: "Булки",
         sauce: "Соусы",
         main: "Начинки",
