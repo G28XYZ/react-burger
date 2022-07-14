@@ -1,11 +1,11 @@
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FC, useState } from "react";
 import { useAppSelector } from "../../services/store";
 import style from "./profile.module.css";
 
-function ProfileForm() {
+const ProfileForm: FC = () => {
   const { name, email } = useAppSelector((state) => state.user);
-  const [form, setForm] = useState({ email, password: "", name });
+  const [form, setForm] = useState<{ [key: string]: string }>({ email, password: "", name });
 
   const handleChangeForm = (e: ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -48,6 +48,6 @@ function ProfileForm() {
       />
     </form>
   );
-}
+};
 
 export default ProfileForm;

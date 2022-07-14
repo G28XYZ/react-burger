@@ -1,10 +1,11 @@
+import { FC } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import { onLogout } from "../../services/actions/user";
 import { useAppDispatch } from "../../services/store";
 import { onActiveLink } from "../../utils/onActiveLink";
 import style from "./profile.module.css";
 
-function Profile() {
+const Profile: FC = () => {
   const dispatch = useAppDispatch();
   const handleClickLogout = () => {
     const refreshToken = sessionStorage.getItem("refreshToken");
@@ -47,6 +48,6 @@ function Profile() {
       <Outlet />
     </div>
   );
-}
+};
 
 export default Profile;

@@ -1,7 +1,8 @@
+import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import style from "./not-found.module.css";
 
-function NotFound() {
+const NotFound: FC = () => {
   const navigate = useNavigate();
 
   function handleClickMain() {
@@ -17,6 +18,6 @@ function NotFound() {
       </button>
     </section>
   );
-}
+};
 
 export default NotFound;

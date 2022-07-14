@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, RefObject } from "react";
 
 export interface Ingredient {
   _id: string;
@@ -33,6 +33,7 @@ export interface IStoreProviderProps {
 
 export interface IActionIngredients {
   onDrag?: boolean;
+  request?: boolean;
 }
 
 export interface IStateIngredients {
@@ -71,3 +72,25 @@ export interface IActionModal {
   title: string;
   ingredient: Ingredient;
 }
+
+export type TRefsElement = Array<RefObject<HTMLDivElement>>;
+
+export interface IngredientProp {
+  ingredient: Ingredient;
+}
+
+export type DragObject = unknown;
+export type DropResult = unknown;
+export type CollectedProps = {
+  onDrag?: boolean;
+  opacity?: number;
+  isHover?: boolean;
+  handlerId?: string;
+};
+
+export interface IModalProps {
+  children: ReactNode;
+  onCloseModal: () => void;
+}
+
+export type TCallbackModalCloseByEsc = (e: KeyboardEvent) => void;

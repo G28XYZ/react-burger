@@ -1,17 +1,17 @@
 import { Button, Input, Logo } from "@ya.praktikum/react-developer-burger-ui-components";
 import { TICons } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons";
-import { ChangeEvent, FormEvent, useRef, useState } from "react";
+import { ChangeEvent, FC, FormEvent, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { onResetPassword } from "../../services/actions/user";
 import { useAppDispatch } from "../../services/store";
 import style from "./auth.module.css";
 
-function ResetPassword() {
+const ResetPassword: FC = () => {
   const dispatch = useAppDispatch();
-  const [form, setForm] = useState({ token: "", password: "" });
-  const [icon, setIcon] = useState("ShowIcon");
+  const [form, setForm] = useState<{ [key: string]: string }>({ token: "", password: "" });
+  const [icon, setIcon] = useState<string>("ShowIcon");
   const navigate = useNavigate();
-  const refPassword = useRef<HTMLInputElement | null>(null);
+  const refPassword = useRef<HTMLInputElement>(null);
 
   const handleChangeForm = (e: ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -74,6 +74,6 @@ function ResetPassword() {
       </div>
     </div>
   );
-}
+};
 
 export default ResetPassword;

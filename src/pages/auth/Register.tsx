@@ -1,13 +1,17 @@
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FC, FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import { onRegister } from "../../services/actions/user";
 import { useAppDispatch } from "../../services/store";
 import style from "./auth.module.css";
 
-function Register() {
+const Register: FC = () => {
   const dispatch = useAppDispatch();
-  const [form, setForm] = useState({ email: "", password: "", name: "" });
+  const [form, setForm] = useState<{ [key: string]: string }>({
+    email: "",
+    password: "",
+    name: "",
+  });
 
   const handleChangeForm = (e: ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -59,6 +63,6 @@ function Register() {
       </nav>
     </div>
   );
-}
+};
 
 export default Register;

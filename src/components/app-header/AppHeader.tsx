@@ -4,11 +4,12 @@ import {
   ListIcon,
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { FC } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { onActiveLink } from "../../utils/onActiveLink";
 import appHeaderStyle from "./app-header.module.css";
 
-function AppHeader() {
+const AppHeader: FC = () => {
   return (
     <header className={appHeaderStyle.header + " p-10"}>
       <nav className={appHeaderStyle.menu}>
@@ -56,6 +57,6 @@ function AppHeader() {
       </nav>
     </header>
   );
-}
+};
 
 export default AppHeader;

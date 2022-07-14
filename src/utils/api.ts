@@ -2,7 +2,7 @@ import { address } from "./constants";
 
 class Api {
   _address: string;
-  _headers: { [ket: string]: string | number };
+  _headers: HeadersInit;
 
   constructor(address: string) {
     this._address = address;
@@ -24,7 +24,7 @@ class Api {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify(ingredients),
-    } as {}).then(this._handleResponse);
+    }).then(this._handleResponse);
   }
 }
 
