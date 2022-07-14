@@ -2,7 +2,7 @@ import { FC, useEffect } from "react";
 import AppHeader from "../app-header/AppHeader";
 import appStyle from "./app.module.css";
 import { fetchIngredients } from "../../services/actions/ingredients";
-import { useAppDispatch, useAppSelector } from "../../services/store";
+import { useAppDispatch } from "../../services/store";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import {
   Main,
@@ -31,7 +31,6 @@ declare module "react" {
 
 const App: FC = () => {
   const dispatch = useAppDispatch();
-  const { loggedIn } = useAppSelector((state) => state.user);
   const location = useLocation();
   const locationState = location.state as { backgroundLocation?: Location };
   const navigation = useNavigate();
@@ -61,26 +60,24 @@ const App: FC = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (loggedIn) {
-      dispatch(fetchIngredients());
-    }
-  }, [dispatch, loggedIn]);
+    dispatch(fetchIngredients());
+  }, [dispatch]);
 
   return (
     <div className={appStyle.page}>
       <AppHeader />
       <Routes location={locationState?.backgroundLocation || location}>
-        <Route path="/" element={<ProtectedRoute />}>
-          <Route path="" element={<Main />} />
+        <Route path="" element={<Main />} />
 
+        <Route path="/" element={<ProtectedRoute />}>
           <Route path="profile" element={<Profile />}>
             <Route path="" element={<ProfileForm />} />
             <Route path="orders" element={<Orders />} />
           </Route>
-
-          <Route path="ingredient/:id" element={<IngredientDetails />} />
           <Route path="feed" element={<Feed />} />
         </Route>
+
+        <Route path="ingredient/:id" element={<IngredientDetails />} />
 
         <Route path="/" element={<PrivateRoute />}>
           <Route path="forgot-password" element={<ForgotPassword />} />

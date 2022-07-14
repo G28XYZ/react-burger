@@ -16,6 +16,7 @@ import ConstructorIngredient from "../constructor-ingredient/ConstructorIngredie
 
 function BurgerConstructor() {
   const state = useAppSelector((state) => state);
+  const { loggedIn } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const orderList = state.order.list;
   const { bun, totalPrice } = state.order;
@@ -103,7 +104,12 @@ function BurgerConstructor() {
           <p className="text text_type_digits-medium">{totalPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="large" onClick={handleOrderClick} disabled={!bun.price}>
+        <Button
+          type="primary"
+          size="large"
+          onClick={handleOrderClick}
+          disabled={!bun.price || !loggedIn}
+        >
           Оформить заказ
         </Button>
       </div>

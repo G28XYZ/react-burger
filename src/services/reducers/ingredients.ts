@@ -22,7 +22,6 @@ export const ingredientsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchIngredients.fulfilled, (state, action) => {
-      console.log(action);
       const ingredientsName: INames = {
         bun: "Булки",
         sauce: "Соусы",
