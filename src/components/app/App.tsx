@@ -68,13 +68,13 @@ const App: FC = () => {
       <AppHeader />
       <Routes location={locationState?.backgroundLocation || location}>
         <Route path="" element={<Main />} />
+        <Route path="feed" element={<Feed />} />
 
         <Route path="/" element={<ProtectedRoute />}>
           <Route path="profile" element={<Profile />}>
             <Route path="" element={<ProfileForm />} />
             <Route path="orders" element={<Orders />} />
           </Route>
-          <Route path="feed" element={<Feed />} />
         </Route>
 
         <Route path="ingredient/:id" element={<IngredientDetails />} />

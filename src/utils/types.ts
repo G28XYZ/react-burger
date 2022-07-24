@@ -38,7 +38,7 @@ export interface IActionIngredients {
 
 export interface IStateIngredients {
   loading: boolean;
-  ingredients: [] | Ingredient[];
+  ingredients: [] | ReadonlyArray<Ingredient>;
   sortedIngredients: ISorted;
   isDrag: boolean | undefined;
 }
