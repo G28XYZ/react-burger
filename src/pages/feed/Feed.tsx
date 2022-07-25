@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, CSSProperties } from "react";
 import { useSocket } from "../../hooks/useSocket";
 import { useAppSelector } from "../../services/store";
 import { wssAddress } from "../../utils/constants";
 import { Ingredient } from "../../utils/types";
-import style from "./feed.module.css";
+import style from "./feed.module.scss";
 
 function Feed() {
   const user = useAppSelector((state) => state);
@@ -50,7 +50,11 @@ function Feed() {
         <ul className={style.orders}>
           {data.success &&
             data.orders.map((order: any) => (
-              <li key={order._id} className={style.orderItem}>
+              <li
+                key={order._id}
+                className={style.orderItem}
+                style={{ "--ingredientCount": `${order.ingredients.length}` } as CSSProperties}
+              >
                 <div>
                   <p>#{order.number}</p>
                   <p>{order.createAt}</p>
@@ -58,8 +62,8 @@ function Feed() {
                 <h3>{order.name}</h3>
                 <div>
                   <div className={style.orderImages}>
-                    {order.ingredients.map((ingredientId: string) => (
-                      <div className={style.orderImageContainer}>
+                    {order.ingredients.map((ingredientId: string, i: number) => (
+                      <div key={ingredientId + i} className={style.orderImageContainer}>
                         <img
                           className={style.orderImage}
                           src={getImageById(ingredientId)}

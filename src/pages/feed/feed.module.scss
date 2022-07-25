@@ -38,15 +38,15 @@
   z-index: 2;
 }
 
-.orderImageContainer:nth-child(2) {
-  transform: translate(-70px, 0);
-  z-index: 1;
-}
+// .orderImageContainer:nth-child(2) {
+//   transform: translate(-70px, 0);
+//   z-index: 1;
+// }
 
-.orderImageContainer:nth-child(3) {
-  transform: translate(-140px, 0);
-  z-index: 0;
-}
+// .orderImageContainer:nth-child(3) {
+//   transform: translate(-140px, 0);
+//   z-index: 0;
+// }
 
 .orderImageContainer:before {
   position: absolute;
@@ -57,7 +57,7 @@
   border-radius: 50%;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -52%);
   z-index: -2;
 }
 
@@ -70,6 +70,17 @@
   border-radius: 50%;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -52%);
   z-index: -1;
+}
+
+$i: 2;
+$j: 17;
+$k: var(--ingredientCount);
+
+@for $i from $j through 1 {
+  .orderImageContainer:nth-child(#{$i}) {
+    z-index: calc(#{$k} - #{$i});
+    transform: translate(calc(-70px * #{$i - 1}), 0);
+  }
 }
