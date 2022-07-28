@@ -1,84 +1,57 @@
-import { useCallback, useEffect, useState, CSSProperties } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSocket } from "../../hooks/useSocket";
 import { useAppSelector } from "../../services/store";
 import { wssAddress } from "../../utils/constants";
-import { Ingredient } from "../../utils/types";
+import { IFetchOrdersData, Ingredient } from "../../utils/types";
 import style from "./feed.module.scss";
+import OrderFeed from "../../components/order-feed/OrderFeed";
+import StatusFeed from "../../components/status-feed/StatusFeed";
 
 function Feed() {
   const user = useAppSelector((state) => state);
   const ingredientState = useAppSelector((state) => state.ingredients);
-  const [data, setData] = useState<any>({ success: false, total: 0 });
+  const [ordersData, setOrdersData] = useState<IFetchOrdersData>({
+    orders: [],
+    success: false,
+    total: 0,
+    totalToday: 0,
+  });
 
   const processEvent = useCallback(
-    (event: any) => {
+    (event: MessageEvent) => {
       const normalizeData = JSON.parse(event.data);
       if (normalizeData.success === true) {
         console.log(normalizeData);
-        setData({ ...data, ...normalizeData });
+        setOrdersData({ ...ordersData, ...normalizeData });
       }
     },
-    [data]
+    [ordersData]
   );
 
-  const { sendData, connect } = useSocket(wssAddress, {
+  const { connect } = useSocket(wssAddress, {
     onMessage: processEvent,
   });
 
-  const getImageById = (ingredientId: string) => {
+  const getIngredientByParameter = (parameterName: string, value: string): Ingredient | undefined => {
     const findIngredient = ingredientState.ingredients.find(
-      (ingredient: Ingredient): boolean => ingredient._id === ingredientId
+      (ingredient: Ingredient): boolean => ingredient[parameterName as keyof Ingredient] === value
     );
-    if (findIngredient) {
-      return (findIngredient as Ingredient).image_mobile;
-    }
+    return findIngredient;
   };
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    if (token) {
-      connect(token);
-    }
+    connect("");
   }, []);
 
-  useEffect(() => {}, [data.total]);
+  useEffect(() => {}, [ordersData.total]);
 
   return (
     <section className={`${style.feed} pt-10`}>
+      <h2 className={`${style.feedOrdersTitle} text text_type_main-large`}>Лента заказов</h2>
       <div className={style.feedOrders}>
-        <h2 className={style.feedOrdersTitle}>Лента заказов</h2>
-        <ul className={style.orders}>
-          {data.success &&
-            data.orders.map((order: any) => (
-              <li
-                key={order._id}
-                className={style.orderItem}
-                style={{ "--ingredientCount": `${order.ingredients.length}` } as CSSProperties}
-              >
-                <div>
-                  <p>#{order.number}</p>
-                  <p>{order.createAt}</p>
-                </div>
-                <h3>{order.name}</h3>
-                <div>
-                  <div className={style.orderImages}>
-                    {order.ingredients.map((ingredientId: string, i: number) => (
-                      <div key={ingredientId + i} className={style.orderImageContainer}>
-                        <img
-                          className={style.orderImage}
-                          src={getImageById(ingredientId)}
-                          alt={ingredientId}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                  <p>Price</p>
-                </div>
-              </li>
-            ))}
-        </ul>
+        <OrderFeed ordersData={ordersData} getIngredientByParameter={getIngredientByParameter} />
+        <StatusFeed ordersData={ordersData} getIngredientByParameter={getIngredientByParameter} />
       </div>
-      <div></div>
     </section>
   );
 }
