@@ -1,3 +1,4 @@
+import { CaseReducer, PayloadAction } from "@reduxjs/toolkit";
 import { ReactNode, RefObject } from "react";
 
 export interface Ingredient {
@@ -29,48 +30,6 @@ export interface OpenModalProps {
 }
 export interface IStoreProviderProps {
   children: ReactNode;
-}
-
-export interface IActionIngredients {
-  onDrag?: boolean;
-  request?: boolean;
-}
-
-export interface IStateIngredients {
-  loading: boolean;
-  ingredients: [] | ReadonlyArray<Ingredient>;
-  sortedIngredients: ISorted;
-  isDrag: boolean | undefined;
-}
-
-export interface IStateUser {
-  name: string;
-  email: string;
-  loggedIn: boolean;
-}
-
-export interface IModal {
-  orderInModal: boolean;
-  ingredientInModal: Ingredient | null;
-  title: string;
-}
-
-export interface IOrder {
-  name: string;
-  list: Ingredient[] | [];
-  id: string;
-  bun: Ingredient | {};
-  totalPrice: number;
-  replaceIngredient: null | Ingredient;
-}
-
-export interface IActionOrder {
-  [key: string]: Ingredient | Ingredient[] | null;
-}
-
-export interface IActionModal {
-  title: string;
-  ingredient: Ingredient;
 }
 
 export type TRefsElement = Array<RefObject<HTMLDivElement>>;
@@ -111,3 +70,62 @@ export interface IFetchOrdersData {
   total: number;
   totalToday: number;
 }
+
+// Actions
+
+export type IActionIngredients = {
+  onDrag?: boolean;
+  request?: boolean;
+};
+
+export interface IActionOrder {
+  to?: Ingredient;
+  from?: Ingredient;
+  ingredient?: Ingredient | null;
+  replaceIngredient?: Ingredient | null;
+  deletedItem?: Ingredient;
+}
+
+export interface IActionModal {
+  title: string;
+  ingredient: Ingredient;
+}
+
+// StateInterfaces
+
+export interface IStateOrder {
+  name: string;
+  list: Ingredient[] | [];
+  id: string;
+  bun: Ingredient;
+  totalPrice: number;
+  replaceIngredient: null | Ingredient;
+}
+export interface IStateIngredients {
+  loading: boolean;
+  ingredients: [] | ReadonlyArray<Ingredient>;
+  sortedIngredients: ISorted;
+  isDrag: boolean | undefined;
+}
+
+export interface IStateUser {
+  name: string;
+  email: string;
+  loggedIn: boolean;
+}
+
+export interface IStateFeed {
+  ownerOrderFeedData: IFetchOrdersData;
+  allOrderFeedData: IFetchOrdersData;
+}
+
+export interface IStateModal {
+  orderInModal: boolean;
+  ingredientInModal: Ingredient | null;
+  title: string;
+}
+
+// CaseReducers
+export type TCaseReducerFeed = CaseReducer<IStateFeed, PayloadAction<{ data: IFetchOrdersData }>>;
+export type TCaseReducerIngredients = CaseReducer<IStateIngredients, PayloadAction<IActionIngredients>>;
+export type TCeseReducerOrder = CaseReducer<IStateOrder, PayloadAction<IActionOrder>>;

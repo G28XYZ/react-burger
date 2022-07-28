@@ -12,32 +12,32 @@ export const socketStates = {
   3: CLOSED,
 };
 
-export const useSocket = (url: string, options: any) => {
+export const useSocket = (url: string, options: { [key: string]: Function }) => {
   const ws = useRef<any>(null);
 
   const connect = useCallback(
     (token: string) => {
       ws.current = new WebSocket(`${url}?token=${token}`);
 
-      ws.current.onmessage = (event: any) => {
+      ws.current.onmessage = (event: MessageEvent) => {
         if (typeof options.onMessage === "function") {
           options.onMessage(event);
         }
       };
 
-      ws.current.onopen = (event: any) => {
+      ws.current.onopen = (event: Event) => {
         if (typeof options.onConnect === "function") {
           options.onConnect(event);
         }
       };
 
-      ws.current.onerror = (event: any) => {
+      ws.current.onerror = (event: Event) => {
         if (typeof options.onError === "function") {
           options.onError(event);
         }
       };
 
-      ws.current.onclose = (event: any) => {
+      ws.current.onclose = (event: CloseEvent) => {
         if (typeof options.onDisconnect === "function") {
           options.onDisconnect(event);
         }

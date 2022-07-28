@@ -17,7 +17,7 @@ const Feed: FC = () => {
       <h2 className={`${style.feedOrdersTitle} text text_type_main-large`}>Лента заказов</h2>
       {allOrderFeedData.success && (
         <div className={style.feedOrders}>
-          <OrderFeed orderFeedData={allOrderFeedData} />
+          <OrderFeed orderFeedData={allOrderFeedData} route={"/feed"} />
           <StatusFeed />
         </div>
       )}

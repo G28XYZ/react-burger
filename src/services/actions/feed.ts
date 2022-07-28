@@ -1,9 +1,9 @@
-import { PayloadAction } from "@reduxjs/toolkit";
-import { IFetchOrdersData } from "../../utils/types";
+import { TCaseReducerFeed } from "../../utils/types";
 
-export const setOrderFeedData = (
-  state: { allOrderFeedData: IFetchOrdersData },
-  action: PayloadAction<{ data: IFetchOrdersData }>
-) => {
+export const setAllOrderFeedData: TCaseReducerFeed = (state, action) => {
   state.allOrderFeedData = action.payload.data;
+};
+
+export const setOwnerOrderFeedData: TCaseReducerFeed = (state, action) => {
+  state.ownerOrderFeedData = action.payload.data;
 };

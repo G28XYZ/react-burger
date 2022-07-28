@@ -1,8 +1,4 @@
-import {
-  Button,
-  CurrencyIcon,
-  ConstructorElement,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button, CurrencyIcon, ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-constructor.module.css";
 import { Ingredient } from "../../utils/types";
 import OrderDetails from "../order-details/OrderDetails";
@@ -14,7 +10,7 @@ import modalSlice from "../../services/reducers/modal";
 import { useDrop } from "react-dnd";
 import ConstructorIngredient from "../constructor-ingredient/ConstructorIngredient";
 
-function BurgerConstructor() {
+function BurgerConstructor({ socketOwnerOrders }: { socketOwnerOrders: any }) {
   const state = useAppSelector((state) => state);
   const { loggedIn } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
@@ -24,9 +20,14 @@ function BurgerConstructor() {
   const { openModalWithOrder, closeModal } = modalSlice.actions;
 
   function handleOrderClick() {
+    socketOwnerOrders.sendData({
+      ingredients: [bun._id, ...orderList.map((item: Ingredient) => item._id), bun._id],
+      token: sessionStorage.getItem("token") || "",
+    });
     dispatch(
       onRegisterOrder({
         ingredients: [bun._id, ...orderList.map((item: Ingredient) => item._id), bun._id],
+        token: sessionStorage.getItem("token") || "",
       })
     );
     dispatch(openModalWithOrder());
@@ -84,9 +85,7 @@ function BurgerConstructor() {
 
         <div className={`${style.middle} custom-scroll`}>
           {state.order.list.length >= 1 &&
-            orderList.map((item: Ingredient) => (
-              <ConstructorIngredient key={item.shortId} item={item} />
-            ))}
+            orderList.map((item: Ingredient) => <ConstructorIngredient key={item.shortId} item={item} />)}
         </div>
 
         <div className={style.element}>
@@ -104,12 +103,7 @@ function BurgerConstructor() {
           <p className="text text_type_digits-medium">{totalPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button
-          type="primary"
-          size="large"
-          onClick={handleOrderClick}
-          disabled={!bun.price || !loggedIn}
-        >
+        <Button type="primary" size="large" onClick={handleOrderClick} disabled={!bun.price || !loggedIn}>
           Оформить заказ
         </Button>
       </div>

@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { initialBun } from "../../utils/constants";
+import { IStateOrder } from "../../utils/types";
 import { onRegisterOrder } from "../actions/order";
 import {
   addBunToOrder,
@@ -22,7 +23,7 @@ const initialState = {
 
 export const orderSlice = createSlice({
   name: "order",
-  initialState,
+  initialState: initialState as IStateOrder,
   reducers: {
     addBunToOrder,
     addToOrder,

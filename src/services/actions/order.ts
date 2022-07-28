@@ -1,13 +1,13 @@
-import { createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../utils/api";
 import { initialBun } from "../../utils/constants";
-import { IActionOrder, Ingredient, IOrder } from "../../utils/types";
+import { Ingredient, IStateOrder, TCeseReducerOrder } from "../../utils/types";
 const shortId = require("shortid");
 
 export const onRegisterOrder = createAsyncThunk(
   "order/onRegisterOrder",
-  async (ingredients: { ingredients: string[] }) => {
-    const response = await api.getOrder(ingredients);
+  async ({ ingredients, token }: { ingredients: string[]; token: string }) => {
+    const response = await api.getOrder(ingredients, token);
     if (response.success) {
       return response;
     } else {
@@ -17,23 +17,21 @@ export const onRegisterOrder = createAsyncThunk(
   }
 );
 
-export const deleteInOrder = (state: IOrder, action: PayloadAction<IActionOrder>) => {
+export const deleteInOrder: TCeseReducerOrder = (state, action) => {
   const deletedItem = action.payload.deletedItem as Ingredient;
   state.list = state.list.filter((item: Ingredient) => item.shortId !== deletedItem.shortId);
 };
 
-export const addBunToOrder = (state: IOrder, action: PayloadAction<IActionOrder>) => {
+export const addBunToOrder: TCeseReducerOrder = (state, action) => {
   state.bun = action.payload.ingredient as Ingredient;
 };
 
-export const addToOrder = (state: IOrder, action: PayloadAction<IActionOrder>) => {
+export const addToOrder: TCeseReducerOrder = (state, action) => {
   const ingredient = Object.assign({ shortId: shortId.generate() }, action.payload.ingredient);
-  const replaceItem = action.payload.replaceIngredient as Ingredient;
+  const replaceItem = action.payload.replaceIngredient;
   let newList = [...state.list];
   if (replaceItem) {
-    const replaceIndex = newList.findIndex(
-      (item: Ingredient) => replaceItem.shortId === item.shortId
-    );
+    const replaceIndex = newList.findIndex((item: Ingredient) => replaceItem.shortId === item.shortId);
     newList.splice(replaceIndex, 1, ingredient as Ingredient);
     state.list = newList;
     state.replaceIngredient = null;
@@ -42,21 +40,17 @@ export const addToOrder = (state: IOrder, action: PayloadAction<IActionOrder>) =
   }
 };
 
-export const orderTotalPrice = (state: IOrder) => {
+export const orderTotalPrice = (state: IStateOrder) => {
   const orderList = state.list as [];
-  const bun = state.bun as Ingredient;
-
-  state.totalPrice = orderList.reduce(
-    (total: number, item: Ingredient) => total + item.price,
-    bun.price * 2
-  );
+  const bun = state.bun;
+  state.totalPrice = orderList.reduce((total: number, item: Ingredient) => total + item.price, bun.price * 2);
 };
 
-export const setDragged = (state: IOrder, action: PayloadAction<IActionOrder>) => {
+export const setDragged: TCeseReducerOrder = (state, action) => {
   state.replaceIngredient = action.payload.ingredient as Ingredient | null;
 };
 
-export const moveIngredient = (state: IOrder, action: PayloadAction<IActionOrder>) => {
+export const moveIngredient: TCeseReducerOrder = (state, action) => {
   let from = Object.assign(action.payload.from as Ingredient);
   let to = Object.assign(action.payload.to as Ingredient);
   let newList = [...state.list];
@@ -66,7 +60,7 @@ export const moveIngredient = (state: IOrder, action: PayloadAction<IActionOrder
   state.list = newList;
 };
 
-export const resetOrder = (state: IOrder) => {
+export const resetOrder = (state: IStateOrder) => {
   state.list = [];
   state.bun = initialBun;
   state.id = "";

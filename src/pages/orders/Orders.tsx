@@ -1,17 +1,19 @@
 import { FC, useEffect } from "react";
 import OrderFeed from "../../components/order-feed/OrderFeed";
+import { useAppSelector } from "../../services/store";
+import style from "./profile-orders.module.css";
 
 const Orders: FC = () => {
+  const { ownerOrderFeedData } = useAppSelector((state) => state.feed);
   useEffect(() => {}, []);
 
   return (
     <section>
-      {/* <h2 className={`${style.feedOrdersTitle} text text_type_main-large`}>Лента заказов</h2>
-      {orderFeedData.success && (
+      {ownerOrderFeedData.success && (
         <div className={style.feedOrders}>
-          <OrderFeed orderFeedData={orderFeedData} />
+          <OrderFeed orderFeedData={ownerOrderFeedData} route={"/profile/orders"} />
         </div>
-      )} */}
+      )}
     </section>
   );
 };

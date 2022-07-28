@@ -1,4 +1,4 @@
-import { address } from "./constants";
+import { apiAddress } from "./constants";
 
 class Api {
   _address: string;
@@ -19,15 +19,18 @@ class Api {
     return fetch(`${this._address}/ingredients`).then(this._handleResponse);
   }
 
-  getOrder(ingredients: {}) {
+  getOrder(ingredients: string[], token: string) {
     return fetch(`${this._address}/orders`, {
       method: "POST",
-      headers: this._headers,
-      body: JSON.stringify(ingredients),
+      headers: {
+        ...this._headers,
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify({ ingredients }),
     }).then(this._handleResponse);
   }
 }
 
-const api = new Api(address);
+const api = new Api(apiAddress);
 
 export default api;

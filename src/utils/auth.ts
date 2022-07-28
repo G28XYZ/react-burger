@@ -1,4 +1,4 @@
-import { address } from "./constants";
+import { apiAddress } from "./constants";
 
 class Auth {
   _address: string;
@@ -94,6 +94,6 @@ class Auth {
   }
 }
 
-const auth = new Auth(address);
+const auth = new Auth(apiAddress);
 
 export default auth;

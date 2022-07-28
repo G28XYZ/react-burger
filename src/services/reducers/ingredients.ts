@@ -1,4 +1,4 @@
-import { Ingredient, ISorted } from "../../utils/types";
+import { Ingredient, ISorted, IStateIngredients } from "../../utils/types";
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchIngredients } from "../actions/ingredients";
 import { setDrag } from "../actions/ingredients";
@@ -12,7 +12,7 @@ const initialState = {
   ingredients: [],
   sortedIngredients: {},
   isDrag: false,
-};
+} as IStateIngredients;
 
 export const ingredientsSlice = createSlice({
   name: "ingredients",
@@ -28,18 +28,15 @@ export const ingredientsSlice = createSlice({
         main: "Начинки",
       };
       // сортировка всех ингредиентов по типу
-      state.sortedIngredients = action.payload.reduce(
-        (object: ISorted, currentItem: Ingredient) => {
-          const key = ingredientsName[currentItem.type];
-          if (object[key]) {
-            object[key] = [...object[key], currentItem];
-          } else {
-            object[key] = [currentItem];
-          }
-          return object;
-        },
-        {}
-      );
+      state.sortedIngredients = action.payload.reduce((object: ISorted, currentItem: Ingredient) => {
+        const key = ingredientsName[currentItem.type];
+        if (object[key]) {
+          object[key] = [...object[key], currentItem];
+        } else {
+          object[key] = [currentItem];
+        }
+        return object;
+      }, {});
 
       state.ingredients = action.payload;
       state.loading = true;

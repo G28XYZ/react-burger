@@ -3,7 +3,7 @@ import { CSSProperties, FC, useState } from "react";
 import { useAppSelector } from "../../services/store";
 import { formatDateOrder } from "../../utils/formatDateOrder";
 import { getIngredientByParameter } from "../../utils/getIngredientByParameter";
-import { IFetchOrderItem } from "../../utils/types";
+import { IFetchOrderItem, Ingredient } from "../../utils/types";
 import style from "./order-feed.module.scss";
 
 const OrderFeedComponent: FC<{ order: IFetchOrderItem }> = ({ order }) => {
@@ -12,11 +12,11 @@ const OrderFeedComponent: FC<{ order: IFetchOrderItem }> = ({ order }) => {
   const countIngredientsInOrder = order.ingredients.length;
 
   const getPrice = (ingredientId: string): number => {
-    return getIngredientByParameter("_id", ingredientId, ingredients)?.price || 0;
+    return getIngredientByParameter("_id", ingredientId, ingredients as Ingredient[])?.price || 0;
   };
 
   const getImage = (ingredientId: string): string => {
-    return getIngredientByParameter("_id", ingredientId, ingredients)?.image_mobile || "";
+    return getIngredientByParameter("_id", ingredientId, ingredients as Ingredient[])?.image_mobile || "";
   };
 
   const MoreOverlayElement = () => {
@@ -38,6 +38,7 @@ const OrderFeedComponent: FC<{ order: IFetchOrderItem }> = ({ order }) => {
         <p className="text text_type_main-default text_color_inactive">{formatDateOrder(order.updatedAt)}</p>
       </div>
       <h3 className="text text_type_main-medium">{order.name}</h3>
+
       <div className={`${style.orderInfo}`}>
         <div className={style.orderImages}>
           {order.ingredients.slice(0, totalCount).map((ingredientId: string, i: number) => (

@@ -4,10 +4,12 @@ import { Params, useLocation, useParams } from "react-router-dom";
 import { useAppSelector } from "../../services/store";
 import { formatDateOrder } from "../../utils/formatDateOrder";
 import { getIngredientByParameter } from "../../utils/getIngredientByParameter";
-import { IFetchOrderItem, IFetchOrdersData, Ingredient } from "../../utils/types";
+import { IFetchOrderItem, Ingredient, IStateFeed } from "../../utils/types";
 import style from "./feed-details.module.scss";
 
-const FeedDetails: FC<{ orderFeedData: IFetchOrdersData }> = ({ orderFeedData }) => {
+const FeedDetails: FC<{ orderFeedDataName: string }> = ({ orderFeedDataName }) => {
+  const state = useAppSelector((state) => state.feed);
+  const orderFeedData = state[orderFeedDataName as keyof IStateFeed];
   const { ingredients } = useAppSelector((state) => state.ingredients);
   const params = useParams<Params>();
   const location = useLocation() as { state: { backgroundLocation: Location } };
@@ -34,7 +36,7 @@ const FeedDetails: FC<{ orderFeedData: IFetchOrdersData }> = ({ orderFeedData })
 
   const ingredientList = useMemo(() => {
     const orderIngredients = order?.ingredients.map((id: string) =>
-      getIngredientByParameter("_id", id, ingredients)
+      getIngredientByParameter("_id", id, ingredients as Ingredient[])
     ) as Ingredient[];
     return orderIngredients.filter(
       (ingredient: Ingredient) => ingredient.type !== "bun" && order?.ingredients.includes(ingredient._id)

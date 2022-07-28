@@ -1,12 +1,10 @@
 import { FC } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useAppSelector } from "../../services/store";
 import { IFetchOrderItem, IFetchOrdersData } from "../../utils/types";
 import style from "./order-feed.module.scss";
 import OrderFeedComponent from "./OrderFeedComponent";
 
-const OrderFeed: FC<{ orderFeedData: IFetchOrdersData }> = ({ orderFeedData }) => {
-  // const { orderFeedData } = useAppSelector((state) => state.feed);
+const OrderFeed: FC<{ orderFeedData: IFetchOrdersData; route: string }> = ({ orderFeedData, route }) => {
   const location = useLocation();
 
   return (
@@ -14,7 +12,7 @@ const OrderFeed: FC<{ orderFeedData: IFetchOrdersData }> = ({ orderFeedData }) =
       {orderFeedData.orders.map((order: IFetchOrderItem) => (
         <Link
           key={order._id}
-          to={`/feed/${order._id}`}
+          to={`${route}/${order._id}`}
           className={`${style.link}`}
           state={{ backgroundLocation: location }}
         >
