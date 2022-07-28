@@ -1,3 +1,9 @@
 import { PayloadAction } from "@reduxjs/toolkit";
+import { IFetchOrdersData } from "../../utils/types";
 
-export const setOrderFeedData = (state: any, action: PayloadAction<any>) => {};
+export const setOrderFeedData = (
+  state: { allOrderFeedData: IFetchOrdersData },
+  action: PayloadAction<{ data: IFetchOrdersData }>
+) => {
+  state.allOrderFeedData = action.payload.data;
+};

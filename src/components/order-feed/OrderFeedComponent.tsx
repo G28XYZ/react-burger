@@ -1,0 +1,59 @@
+import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { CSSProperties, FC, useState } from "react";
+import { useAppSelector } from "../../services/store";
+import { formatDateOrder } from "../../utils/formatDateOrder";
+import { getIngredientByParameter } from "../../utils/getIngredientByParameter";
+import { IFetchOrderItem } from "../../utils/types";
+import style from "./order-feed.module.scss";
+
+const OrderFeedComponent: FC<{ order: IFetchOrderItem }> = ({ order }) => {
+  const { ingredients } = useAppSelector((state) => state.ingredients);
+  const [totalCount] = useState<number>(6);
+  const countIngredientsInOrder = order.ingredients.length;
+
+  const getPrice = (ingredientId: string): number => {
+    return getIngredientByParameter("_id", ingredientId, ingredients)?.price || 0;
+  };
+
+  const getImage = (ingredientId: string): string => {
+    return getIngredientByParameter("_id", ingredientId, ingredients)?.image_mobile || "";
+  };
+
+  const MoreOverlayElement = () => {
+    return (
+      <span className={`${style.hiddenCount} text text_type_digits-default`}>
+        +{order.ingredients.length > totalCount ? order.ingredients.length - totalCount : totalCount}
+      </span>
+    );
+  };
+
+  return (
+    <li
+      key={order._id}
+      className={`${style.orderItem}`}
+      style={{ "--ingredientCount": order.ingredients.length } as CSSProperties}
+    >
+      <div className={`${style.orderHeader}`}>
+        <p className="text text_type_digits-default">#{order.number}</p>
+        <p className="text text_type_main-default text_color_inactive">{formatDateOrder(order.updatedAt)}</p>
+      </div>
+      <h3 className="text text_type_main-medium">{order.name}</h3>
+      <div className={`${style.orderInfo}`}>
+        <div className={style.orderImages}>
+          {order.ingredients.slice(0, totalCount).map((ingredientId: string, i: number) => (
+            <div key={ingredientId + i} className={`${style.orderImageContainer}`}>
+              <img className={style.orderImage} src={getImage(ingredientId)} alt={ingredientId} />
+              {countIngredientsInOrder > totalCount && totalCount === i + 1 && <MoreOverlayElement />}
+            </div>
+          ))}
+        </div>
+        <p className={`${style.price} text text_type_digits-default`}>
+          {order.ingredients.reduce((price: number, id: string) => price + getPrice(id), 0)}
+          <CurrencyIcon type="primary" />
+        </p>
+      </div>
+    </li>
+  );
+};
+
+export default OrderFeedComponent;

@@ -97,7 +97,7 @@ export type TCallbackModalCloseByEsc = (e: KeyboardEvent) => void;
 
 export interface IFetchOrderItem {
   createdAt: string;
-  ingredients: string[] | [];
+  ingredients: string[];
   name: string;
   number: number;
   status: string;

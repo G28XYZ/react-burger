@@ -1,19 +1,18 @@
 import { FC, useMemo } from "react";
-import { IFetchOrderItem, IFetchOrdersData } from "../../utils/types";
+import { useAppSelector } from "../../services/store";
+import { IFetchOrderItem } from "../../utils/types";
 import style from "./status-feed.module.scss";
 
-const StatusFeed: FC<{
-  ordersData: IFetchOrdersData;
-  getIngredientByParameter: Function;
-}> = ({ ordersData, getIngredientByParameter }) => {
-  const inProcessOrder = useMemo(
-    () => ordersData.orders.filter((order: IFetchOrderItem) => order.status !== "done"),
-    [ordersData.orders]
-  );
+const StatusFeed: FC = () => {
+  const {
+    allOrderFeedData: { orders, total, totalToday },
+  } = useAppSelector((state) => state.feed);
+
+  const inProcessOrder = useMemo(() => orders.filter((order: IFetchOrderItem) => order.status !== "done"), [orders]);
 
   const completedOrder = useMemo(
-    () => ordersData.orders.filter(() => ordersData.orders.filter((order: IFetchOrderItem) => order.status === "done")),
-    [ordersData.orders]
+    () => orders.filter(() => orders.filter((order: IFetchOrderItem) => order.status === "done")),
+    [orders]
   );
 
   return (
@@ -23,7 +22,7 @@ const StatusFeed: FC<{
           <p className={`text text_type_main-medium pb-4`}>Готовы:</p>
           <ul className={`${style.completedList} text text_type_digits-default custom-scroll`}>
             {completedOrder.map((order: IFetchOrderItem) => (
-              <li>{order.number}</li>
+              <li key={order.number}>{order.number}</li>
             ))}
           </ul>
         </div>
@@ -38,11 +37,11 @@ const StatusFeed: FC<{
       </div>
       <div>
         <p className="text text_type_main-medium">Выполнено за все время:</p>
-        <p className={`${style.total} text text_type_digits-large`}>{ordersData.total}</p>
+        <p className={`${style.total} text text_type_digits-large`}>{total}</p>
       </div>
       <div>
         <p className="text text_type_main-medium">Выполнено за сегодня:</p>
-        <p className={`${style.totalToday} text text_type_digits-large`}>{ordersData.totalToday}</p>
+        <p className={`${style.totalToday} text text_type_digits-large`}>{totalToday}</p>
       </div>
     </div>
   );

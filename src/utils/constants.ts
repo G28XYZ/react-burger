@@ -1,7 +1,8 @@
 import defaultImage from "../images/transparency.png";
 
 export const address = "https://norma.nomoreparties.space/api";
-export const wssAddress = "wss://norma.nomoreparties.space/orders/all";
+export const wssAddressOrdersAll = "wss://norma.nomoreparties.space/orders/all";
+export const wssAddressOrders = "wss://norma.nomoreparties.space/orders";
 
 export const initialBun = {
   _id: "",

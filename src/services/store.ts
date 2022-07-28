@@ -8,6 +8,7 @@ import thunk from "redux-thunk";
 import { useDispatch, useSelector } from "react-redux";
 import { TypedUseSelectorHook } from "react-redux";
 import userSlice from "./reducers/user";
+import feedsSlice from "./reducers/feed";
 
 declare global {
   interface Window {
@@ -17,15 +18,13 @@ declare global {
 
 export const store = configureStore({
   reducer: {
+    feed: feedsSlice.reducer,
     ingredients: ingredientsSlice.reducer,
     order: orderSlice.reducer,
     modal: modalSlice.reducer,
     user: userSlice.reducer,
   },
-  enhancers: (defaultEnhancers) => [
-    applyMiddleware(thunk),
-    ...defaultEnhancers,
-  ],
+  enhancers: (defaultEnhancers) => [applyMiddleware(thunk), ...defaultEnhancers],
 });
 
 export type RootState = ReturnType<typeof store.getState>;

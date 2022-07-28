@@ -1,9 +1,9 @@
-import { FC, useEffect } from "react";
+import { FC, useCallback, useEffect } from "react";
 import AppHeader from "../app-header/AppHeader";
 import appStyle from "./app.module.css";
 import { fetchIngredients } from "../../services/actions/ingredients";
-import { useAppDispatch } from "../../services/store";
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../services/store";
+import { Location, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import {
   Main,
   Profile,
@@ -21,6 +21,10 @@ import { onGetUser, onRefreshToken } from "../../services/actions/user";
 import PrivateRoute from "../private-route/PrivateRoute";
 import IngredientDetails from "../ingredient-details/IngredientDetails";
 import Modal from "../modal/Modal";
+import { useSocket } from "../../hooks/useSocket";
+import { wssAddressOrdersAll } from "../../utils/constants";
+import feedsSlice from "../../services/reducers/feed";
+import FeedDetails from "../feed-details/FeedDetails";
 
 // по совету наставника временно задана декларация чтобы обойти ошибку TS2322 возникающая на ui элементе Tab
 declare module "react" {
@@ -31,13 +35,27 @@ declare module "react" {
 
 const App: FC = () => {
   const dispatch = useAppDispatch();
+  const { allOrderFeedData } = useAppSelector((state) => state.feed);
+  const { setOrderFeedData } = feedsSlice.actions;
   const location = useLocation();
   const locationState = location.state as { backgroundLocation?: Location };
-  const navigation = useNavigate();
+  const navigate = useNavigate();
 
-  const handleCloseModal = () => {
-    navigation("/");
-  };
+  const processEvent = useCallback((event: MessageEvent) => {
+    const normalizeData = JSON.parse(event.data);
+    if (normalizeData.success === true) {
+      console.log(normalizeData);
+      dispatch(setOrderFeedData({ data: normalizeData }));
+    }
+  }, []);
+
+  const { connect } = useSocket(wssAddressOrdersAll, {
+    onMessage: processEvent,
+  });
+
+  const handleCloseModal = useCallback(() => {
+    navigate(locationState.backgroundLocation?.pathname || "/");
+  }, [locationState, navigate]);
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -63,14 +81,20 @@ const App: FC = () => {
     dispatch(fetchIngredients());
   }, [dispatch]);
 
+  useEffect(() => {
+    connect("");
+  }, []);
+
   return (
     <div className={appStyle.page}>
       <AppHeader />
       <Routes location={locationState?.backgroundLocation || location}>
-        <Route path="" element={<Main />} />
-        <Route path="feed" element={<Feed />} />
+        <Route path="/" element={<Main />} />
+
+        <Route path="feed/" element={<Feed />} />
 
         <Route path="/" element={<ProtectedRoute />}>
+          <Route path="feed/:id" element={<FeedDetails orderFeedData={allOrderFeedData} />} />
           <Route path="profile" element={<Profile />}>
             <Route path="" element={<ProfileForm />} />
             <Route path="orders" element={<Orders />} />
@@ -96,6 +120,14 @@ const App: FC = () => {
             element={
               <Modal onCloseModal={handleCloseModal}>
                 <IngredientDetails />
+              </Modal>
+            }
+          />
+          <Route
+            path="/feed/:id"
+            element={
+              <Modal onCloseModal={handleCloseModal}>
+                <FeedDetails orderFeedData={allOrderFeedData} />
               </Modal>
             }
           />

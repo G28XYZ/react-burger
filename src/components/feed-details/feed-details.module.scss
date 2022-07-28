@@ -1,0 +1,94 @@
+.modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+  width: 100%;
+  max-width: 640px;
+}
+
+.title {
+  width: 100%;
+}
+
+.orderImage {
+  position: relative;
+  height: 60px;
+  z-index: 1;
+}
+
+.orderList {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 16px;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  height: 376px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-y: auto;
+}
+
+.orderItem {
+  display: flex;
+  justify-content: space-between;
+  transform: translate(-20px, 0);
+  align-items: center;
+}
+
+.ingredientName {
+  flex: 1;
+}
+
+.orderInfo {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+
+.status {
+  width: 100%;
+  color: #00cccc;
+}
+
+.structureTitle {
+  width: 100%;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.orderImageContainer {
+  position: relative;
+  width: max-content;
+  &:after {
+    position: absolute;
+    content: "";
+    width: 65px;
+    height: 65px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: black;
+    border-radius: 50%;
+    z-index: -1;
+  }
+  &:before {
+    position: absolute;
+    content: "";
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(0.25turn, rgba(128, 26, 178, 1), rgba(76, 76, 255, 1));
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -2;
+  }
+}
