@@ -53,9 +53,9 @@ const BurgerIngredient: FC<IngredientProp> = ({ ingredient }) => {
       <Link to={`/ingredient/${ingredient._id}`} state={{ backgroundLocation: location }}>
         <img ref={ref} className={style.image} src={ingredient.image} alt={ingredient.name} />
       </Link>
-      <div className="text text_type_digits-default">
+      <p className={`${style.price} text text_type_digits-default pb-2`}>
         {ingredient.price} <CurrencyIcon type="primary" />
-      </div>
+      </p>
       <p className="text text_type_main-default" style={{ textAlign: "center" }}>
         {ingredient.name}
       </p>
