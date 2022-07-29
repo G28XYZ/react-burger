@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, SliceCaseReducers } from "@reduxjs/toolkit";
 import { initialBun } from "../../utils/constants";
 import { IStateOrder } from "../../utils/types";
 import { onRegisterOrder } from "../actions/order";
@@ -21,9 +21,9 @@ const initialState = {
   replaceIngredient: null,
 };
 
-export const orderSlice = createSlice({
+export const orderSlice = createSlice<IStateOrder, SliceCaseReducers<IStateOrder>>({
   name: "order",
-  initialState: initialState as IStateOrder,
+  initialState,
   reducers: {
     addBunToOrder,
     addToOrder,

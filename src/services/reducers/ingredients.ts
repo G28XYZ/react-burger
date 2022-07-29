@@ -1,5 +1,5 @@
 import { Ingredient, ISorted, IStateIngredients } from "../../utils/types";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, SliceCaseReducers } from "@reduxjs/toolkit";
 import { fetchIngredients } from "../actions/ingredients";
 import { setDrag } from "../actions/ingredients";
 
@@ -12,9 +12,9 @@ const initialState = {
   ingredients: [],
   sortedIngredients: {},
   isDrag: false,
-} as IStateIngredients;
+};
 
-export const ingredientsSlice = createSlice({
+export const ingredientsSlice = createSlice<IStateIngredients, SliceCaseReducers<IStateIngredients>>({
   name: "ingredients",
   initialState,
   reducers: {

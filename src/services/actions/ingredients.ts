@@ -1,6 +1,6 @@
-import { createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../utils/api";
-import { IActionIngredients, IStateIngredients, TCaseReducerIngredients } from "../../utils/types";
+import { TCaseReducerIngredients } from "../../utils/types";
 
 export const fetchIngredients = createAsyncThunk("ingredients/fetchIngredients", async () => {
   const response = await api.getIngredients();
@@ -16,6 +16,6 @@ export const setDrag: TCaseReducerIngredients = (state, action) => {
   state.isDrag = action.payload.onDrag;
 };
 
-export const setLoading = (state: IStateIngredients, action: PayloadAction<IActionIngredients>) => {
-  state.loading = action.payload.request as boolean;
+export const setLoading: TCaseReducerIngredients = (state, action) => {
+  state.loading = action.payload.request;
 };

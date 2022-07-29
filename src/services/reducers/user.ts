@@ -1,6 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, SliceCaseReducers } from "@reduxjs/toolkit";
 import { setCookie } from "../../utils/setCookie";
 import { setSessionStorage } from "../../utils/setSessionStorage";
+import { IStateUser } from "../../utils/types";
 import {
   onForgotPassword,
   onGetUser,
@@ -17,7 +18,7 @@ const initialState = {
   loggedIn: false,
 };
 
-export const userSlice = createSlice({
+export const userSlice = createSlice<IStateUser, SliceCaseReducers<IStateUser>>({
   name: "user",
   initialState,
   reducers: {},

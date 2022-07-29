@@ -18,12 +18,12 @@ export const onRegisterOrder = createAsyncThunk(
 );
 
 export const deleteInOrder: TCeseReducerOrder = (state, action) => {
-  const deletedItem = action.payload.deletedItem as Ingredient;
+  const deletedItem = action.payload.deletedItem;
   state.list = state.list.filter((item: Ingredient) => item.shortId !== deletedItem.shortId);
 };
 
 export const addBunToOrder: TCeseReducerOrder = (state, action) => {
-  state.bun = action.payload.ingredient as Ingredient;
+  state.bun = action.payload.ingredient;
 };
 
 export const addToOrder: TCeseReducerOrder = (state, action) => {
@@ -32,7 +32,7 @@ export const addToOrder: TCeseReducerOrder = (state, action) => {
   let newList = [...state.list];
   if (replaceItem) {
     const replaceIndex = newList.findIndex((item: Ingredient) => replaceItem.shortId === item.shortId);
-    newList.splice(replaceIndex, 1, ingredient as Ingredient);
+    newList.splice(replaceIndex, 1, ingredient);
     state.list = newList;
     state.replaceIngredient = null;
   } else {
@@ -47,12 +47,12 @@ export const orderTotalPrice = (state: IStateOrder) => {
 };
 
 export const setDragged: TCeseReducerOrder = (state, action) => {
-  state.replaceIngredient = action.payload.ingredient as Ingredient | null;
+  state.replaceIngredient = action.payload.ingredient;
 };
 
 export const moveIngredient: TCeseReducerOrder = (state, action) => {
-  let from = Object.assign(action.payload.from as Ingredient);
-  let to = Object.assign(action.payload.to as Ingredient);
+  let from = Object.assign(action.payload.from);
+  let to = Object.assign(action.payload.to);
   let newList = [...state.list];
   const toIndex = newList.findIndex((item: Ingredient) => to.shortId === item.shortId);
   const fromIndex = newList.findIndex((item: Ingredient) => from.shortId === item.shortId);

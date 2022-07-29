@@ -1,5 +1,5 @@
-import { CaseReducer, PayloadAction } from "@reduxjs/toolkit";
-import { ReactNode, RefObject } from "react";
+import { CaseReducer, CreateSliceOptions, PayloadAction, SliceCaseReducers } from "@reduxjs/toolkit";
+import { ReactNode, RefObject, Requireable } from "react";
 
 export interface Ingredient {
   _id: string;
@@ -73,17 +73,17 @@ export interface IFetchOrdersData {
 
 // Actions
 
-export type IActionIngredients = {
-  onDrag?: boolean;
-  request?: boolean;
-};
+export interface IActionIngredients {
+  onDrag: boolean;
+  request: boolean;
+}
 
 export interface IActionOrder {
-  to?: Ingredient;
-  from?: Ingredient;
-  ingredient?: Ingredient | null;
-  replaceIngredient?: Ingredient | null;
-  deletedItem?: Ingredient;
+  to: Ingredient;
+  from: Ingredient;
+  ingredient: Ingredient;
+  replaceIngredient: Ingredient;
+  deletedItem: Ingredient;
 }
 
 export interface IActionModal {
@@ -105,7 +105,7 @@ export interface IStateIngredients {
   loading: boolean;
   ingredients: [] | ReadonlyArray<Ingredient>;
   sortedIngredients: ISorted;
-  isDrag: boolean | undefined;
+  isDrag: boolean;
 }
 
 export interface IStateUser {

@@ -47,7 +47,7 @@ function BurgerConstructor({ socketOwnerOrders }: { socketOwnerOrders: any }) {
   }
 
   function handleCloseModal() {
-    dispatch(resetOrder());
+    dispatch(resetOrder({}));
     dispatch(closeModal());
   }
 

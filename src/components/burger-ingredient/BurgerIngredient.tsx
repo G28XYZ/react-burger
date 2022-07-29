@@ -40,7 +40,7 @@ const BurgerIngredient: FC<IngredientProp> = ({ ingredient }) => {
   }, [dispatch, onDrag, setDrag]);
 
   useEffect(() => {
-    dispatch(orderTotalPrice());
+    dispatch(orderTotalPrice({}));
   }, [count, dispatch, orderTotalPrice]);
 
   useEffect(() => {
