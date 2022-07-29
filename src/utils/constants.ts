@@ -3,6 +3,12 @@ import defaultImage from "../images/transparency.png";
 export const apiAddress = "https://norma.nomoreparties.space/api";
 export const wssAddress = "wss://norma.nomoreparties.space/orders";
 
+export const statusList: { [key: string]: string } = {
+  done: "Выполнен",
+  inProcess: "Готовится",
+  cancel: "Отменен",
+};
+
 export const initialBun = {
   _id: "",
   name: "Переместите сюда булку",

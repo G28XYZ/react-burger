@@ -16,7 +16,7 @@ const OrderFeed: FC<{ orderFeedData: IFetchOrdersData; route: string }> = ({ ord
           className={`${style.link}`}
           state={{ backgroundLocation: location }}
         >
-          <OrderFeedComponent order={order} />
+          <OrderFeedComponent order={order} route={route} />
         </Link>
       ))}
     </ul>

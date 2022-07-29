@@ -3,6 +3,8 @@ import { useAppSelector } from "../../services/store";
 import { IFetchOrderItem } from "../../utils/types";
 import style from "./status-feed.module.scss";
 
+const { generate } = require("shortid");
+
 const StatusFeed: FC = () => {
   const {
     allOrderFeedData: { orders, total, totalToday },
@@ -22,7 +24,9 @@ const StatusFeed: FC = () => {
           <p className={`text text_type_main-medium pb-4`}>Готовы:</p>
           <ul className={`${style.completedList} text text_type_digits-default custom-scroll`}>
             {completedOrder.map((order: IFetchOrderItem) => (
-              <li key={order.number}>{order.number}</li>
+              <li className={`pr-4`} key={order.number}>
+                {order.number}
+              </li>
             ))}
           </ul>
         </div>
@@ -30,7 +34,9 @@ const StatusFeed: FC = () => {
           <p className="text text_type_main-medium pb-4">В работе:</p>
           <ul className={`${style.statusListInProcess} custom-scroll`}>
             {inProcessOrder.map((order: IFetchOrderItem) => (
-              <li className={`${style.statusProcess} text text_type_digits-default`}>{order.status}</li>
+              <li className={`${style.statusProcess} text text_type_digits-default`} key={generate()}>
+                {order.status}
+              </li>
             ))}
           </ul>
         </div>

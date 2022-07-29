@@ -1,9 +1,14 @@
 import { TCaseReducerFeed } from "../../utils/types";
 
-export const setAllOrderFeedData: TCaseReducerFeed = (state, action) => {
-  state.allOrderFeedData = action.payload.data;
+export const setSocketLoading: TCaseReducerFeed = (state, action) => {
+  state.isLoading = action.payload.loading;
 };
 
-export const setOwnerOrderFeedData: TCaseReducerFeed = (state, action) => {
-  state.ownerOrderFeedData = action.payload.data;
+export const setOrderFeedData: TCaseReducerFeed = (state, action) => {
+  if (action.payload.owner) {
+    state.ownerOrderFeedData = action.payload.data;
+  } else {
+    state.allOrderFeedData = action.payload.data;
+  }
+  state.isLoading = true;
 };

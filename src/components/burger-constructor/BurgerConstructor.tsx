@@ -9,8 +9,10 @@ import orderSlice from "../../services/reducers/order";
 import modalSlice from "../../services/reducers/modal";
 import { useDrop } from "react-dnd";
 import ConstructorIngredient from "../constructor-ingredient/ConstructorIngredient";
+import { FC } from "react";
+import { useNavigate } from "react-router-dom";
 
-function BurgerConstructor({ socketOwnerOrders }: { socketOwnerOrders: any }) {
+const BurgerConstructor: FC = () => {
   const state = useAppSelector((state) => state);
   const { loggedIn } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
@@ -18,12 +20,13 @@ function BurgerConstructor({ socketOwnerOrders }: { socketOwnerOrders: any }) {
   const { bun, totalPrice } = state.order;
   const { addBunToOrder, addToOrder, resetOrder } = orderSlice.actions;
   const { openModalWithOrder, closeModal } = modalSlice.actions;
+  const navigate = useNavigate();
 
   function handleOrderClick() {
-    socketOwnerOrders.sendData({
-      ingredients: [bun._id, ...orderList.map((item: Ingredient) => item._id), bun._id],
-      token: sessionStorage.getItem("token") || "",
-    });
+    if (loggedIn === false) {
+      navigate("/login");
+      return;
+    }
     dispatch(
       onRegisterOrder({
         ingredients: [bun._id, ...orderList.map((item: Ingredient) => item._id), bun._id],
@@ -103,7 +106,7 @@ function BurgerConstructor({ socketOwnerOrders }: { socketOwnerOrders: any }) {
           <p className="text text_type_digits-medium">{totalPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="large" onClick={handleOrderClick} disabled={!bun.price || !loggedIn}>
+        <Button type="primary" size="large" onClick={handleOrderClick} disabled={!bun.price}>
           Оформить заказ
         </Button>
       </div>
@@ -115,6 +118,6 @@ function BurgerConstructor({ socketOwnerOrders }: { socketOwnerOrders: any }) {
       )}
     </section>
   );
-}
+};
 
 export default BurgerConstructor;

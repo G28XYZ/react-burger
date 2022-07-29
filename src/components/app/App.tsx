@@ -2,7 +2,7 @@ import { FC, useCallback, useEffect, useMemo } from "react";
 import AppHeader from "../app-header/AppHeader";
 import appStyle from "./app.module.css";
 import { fetchIngredients } from "../../services/actions/ingredients";
-import { useAppDispatch } from "../../services/store";
+import { useAppDispatch, useAppSelector } from "../../services/store";
 import { Location, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import {
   Main,
@@ -36,24 +36,25 @@ declare module "react" {
 
 const App: FC = () => {
   const dispatch = useAppDispatch();
-  const { setAllOrderFeedData, setOwnerOrderFeedData } = feedsSlice.actions;
+  const { allOrderFeedData, ownerOrderFeedData } = useAppSelector((state) => state.feed);
+  const { setOrderFeedData } = feedsSlice.actions;
+  const { loggedIn } = useAppSelector((state) => state.user);
   const location = useLocation();
   const locationState = location.state as { backgroundLocation?: Location };
   const navigate = useNavigate();
 
-  const accessToken = useMemo<string>(() => sessionStorage.getItem("token") || "", []);
+  let accessToken = useMemo<string>(() => sessionStorage.getItem("token") || "", [loggedIn]);
 
-  const processEvent = useCallback((event: MessageEvent) => {
-    const normalizeData = JSON.parse(event.data);
-    const target = event.target as WebSocket;
-    if (normalizeData.success === true) {
-      if (target.url.includes(accessToken)) {
-        dispatch(setOwnerOrderFeedData({ data: normalizeData }));
-        return;
+  const processEvent = useCallback(
+    (event: MessageEvent) => {
+      const normalizeData = JSON.parse(event.data);
+      const target = event.target as WebSocket;
+      if (normalizeData.success === true) {
+        dispatch(setOrderFeedData({ data: normalizeData, owner: accessToken && target.url.includes(accessToken) }));
       }
-      dispatch(setAllOrderFeedData({ data: normalizeData }));
-    }
-  }, []);
+    },
+    [accessToken, loggedIn]
+  );
 
   const socketAllOrders = useSocket(`${wssAddress}/all`, {
     onMessage: processEvent,
@@ -96,68 +97,69 @@ const App: FC = () => {
   }, []);
 
   useEffect(() => {
-    if (accessToken) socketOwnerOrders.connect(accessToken);
-  }, [accessToken]);
+    accessToken && socketOwnerOrders.connect(accessToken);
+  }, [accessToken, loggedIn]);
 
   return (
     <div className={appStyle.page}>
       <AppHeader />
       <Routes location={locationState?.backgroundLocation || location}>
-        <Route path="/" element={<LoadingRouter />}>
-          <Route path="/" element={<Main socketOwnerOrders={socketOwnerOrders} />} />
+        <Route path="/" element={<Main />} />
 
-          <Route path="feed/" element={<Feed />} />
+        <Route path="feed/" element={<Feed />} />
 
-          <Route path="/" element={<ProtectedRoute />}>
-            <Route path="feed/:id" element={<FeedDetails orderFeedDataName={"allOrderFeedData"} />} />
-            <Route path="profile" element={<Profile />}>
-              <Route path="" element={<ProfileForm />} />
-              <Route path="orders" element={<Orders />}>
-                <Route path=":id" element={<FeedDetails orderFeedDataName={"ownerOrderFeedData"} />} />
-              </Route>
-            </Route>
+        <Route path="/" element={<ProtectedRoute />}>
+          <Route path="/" element={<LoadingRouter />}>
+            <Route path="feed/:id" element={<FeedDetails orderFeedData={allOrderFeedData} />} />
+            <Route path="profile/orders/:id" element={<FeedDetails orderFeedData={ownerOrderFeedData} />} />
           </Route>
-
-          <Route path="ingredient/:id" element={<IngredientDetails />} />
-
-          <Route path="/" element={<PrivateRoute />}>
-            <Route path="forgot-password" element={<ForgotPassword />} />
-            <Route path="reset-password" element={<ResetPassword />} />
-            <Route path="login" element={<Login />} />
-            <Route path="register" element={<Register />} />
+          <Route path="profile" element={<Profile />}>
+            <Route path="" element={<ProfileForm />} />
+            <Route path="orders" element={<Orders />} />
           </Route>
-
-          <Route path="*" element={<NotFound />} />
         </Route>
+
+        <Route path="ingredient/:id" element={<IngredientDetails />} />
+
+        <Route path="/" element={<PrivateRoute />}>
+          <Route path="forgot-password" element={<ForgotPassword />} />
+          <Route path="reset-password" element={<ResetPassword />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+        </Route>
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
 
       {locationState?.backgroundLocation && (
         <Routes>
           <Route path="/" element={<LoadingRouter />}>
             <Route
-              path="/ingredient/:id"
+              path="feed/:id"
+              element={
+                <Modal onCloseModal={handleCloseModal}>
+                  <FeedDetails orderFeedData={allOrderFeedData} />
+                </Modal>
+              }
+            />
+            <Route
+              path="ingredient/:id"
               element={
                 <Modal onCloseModal={handleCloseModal}>
                   <IngredientDetails />
                 </Modal>
               }
             />
-            <Route
-              path="/feed/:id"
-              element={
-                <Modal onCloseModal={handleCloseModal}>
-                  <FeedDetails orderFeedDataName={"allOrderFeedData"} />
-                </Modal>
-              }
-            />
-            <Route
-              path="/profile/orders/:id"
-              element={
-                <Modal onCloseModal={handleCloseModal}>
-                  <FeedDetails orderFeedDataName={"ownerOrderFeedData"} />
-                </Modal>
-              }
-            />
+            <Route path="/" element={<ProtectedRoute />}>
+              <Route
+                path="profile/orders/:id"
+                element={
+                  <Modal onCloseModal={handleCloseModal}>
+                    <FeedDetails orderFeedData={ownerOrderFeedData} />
+                  </Modal>
+                }
+              />
+            </Route>
           </Route>
         </Routes>
       )}

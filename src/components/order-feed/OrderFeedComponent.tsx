@@ -1,12 +1,13 @@
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { CSSProperties, FC, useState } from "react";
 import { useAppSelector } from "../../services/store";
+import { statusList } from "../../utils/constants";
 import { formatDateOrder } from "../../utils/formatDateOrder";
 import { getIngredientByParameter } from "../../utils/getIngredientByParameter";
 import { IFetchOrderItem, Ingredient } from "../../utils/types";
 import style from "./order-feed.module.scss";
 
-const OrderFeedComponent: FC<{ order: IFetchOrderItem }> = ({ order }) => {
+const OrderFeedComponent: FC<{ order: IFetchOrderItem; route: string }> = ({ order, route }) => {
   const { ingredients } = useAppSelector((state) => state.ingredients);
   const [totalCount] = useState<number>(6);
   const countIngredientsInOrder = order.ingredients.length;
@@ -38,7 +39,7 @@ const OrderFeedComponent: FC<{ order: IFetchOrderItem }> = ({ order }) => {
         <p className="text text_type_main-default text_color_inactive">{formatDateOrder(order.updatedAt)}</p>
       </div>
       <h3 className="text text_type_main-medium">{order.name}</h3>
-
+      {route === "/profile/orders" && <p className={`${""} text text_type_main-default`}>{statusList[order.status]}</p>}
       <div className={`${style.orderInfo}`}>
         <div className={style.orderImages}>
           {order.ingredients.slice(0, totalCount).map((ingredientId: string, i: number) => (

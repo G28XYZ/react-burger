@@ -1,5 +1,5 @@
-import { CaseReducer, CreateSliceOptions, PayloadAction, SliceCaseReducers } from "@reduxjs/toolkit";
-import { ReactNode, RefObject, Requireable } from "react";
+import { CaseReducer, PayloadAction } from "@reduxjs/toolkit";
+import { ReactNode, RefObject } from "react";
 
 export interface Ingredient {
   _id: string;
@@ -75,7 +75,7 @@ export interface IFetchOrdersData {
 
 export interface IActionIngredients {
   onDrag: boolean;
-  request: boolean;
+  loading: boolean;
 }
 
 export interface IActionOrder {
@@ -89,6 +89,12 @@ export interface IActionOrder {
 export interface IActionModal {
   title: string;
   ingredient: Ingredient;
+}
+
+export interface IActionFeed {
+  data: IFetchOrdersData;
+  loading: boolean;
+  owner: boolean | string;
 }
 
 // StateInterfaces
@@ -117,6 +123,7 @@ export interface IStateUser {
 export interface IStateFeed {
   ownerOrderFeedData: IFetchOrdersData;
   allOrderFeedData: IFetchOrdersData;
+  isLoading: boolean;
 }
 
 export interface IStateModal {
@@ -126,6 +133,6 @@ export interface IStateModal {
 }
 
 // CaseReducers
-export type TCaseReducerFeed = CaseReducer<IStateFeed, PayloadAction<{ data: IFetchOrdersData }>>;
+export type TCaseReducerFeed = CaseReducer<IStateFeed, PayloadAction<IActionFeed>>;
 export type TCaseReducerIngredients = CaseReducer<IStateIngredients, PayloadAction<IActionIngredients>>;
 export type TCeseReducerOrder = CaseReducer<IStateOrder, PayloadAction<IActionOrder>>;

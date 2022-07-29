@@ -17,5 +17,5 @@ export const setDrag: TCaseReducerIngredients = (state, action) => {
 };
 
 export const setLoading: TCaseReducerIngredients = (state, action) => {
-  state.loading = action.payload.request;
+  state.loading = action.payload.loading;
 };

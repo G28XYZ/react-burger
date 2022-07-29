@@ -16,7 +16,7 @@ const ProfileForm: FC = () => {
   }, [name, email]);
 
   return (
-    <form className={style.form}>
+    <form className={`${style.form} pt-20`}>
       <Input
         type={"text"}
         placeholder={"Имя"}

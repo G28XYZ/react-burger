@@ -1,7 +1,7 @@
 import { Ingredient, ISorted, IStateIngredients } from "../../utils/types";
 import { createSlice, SliceCaseReducers } from "@reduxjs/toolkit";
 import { fetchIngredients } from "../actions/ingredients";
-import { setDrag } from "../actions/ingredients";
+import { setDrag, setLoading } from "../actions/ingredients";
 
 interface INames {
   [key: string]: string;
@@ -19,6 +19,7 @@ export const ingredientsSlice = createSlice<IStateIngredients, SliceCaseReducers
   initialState,
   reducers: {
     setDrag,
+    setLoading,
   },
   extraReducers: (builder) => {
     builder.addCase(fetchIngredients.fulfilled, (state, action) => {
