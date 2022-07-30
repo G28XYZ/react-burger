@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useMemo } from "react";
+import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import AppHeader from "../app-header/AppHeader";
 import appStyle from "./app.module.css";
 import { fetchIngredients } from "../../services/actions/ingredients";
@@ -37,13 +37,19 @@ const App: FC = () => {
   const { data } = useAppSelector((state) => state.feedWS);
   const { loggedIn } = useAppSelector((state) => state.user);
   const location = useLocation();
-  const locationState = location.state as { backgroundLocation?: Location };
+  const locationState = useMemo(() => location.state as { backgroundLocation: Location }, [location.state]);
   const navigate = useNavigate();
 
   let accessToken = useMemo<string>(() => sessionStorage.getItem("token") || "", [loggedIn]);
 
+  useEffect(() => {
+    // для сброса стейта у текущего местоположения при инициализации апп
+    // чтобы при перезагрузке страницы скинуть backgroundLocation для модального окна и перейти на прямой путь
+    location.state = null;
+  }, []);
+
   const handleCloseModal = useCallback(() => {
-    navigate(locationState.backgroundLocation?.pathname || "/");
+    navigate(locationState?.backgroundLocation?.pathname || "/");
   }, [locationState, navigate]);
 
   useEffect(() => {
@@ -52,18 +58,13 @@ const App: FC = () => {
     if (token) {
       dispatch(onGetUser(token)).then(({ payload }) => {
         if (!refreshToken) {
-          console.log("Авторизуйтесь");
           return;
         }
         if (!payload) {
-          console.log("accessToken истек");
           dispatch(onRefreshToken(refreshToken));
         }
       });
-    } else {
-      console.log("Авторизуйтесь");
     }
-    console.log("render app");
   }, [dispatch]);
 
   useEffect(() => {

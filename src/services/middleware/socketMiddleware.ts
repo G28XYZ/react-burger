@@ -25,7 +25,6 @@ export const socketMiddleware = (wsActions: TwsActionTypes): Middleware<{}, Retu
       const { wsConnect, wsDisconnect, wsSendMessage, onOpen, onClose, onError, onMessage, wsConnecting } = wsActions;
 
       if (wsConnect.match(action)) {
-        console.log("connect");
         url = action.payload;
         socket = new WebSocket(url);
         isConnected = true;
@@ -38,7 +37,7 @@ export const socketMiddleware = (wsActions: TwsActionTypes): Middleware<{}, Retu
         };
 
         socket.onerror = (err) => {
-          console.log("error");
+          dispatch(onError("Socket request error"));
         };
 
         socket.onmessage = (event) => {
@@ -49,10 +48,8 @@ export const socketMiddleware = (wsActions: TwsActionTypes): Middleware<{}, Retu
 
         socket.onclose = (event) => {
           if (event.code !== 1000) {
-            console.log("error");
             dispatch(onError(event.code.toString()));
           }
-          console.log("close");
           dispatch(onClose());
 
           if (isConnected) {
@@ -64,12 +61,10 @@ export const socketMiddleware = (wsActions: TwsActionTypes): Middleware<{}, Retu
         };
 
         if (wsSendMessage && wsSendMessage.match(action)) {
-          console.log("send");
           socket.send(JSON.stringify(action.payload));
         }
 
         if (wsDisconnect.match(action)) {
-          console.log("disconnect");
           clearTimeout(reconnectTimer);
           isConnected = false;
           reconnectTimer = 0;
