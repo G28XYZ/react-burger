@@ -3,7 +3,6 @@ import { Outlet } from "react-router-dom";
 import { NotFound } from "../../pages";
 import { connect, countConnect, disconnect } from "../../services/actions/feedWebSocket";
 import { useAppDispatch, useAppSelector } from "../../services/store";
-import { wssAddress } from "../../utils/constants";
 import Preloader from "../preloader";
 
 const SocketConnectRouter: FC<{ socketUrl: string }> = ({ socketUrl }) => {

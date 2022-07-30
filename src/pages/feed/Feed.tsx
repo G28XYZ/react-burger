@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from "../../services/store";
+import { useAppSelector } from "../../services/store";
 import style from "./feed.module.scss";
 import OrderFeed from "../../components/order-feed/OrderFeed";
 import StatusFeed from "../../components/status-feed/StatusFeed";
