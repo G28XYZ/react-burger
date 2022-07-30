@@ -1,14 +1,11 @@
 import { FC, useMemo } from "react";
-import { useAppSelector } from "../../services/store";
-import { IFetchOrderItem } from "../../utils/types";
+import { IFetchOrderItem, IFetchOrdersData } from "../../utils/types";
 import style from "./status-feed.module.scss";
 
 const { generate } = require("shortid");
 
-const StatusFeed: FC = () => {
-  const {
-    allOrderFeedData: { orders, total, totalToday },
-  } = useAppSelector((state) => state.feed);
+const StatusFeed: FC<{ orderFeedData: IFetchOrdersData }> = ({ orderFeedData }) => {
+  const { orders, total, totalToday } = orderFeedData;
 
   const inProcessOrder = useMemo(() => orders.filter((order: IFetchOrderItem) => order.status !== "done"), [orders]);
 

@@ -4,13 +4,13 @@ import { useAppSelector } from "../../services/store";
 import style from "./profile-orders.module.css";
 
 const Orders: FC = () => {
-  const { ownerOrderFeedData } = useAppSelector((state) => state.feed);
+  const { data } = useAppSelector((state) => state.feedWS);
 
   return (
     <section>
-      {ownerOrderFeedData.success && (
+      {data.success && (
         <div className={style.feedOrders}>
-          <OrderFeed orderFeedData={ownerOrderFeedData} route={"/profile/orders"} />
+          <OrderFeed orderFeedData={data} route={"/profile/orders"} />
         </div>
       )}
     </section>

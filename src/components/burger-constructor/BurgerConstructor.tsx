@@ -1,7 +1,7 @@
 import { Button, CurrencyIcon, ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-constructor.module.css";
 import { Ingredient } from "../../utils/types";
-import OrderDetails from "../order-details/OrderDetails";
+import OrderDetails from "../order-info/OrderInfo";
 import Modal from "../modal/Modal";
 import { onRegisterOrder } from "../../services/actions/order";
 import { useAppDispatch, useAppSelector } from "../../services/store";

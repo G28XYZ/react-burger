@@ -2,7 +2,10 @@ import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import style from "./not-found.module.css";
 
-const NotFound: FC = () => {
+const NotFound: FC<{ code?: number | string; message?: string }> = ({
+  code = 404,
+  message = "Страница не найдена",
+}) => {
   const navigate = useNavigate();
 
   function handleClickMain() {
@@ -11,8 +14,8 @@ const NotFound: FC = () => {
 
   return (
     <section className={style.error + " text text_type_main-default"}>
-      <h1 className={style.title}>404</h1>
-      <p className={style.message}>Страница не найдена</p>
+      <h1 className={style.title}>{code}</h1>
+      <p className={style.message}>{message}</p>
       <button className={style.button + " text_type_main-medium"} onClick={handleClickMain}>
         На главную
       </button>
