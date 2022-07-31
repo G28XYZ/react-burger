@@ -16,9 +16,9 @@ const Profile: FC = () => {
 
   return (
     <div className={style.profile}>
-      <div className={style.navigation}>
+      <div className={`${style.navigation} pt-20`}>
         <nav>
-          <ul className={style.list}>
+          <ul className={`${style.list}`}>
             <li className={style.item}>
               <NavLink to="" className={`${style.link} ${styleLink}`} style={onActiveLink} end>
                 Профиль

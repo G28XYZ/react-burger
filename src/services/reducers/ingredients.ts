@@ -1,7 +1,7 @@
-import { Ingredient, ISorted } from "../../utils/types";
-import { createSlice } from "@reduxjs/toolkit";
+import { Ingredient, ISorted, IStateIngredients } from "../../utils/types";
+import { createSlice, SliceCaseReducers } from "@reduxjs/toolkit";
 import { fetchIngredients } from "../actions/ingredients";
-import { setDrag } from "../actions/ingredients";
+import { setDrag, setLoading } from "../actions/ingredients";
 
 interface INames {
   [key: string]: string;
@@ -14,11 +14,12 @@ const initialState = {
   isDrag: false,
 };
 
-export const ingredientsSlice = createSlice({
+export const ingredientsSlice = createSlice<IStateIngredients, SliceCaseReducers<IStateIngredients>>({
   name: "ingredients",
   initialState,
   reducers: {
     setDrag,
+    setLoading,
   },
   extraReducers: (builder) => {
     builder.addCase(fetchIngredients.fulfilled, (state, action) => {
@@ -28,18 +29,15 @@ export const ingredientsSlice = createSlice({
         main: "Начинки",
       };
       // сортировка всех ингредиентов по типу
-      state.sortedIngredients = action.payload.reduce(
-        (object: ISorted, currentItem: Ingredient) => {
-          const key = ingredientsName[currentItem.type];
-          if (object[key]) {
-            object[key] = [...object[key], currentItem];
-          } else {
-            object[key] = [currentItem];
-          }
-          return object;
-        },
-        {}
-      );
+      state.sortedIngredients = action.payload.reduce((object: ISorted, currentItem: Ingredient) => {
+        const key = ingredientsName[currentItem.type];
+        if (object[key]) {
+          object[key] = [...object[key], currentItem];
+        } else {
+          object[key] = [currentItem];
+        }
+        return object;
+      }, {});
 
       state.ingredients = action.payload;
       state.loading = true;

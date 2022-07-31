@@ -1,9 +1,9 @@
-import { FC, useEffect } from "react";
+import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import AppHeader from "../app-header/AppHeader";
 import appStyle from "./app.module.css";
 import { fetchIngredients } from "../../services/actions/ingredients";
-import { useAppDispatch } from "../../services/store";
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../services/store";
+import { Location, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import {
   Main,
   Profile,
@@ -21,6 +21,9 @@ import { onGetUser, onRefreshToken } from "../../services/actions/user";
 import PrivateRoute from "../private-route/PrivateRoute";
 import IngredientDetails from "../ingredient-details/IngredientDetails";
 import Modal from "../modal/Modal";
+import OrderDetails from "../order-details/OrderDetails";
+import { wssAddress } from "../../utils/constants";
+import SocketConnectRouter from "../socket-connect-router/SocketConnectRouter";
 
 // по совету наставника временно задана декларация чтобы обойти ошибку TS2322 возникающая на ui элементе Tab
 declare module "react" {
@@ -31,13 +34,23 @@ declare module "react" {
 
 const App: FC = () => {
   const dispatch = useAppDispatch();
+  const { data } = useAppSelector((state) => state.feedWS);
+  const { loggedIn } = useAppSelector((state) => state.user);
   const location = useLocation();
-  const locationState = location.state as { backgroundLocation?: Location };
-  const navigation = useNavigate();
+  const locationState = useMemo(() => location.state as { backgroundLocation: Location }, [location.state]);
+  const navigate = useNavigate();
 
-  const handleCloseModal = () => {
-    navigation("/");
-  };
+  let accessToken = useMemo<string>(() => sessionStorage.getItem("token") || "", [loggedIn]);
+
+  useEffect(() => {
+    // для сброса стейта у текущего местоположения при инициализации апп
+    // чтобы при перезагрузке страницы скинуть backgroundLocation для модального окна и перейти на прямой путь
+    location.state = null;
+  }, []);
+
+  const handleCloseModal = useCallback(() => {
+    navigate(locationState?.backgroundLocation?.pathname || "/");
+  }, [locationState, navigate]);
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -45,18 +58,13 @@ const App: FC = () => {
     if (token) {
       dispatch(onGetUser(token)).then(({ payload }) => {
         if (!refreshToken) {
-          console.log("Авторизуйтесь");
           return;
         }
         if (!payload) {
-          console.log("accessToken истек");
           dispatch(onRefreshToken(refreshToken));
         }
       });
-    } else {
-      console.log("Авторизуйтесь");
     }
-    console.log("render app");
   }, [dispatch]);
 
   useEffect(() => {
@@ -67,14 +75,28 @@ const App: FC = () => {
     <div className={appStyle.page}>
       <AppHeader />
       <Routes location={locationState?.backgroundLocation || location}>
-        <Route path="" element={<Main />} />
+        <Route path="/" element={<Main />} />
+
+        <Route path="" element={<SocketConnectRouter socketUrl={`${wssAddress}/all`} />}>
+          <Route path="feed/" element={<Feed />}>
+            <Route path="" element={<ProtectedRoute />}>
+              <Route path=":id" element={data.success && <OrderDetails orderFeedData={data} />} />
+            </Route>
+          </Route>
+        </Route>
 
         <Route path="/" element={<ProtectedRoute />}>
+          <Route path="" element={<SocketConnectRouter socketUrl={`${wssAddress}?token=${accessToken}`} />}>
+            <Route path="profile/orders/:id" element={data.success && <OrderDetails orderFeedData={data} />} />
+          </Route>
           <Route path="profile" element={<Profile />}>
             <Route path="" element={<ProfileForm />} />
-            <Route path="orders" element={<Orders />} />
+            <Route path="" element={<SocketConnectRouter socketUrl={`${wssAddress}?token=${accessToken}`} />}>
+              <Route path="orders" element={<Orders />}>
+                <Route path=":id" element={data.success && <OrderDetails orderFeedData={data} />} />
+              </Route>
+            </Route>
           </Route>
-          <Route path="feed" element={<Feed />} />
         </Route>
 
         <Route path="ingredient/:id" element={<IngredientDetails />} />
@@ -92,13 +114,35 @@ const App: FC = () => {
       {locationState?.backgroundLocation && (
         <Routes>
           <Route
-            path="/ingredient/:id"
+            path="ingredient/:id"
             element={
               <Modal onCloseModal={handleCloseModal}>
                 <IngredientDetails />
               </Modal>
             }
           />
+          <Route
+            path="feed/:id"
+            element={
+              data.success && (
+                <Modal onCloseModal={handleCloseModal}>
+                  <OrderDetails orderFeedData={data} />
+                </Modal>
+              )
+            }
+          />
+          <Route path="/" element={<ProtectedRoute />}>
+            <Route
+              path="profile/orders/:id"
+              element={
+                data.success && (
+                  <Modal onCloseModal={handleCloseModal}>
+                    <OrderDetails orderFeedData={data} />
+                  </Modal>
+                )
+              }
+            />
+          </Route>
         </Routes>
       )}
     </div>

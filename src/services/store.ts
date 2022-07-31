@@ -1,4 +1,4 @@
-import { compose, applyMiddleware } from "redux";
+import { compose, applyMiddleware, combineReducers } from "redux";
 import { orderSlice } from "./reducers/order";
 import modalSlice from "./reducers/modal";
 import { configureStore } from "@reduxjs/toolkit";
@@ -8,6 +8,9 @@ import thunk from "redux-thunk";
 import { useDispatch, useSelector } from "react-redux";
 import { TypedUseSelectorHook } from "react-redux";
 import userSlice from "./reducers/user";
+import { socketMiddleware } from "./middleware/socketMiddleware";
+import { wsActions } from "./actions/feedWebSocket";
+import { wssReducer } from "./reducers/feedWebSocket";
 
 declare global {
   interface Window {
@@ -15,17 +18,20 @@ declare global {
   }
 }
 
+export const rootReducer = combineReducers({
+  ingredients: ingredientsSlice.reducer,
+  order: orderSlice.reducer,
+  modal: modalSlice.reducer,
+  user: userSlice.reducer,
+  feedWS: wssReducer,
+});
+
 export const store = configureStore({
-  reducer: {
-    ingredients: ingredientsSlice.reducer,
-    order: orderSlice.reducer,
-    modal: modalSlice.reducer,
-    user: userSlice.reducer,
+  reducer: rootReducer,
+  enhancers: (defaultEnhancers) => [applyMiddleware(thunk), ...defaultEnhancers],
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware().concat(socketMiddleware(wsActions));
   },
-  enhancers: (defaultEnhancers) => [
-    applyMiddleware(thunk),
-    ...defaultEnhancers,
-  ],
 });
 
 export type RootState = ReturnType<typeof store.getState>;

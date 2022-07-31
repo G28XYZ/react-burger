@@ -1,8 +1,4 @@
-import {
-  Button,
-  EmailInput,
-  PasswordInput,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ChangeEvent, FC, FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import { onLogin } from "../../services/actions/user";
@@ -30,7 +26,16 @@ const Login: FC = () => {
     <div className={`${style.auth} pt-30`}>
       <form className={style.form} onSubmit={handleSubmit}>
         <h2 className="text text_type_main-medium">Вход</h2>
-        <EmailInput onChange={handleChangeForm} value={form.email} name={"email"} />
+        <Input
+          type={"text"}
+          placeholder={"E-mail"}
+          onChange={handleChangeForm}
+          value={form.email}
+          name={"email"}
+          error={false}
+          errorText={"Ошибка"}
+          size={"default"}
+        />
         <PasswordInput onChange={handleChangeForm} value={form.password} name={"password"} />
         <Button type="primary" size="medium">
           Войти

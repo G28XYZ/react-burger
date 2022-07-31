@@ -1,0 +1,13 @@
+.feed {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  max-width: 1280px;
+}
+
+.feedOrders {
+  display: flex;
+  gap: 60px;
+}

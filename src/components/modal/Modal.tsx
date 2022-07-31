@@ -8,7 +8,6 @@ const modal = document.getElementById("react-modals") as HTMLElement;
 
 const Modal: FC<IModalProps> = ({ children, onCloseModal }) => {
   const [popupClass, setPopupClass] = useState<string>(style.popup);
-
   const handleCloseModalByEsc = useCallback<TCallbackModalCloseByEsc>(
     (e) => {
       if (e.code === "Escape") {

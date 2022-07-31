@@ -1,3 +1,4 @@
+import { CaseReducer, PayloadAction } from "@reduxjs/toolkit";
 import { ReactNode, RefObject } from "react";
 
 export interface Ingredient {
@@ -31,48 +32,6 @@ export interface IStoreProviderProps {
   children: ReactNode;
 }
 
-export interface IActionIngredients {
-  onDrag?: boolean;
-  request?: boolean;
-}
-
-export interface IStateIngredients {
-  loading: boolean;
-  ingredients: [] | Ingredient[];
-  sortedIngredients: ISorted;
-  isDrag: boolean | undefined;
-}
-
-export interface IStateUser {
-  name: string;
-  email: string;
-  loggedIn: boolean;
-}
-
-export interface IModal {
-  orderInModal: boolean;
-  ingredientInModal: Ingredient | null;
-  title: string;
-}
-
-export interface IOrder {
-  name: string;
-  list: Ingredient[] | [];
-  id: string;
-  bun: Ingredient | {};
-  totalPrice: number;
-  replaceIngredient: null | Ingredient;
-}
-
-export interface IActionOrder {
-  [key: string]: Ingredient | Ingredient[] | null;
-}
-
-export interface IActionModal {
-  title: string;
-  ingredient: Ingredient;
-}
-
 export type TRefsElement = Array<RefObject<HTMLDivElement>>;
 
 export interface IngredientProp {
@@ -94,3 +53,86 @@ export interface IModalProps {
 }
 
 export type TCallbackModalCloseByEsc = (e: KeyboardEvent) => void;
+
+export interface IFetchOrderItem {
+  createdAt: string;
+  ingredients: string[];
+  name: string;
+  number: number;
+  status: string;
+  updatedAt: string;
+  _id: string;
+}
+
+export interface IFetchOrdersData {
+  orders: IFetchOrderItem[] | [];
+  success: boolean;
+  total: number;
+  totalToday: number;
+}
+
+// Actions
+
+export interface IActionIngredients {
+  onDrag: boolean;
+  loading: boolean;
+}
+
+export interface IActionOrder {
+  to: Ingredient;
+  from: Ingredient;
+  ingredient: Ingredient;
+  replaceIngredient: Ingredient;
+  deletedItem: Ingredient;
+}
+
+export interface IActionModal {
+  title: string;
+  ingredient: Ingredient;
+}
+
+export interface IActionFeed {
+  data: IFetchOrdersData;
+  loading: boolean;
+  owner: boolean | string;
+}
+
+// StateInterfaces
+
+export interface IStateOrder {
+  name: string;
+  list: Ingredient[] | [];
+  id: string;
+  bun: Ingredient;
+  totalPrice: number;
+  replaceIngredient: null | Ingredient;
+}
+export interface IStateIngredients {
+  loading: boolean;
+  ingredients: [] | ReadonlyArray<Ingredient>;
+  sortedIngredients: ISorted;
+  isDrag: boolean;
+}
+
+export interface IStateUser {
+  name: string;
+  email: string;
+  loggedIn: boolean;
+}
+
+export interface IStateFeed {
+  ownerOrderFeedData: IFetchOrdersData;
+  allOrderFeedData: IFetchOrdersData;
+  isLoading: boolean;
+}
+
+export interface IStateModal {
+  orderInModal: boolean;
+  ingredientInModal: Ingredient | null;
+  title: string;
+}
+
+// CaseReducers
+export type TCaseReducerFeed = CaseReducer<IStateFeed, PayloadAction<IActionFeed>>;
+export type TCaseReducerIngredients = CaseReducer<IStateIngredients, PayloadAction<IActionIngredients>>;
+export type TCeseReducerOrder = CaseReducer<IStateOrder, PayloadAction<IActionOrder>>;
