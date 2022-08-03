@@ -1,5 +1,5 @@
-import { CaseReducer, PayloadAction } from "@reduxjs/toolkit";
-import { ReactNode, RefObject } from "react";
+import { CaseReducer, PayloadAction } from '@reduxjs/toolkit';
+import { ReactNode, RefObject } from 'react';
 
 export interface Ingredient {
   _id: string;

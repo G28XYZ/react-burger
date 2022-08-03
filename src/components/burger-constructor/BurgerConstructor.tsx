@@ -1,16 +1,16 @@
-import { Button, CurrencyIcon, ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
-import style from "./burger-constructor.module.css";
-import { Ingredient } from "../../utils/types";
-import OrderDetails from "../order-info/OrderInfo";
-import Modal from "../modal/Modal";
-import { onRegisterOrder } from "../../services/actions/order";
-import { useAppDispatch, useAppSelector } from "../../services/store";
-import orderSlice from "../../services/reducers/order";
-import modalSlice from "../../services/reducers/modal";
-import { useDrop } from "react-dnd";
-import ConstructorIngredient from "../constructor-ingredient/ConstructorIngredient";
-import { FC } from "react";
-import { useNavigate } from "react-router-dom";
+import { Button, CurrencyIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+import style from './burger-constructor.module.css';
+import { Ingredient } from './../../utils/types';
+import OrderDetails from './../order-info/OrderInfo';
+import Modal from './../modal/Modal';
+import { onRegisterOrder } from './../../services/actions/order';
+import { useAppDispatch, useAppSelector } from './../../services/store';
+import orderSlice from './../../services/reducers/order';
+import modalSlice from './../../services/reducers/modal';
+import { useDrop } from 'react-dnd';
+import ConstructorIngredient from './../constructor-ingredient/ConstructorIngredient';
+import { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const BurgerConstructor: FC = () => {
   const state = useAppSelector((state) => state);
@@ -24,13 +24,13 @@ const BurgerConstructor: FC = () => {
 
   function handleOrderClick() {
     if (loggedIn === false) {
-      navigate("/login");
+      navigate('/login');
       return;
     }
     dispatch(
       onRegisterOrder({
         ingredients: [bun._id, ...orderList.map((item: Ingredient) => item._id), bun._id],
-        token: sessionStorage.getItem("token") || "",
+        token: sessionStorage.getItem('token') || '',
       })
     );
     dispatch(openModalWithOrder());
@@ -55,7 +55,7 @@ const BurgerConstructor: FC = () => {
   }
 
   const [, dropTarget] = useDrop({
-    accept: ["constructor_ingredient", "ingredient"],
+    accept: ['constructor_ingredient', 'ingredient'],
     collect: (monitor) => ({
       isHover: monitor.isOver(),
       handlerId: monitor.getHandlerId(),
@@ -66,21 +66,21 @@ const BurgerConstructor: FC = () => {
       if (item.constructorId === undefined) {
         item = Object.assign({ constructorId: orderList.length }, item);
       }
-      if (itemType === "ingredient") {
-        item.type === "bun" ? handleAddBunToOrder(item) : handleAddToOrder(item);
+      if (itemType === 'ingredient') {
+        item.type === 'bun' ? handleAddBunToOrder(item) : handleAddToOrder(item);
       }
       return ingredient;
     },
   });
 
   return (
-    <section className={style.main + " pr-5"} ref={dropTarget}>
+    <section className={style.main + ' pr-5'} ref={dropTarget}>
       <div className={style.elements}>
         <div className={style.element}>
           <ConstructorElement
-            type="top"
+            type='top'
             isLocked={true}
-            text={bun.name + " (верх)"}
+            text={bun.name + ' (верх)'}
             price={bun.price}
             thumbnail={bun.image}
           />
@@ -93,20 +93,20 @@ const BurgerConstructor: FC = () => {
 
         <div className={style.element}>
           <ConstructorElement
-            type="bottom"
+            type='bottom'
             isLocked={true}
-            text={bun.name + " (низ)"}
+            text={bun.name + ' (низ)'}
             price={bun.price}
             thumbnail={bun.image}
           />
         </div>
       </div>
-      <div className={style.ordinary + " p-8"}>
+      <div className={style.ordinary + ' p-8'}>
         <div className={style.total}>
-          <p className="text text_type_digits-medium">{totalPrice}</p>
-          <CurrencyIcon type="primary" />
+          <p className='text text_type_digits-medium'>{totalPrice}</p>
+          <CurrencyIcon type='primary' />
         </div>
-        <Button type="primary" size="large" onClick={handleOrderClick} disabled={!bun.price}>
+        <Button type='primary' size='large' onClick={handleOrderClick} disabled={!bun.price}>
           Оформить заказ
         </Button>
       </div>

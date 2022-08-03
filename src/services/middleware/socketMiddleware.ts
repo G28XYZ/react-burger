@@ -1,6 +1,6 @@
-import { ActionCreatorWithoutPayload, ActionCreatorWithPayload } from "@reduxjs/toolkit";
-import { Middleware } from "redux";
-import { rootReducer } from "../store";
+import { ActionCreatorWithoutPayload, ActionCreatorWithPayload } from '@reduxjs/toolkit';
+import { Middleware } from 'redux';
+import { rootReducer } from './../store';
 
 export type TwsActionTypes = {
   wsConnect: ActionCreatorWithPayload<string>;
@@ -18,7 +18,7 @@ export const socketMiddleware = (wsActions: TwsActionTypes): Middleware<{}, Retu
     let socket: WebSocket | null = null;
     let isConnected = false;
     let reconnectTimer = 0;
-    let url = "";
+    let url = '';
 
     return (next) => (action) => {
       const { dispatch } = store;
@@ -37,7 +37,7 @@ export const socketMiddleware = (wsActions: TwsActionTypes): Middleware<{}, Retu
         };
 
         socket.onerror = (err) => {
-          dispatch(onError("Socket request error"));
+          dispatch(onError('Socket request error'));
         };
 
         socket.onmessage = (event) => {

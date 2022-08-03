@@ -1,14 +1,14 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { openModalWithOrder, closeModal } from "../actions/modal";
+import { createSlice } from '@reduxjs/toolkit';
+import { openModalWithOrder, closeModal } from './../actions/modal';
 
 const initialState = {
-  title: "",
+  title: '',
   orderInModal: false,
   ingredientInModal: null,
 };
 
 export const modalSlice = createSlice({
-  name: "modal",
+  name: 'modal',
   initialState,
   reducers: {
     openModalWithOrder,

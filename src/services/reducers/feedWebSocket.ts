@@ -1,12 +1,12 @@
-import { createReducer } from "@reduxjs/toolkit";
-import { IFetchOrdersData } from "../../utils/types";
-import { wsOpen, wsClose, wsMessage, wsError, wsConnecting, countConnect } from "../actions/feedWebSocket";
+import { createReducer } from '@reduxjs/toolkit';
+import { IFetchOrdersData } from './../../utils/types';
+import { wsOpen, wsClose, wsMessage, wsError, wsConnecting, countConnect } from './../actions/feedWebSocket';
 
 export enum WebsocketStatus {
-  CONNECTING = "CONNECTING...",
-  ONLINE = "ONLINE",
-  OFFLINE = "OFFLINE",
-  ERROR = "ERROR",
+  CONNECTING = 'CONNECTING...',
+  ONLINE = 'ONLINE',
+  OFFLINE = 'OFFLINE',
+  ERROR = 'ERROR',
 }
 
 export interface TwsState {
@@ -19,7 +19,7 @@ export interface TwsState {
 const initialState = {
   count: 0,
   status: WebsocketStatus.OFFLINE,
-  connectionError: "",
+  connectionError: '',
   data: { orders: [], success: false, total: 0, totalToday: 0 },
 };
 
@@ -30,7 +30,7 @@ export const wssReducer = createReducer<TwsState>(initialState, (builder) => {
     })
     .addCase(wsOpen, (state) => {
       state.status = WebsocketStatus.ONLINE;
-      state.connectionError = "";
+      state.connectionError = '';
     })
     .addCase(wsClose, (state) => {
       state.status = WebsocketStatus.OFFLINE;

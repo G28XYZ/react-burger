@@ -1,6 +1,6 @@
-import { FC } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
-import { useAppSelector } from "../../services/store";
+import { FC } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { useAppSelector } from './../../services/store';
 
 const PrivateRoute: FC = () => {
   const { loggedIn } = useAppSelector((state) => state.user);

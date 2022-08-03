@@ -1,9 +1,9 @@
-import { FC, useEffect, useMemo } from "react";
-import { Outlet } from "react-router-dom";
-import { NotFound } from "../../pages";
-import { connect, countConnect, disconnect } from "../../services/actions/feedWebSocket";
-import { useAppDispatch, useAppSelector } from "../../services/store";
-import Preloader from "../preloader";
+import { FC, useEffect, useMemo } from 'react';
+import { Outlet } from 'react-router-dom';
+import { NotFound } from './../../pages';
+import { connect, countConnect, disconnect } from './../../services/actions/feedWebSocket';
+import { useAppDispatch, useAppSelector } from './../../services/store';
+import Preloader from './../preloader';
 
 const SocketConnectRouter: FC<{ socketUrl: string }> = ({ socketUrl }) => {
   const dispatch = useAppDispatch();
@@ -30,7 +30,7 @@ const SocketConnectRouter: FC<{ socketUrl: string }> = ({ socketUrl }) => {
   useEffect(() => {
     if (isConnectingError) {
       wsDisconnect();
-      console.log("Ошибка при запросе");
+      console.log('Ошибка при запросе');
     }
   }, [isConnectingError]);
 

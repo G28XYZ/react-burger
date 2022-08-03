@@ -1,9 +1,9 @@
-import { useAppSelector } from "../../services/store";
-import style from "./feed.module.scss";
-import OrderFeed from "../../components/order-feed/OrderFeed";
-import StatusFeed from "../../components/status-feed/StatusFeed";
-import { FC } from "react";
-import { Outlet, Params, useParams } from "react-router-dom";
+import { useAppSelector } from './../../services/store';
+import style from './feed.module.scss';
+import OrderFeed from './../../components/order-feed/OrderFeed';
+import StatusFeed from './../../components/status-feed/StatusFeed';
+import { FC } from 'react';
+import { Outlet, Params, useParams } from 'react-router-dom';
 
 const Feed: FC = () => {
   const params = useParams<Params>();
@@ -16,7 +16,7 @@ const Feed: FC = () => {
       <h2 className={`${style.feedOrdersTitle} text text_type_main-large`}>Лента заказов</h2>
       {data.success && (
         <div className={style.feedOrders}>
-          <OrderFeed orderFeedData={data} route={"/feed"} />
+          <OrderFeed orderFeedData={data} route={'/feed'} />
           <StatusFeed orderFeedData={data} />
         </div>
       )}

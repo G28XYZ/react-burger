@@ -1,11 +1,11 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import api from "../../utils/api";
-import { initialBun } from "../../utils/constants";
-import { Ingredient, IStateOrder, TCeseReducerOrder } from "../../utils/types";
-const shortId = require("shortid");
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import api from './../../utils/api';
+import { initialBun } from './../../utils/constants';
+import { Ingredient, IStateOrder, TCeseReducerOrder } from './../../utils/types';
+const shortId = require('shortid');
 
 export const onRegisterOrder = createAsyncThunk(
-  "order/onRegisterOrder",
+  'order/onRegisterOrder',
   async ({ ingredients, token }: { ingredients: string[]; token: string }) => {
     const response = await api.getOrder(ingredients, token);
     if (response.success) {
@@ -63,5 +63,5 @@ export const moveIngredient: TCeseReducerOrder = (state, action) => {
 export const resetOrder = (state: IStateOrder) => {
   state.list = [];
   state.bun = initialBun;
-  state.id = "";
+  state.id = '';
 };

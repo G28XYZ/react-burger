@@ -4,8 +4,8 @@ export const formatDateOrder = (updatedAt: string) => {
   const GMT = Math.ceil(updatedDate.getTimezoneOffset() / 60);
   const nowDate = new Date();
   let day: number | string = nowDate.getDay() - updatedDate.getDay();
-  day = day ? (day > 1 ? `${day} назад` : "Вчера") : "Сегодня";
+  day = day ? (day > 1 ? `${day} назад` : 'Вчера') : 'Сегодня';
   return `${day}, ${formatTime(updatedDate.getHours())}:${formatTime(updatedDate.getMinutes())} i-GMT${
-    GMT > 0 ? "+" : ""
+    GMT > 0 ? '+' : ''
   }${GMT}`;
 };

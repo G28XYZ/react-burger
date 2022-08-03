@@ -1,4 +1,4 @@
-import { apiAddress } from "./constants";
+import { apiAddress } from './constants';
 
 class Api {
   _address: string;
@@ -7,7 +7,7 @@ class Api {
   constructor(address: string) {
     this._address = address;
     this._headers = {
-      "Content-type": "application/json",
+      'Content-type': 'application/json',
     };
   }
 
@@ -21,10 +21,10 @@ class Api {
 
   getOrder(ingredients: string[], token: string) {
     return fetch(`${this._address}/orders`, {
-      method: "POST",
+      method: 'POST',
       headers: {
         ...this._headers,
-        Authorization: "Bearer " + token,
+        Authorization: 'Bearer ' + token,
       },
       body: JSON.stringify({ ingredients }),
     }).then(this._handleResponse);

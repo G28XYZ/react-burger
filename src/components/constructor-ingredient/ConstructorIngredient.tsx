@@ -1,10 +1,10 @@
-import { CollectedProps, DragObject, DropResult, Ingredient } from "../../utils/types";
-import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import style from "../burger-constructor/burger-constructor.module.css";
-import { useDrag, useDrop, XYCoord } from "react-dnd";
-import { FC, useRef } from "react";
-import { useAppDispatch, useAppSelector } from "../../services/store";
-import orderSlice from "../../services/reducers/order";
+import { CollectedProps, DragObject, DropResult, Ingredient } from './../../utils/types';
+import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import style from './../burger-constructor/burger-constructor.module.css';
+import { useDrag, useDrop, XYCoord } from 'react-dnd';
+import { FC, useRef } from 'react';
+import { useAppDispatch, useAppSelector } from './../../services/store';
+import orderSlice from './../../services/reducers/order';
 
 const ConstructorIngredient: FC<{ item: Ingredient }> = ({ item }) => {
   const dispatch = useAppDispatch();
@@ -15,7 +15,7 @@ const ConstructorIngredient: FC<{ item: Ingredient }> = ({ item }) => {
   const ref = useRef<HTMLDivElement>(null);
 
   const [{ opacity }, drag] = useDrag<DragObject, DropResult, CollectedProps>({
-    type: "constructor_ingredient",
+    type: 'constructor_ingredient',
     item: item as Ingredient,
     collect: (monitor) => ({
       opacity: monitor.isDragging() ? 0 : 1,
@@ -26,7 +26,7 @@ const ConstructorIngredient: FC<{ item: Ingredient }> = ({ item }) => {
   });
 
   const [, dropTarget] = useDrop<CollectedProps>({
-    accept: ["constructor_ingredient", "ingredient"],
+    accept: ['constructor_ingredient', 'ingredient'],
     collect: (monitor) => ({
       isHover: monitor.isOver(),
       handlerId: monitor.getHandlerId(),
@@ -34,16 +34,12 @@ const ConstructorIngredient: FC<{ item: Ingredient }> = ({ item }) => {
     hover(ingredient, monitor) {
       const dragItem = ingredient as Ingredient;
       const itemType = monitor.getItemType();
-      if (itemType === "ingredient") {
+      if (itemType === 'ingredient') {
         dispatch(setDragged({ ingredient: null }));
       }
-      if (itemType === "constructor_ingredient") {
-        const hoverIndex = orderList.findIndex(
-          (element: Ingredient) => element.shortId === item.shortId
-        );
-        const dragIndex = orderList.findIndex(
-          (element: Ingredient) => element.shortId === dragItem.shortId
-        );
+      if (itemType === 'constructor_ingredient') {
+        const hoverIndex = orderList.findIndex((element: Ingredient) => element.shortId === item.shortId);
+        const dragIndex = orderList.findIndex((element: Ingredient) => element.shortId === dragItem.shortId);
         if (dragIndex === hoverIndex) {
           return;
         }
@@ -67,10 +63,10 @@ const ConstructorIngredient: FC<{ item: Ingredient }> = ({ item }) => {
   }
 
   const [, dropDragIcon] = useDrop<CollectedProps>({
-    accept: "ingredient",
+    accept: 'ingredient',
     hover: (ingredient) => {
       const dragItem = ingredient as Ingredient;
-      if (dragItem.type !== "bun") {
+      if (dragItem.type !== 'bun') {
         dispatch(setDragged({ ingredient: item }));
       }
     },
@@ -78,10 +74,10 @@ const ConstructorIngredient: FC<{ item: Ingredient }> = ({ item }) => {
 
   drag(dropTarget(ref));
 
-  return item.type !== "bun" ? (
+  return item.type !== 'bun' ? (
     <div className={style.element_container} ref={ref} style={{ opacity }}>
       <div ref={dropDragIcon} className={style.dragIcon}>
-        {isDrag ? <div className={style.replaceIcon}>↻</div> : <DragIcon type="primary" />}
+        {isDrag ? <div className={style.replaceIcon}>↻</div> : <DragIcon type='primary' />}
       </div>
       <div className={style.element}>
         <ConstructorElement

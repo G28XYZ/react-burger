@@ -1,4 +1,4 @@
-import { IStateModal } from "../../utils/types";
+import { IStateModal } from './../../utils/types';
 
 export const openModalWithOrder = (state: IStateModal) => {
   state.orderInModal = true;

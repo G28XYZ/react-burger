@@ -1,13 +1,13 @@
-import { Button, Input, Logo } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ChangeEvent, FC, FormEvent, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { onForgotPassword } from "../../services/actions/user";
-import { useAppDispatch } from "../../services/store";
-import style from "./auth.module.css";
+import { Button, Input, Logo } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ChangeEvent, FC, FormEvent, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { onForgotPassword } from './../../services/actions/user';
+import { useAppDispatch } from './../../services/store';
+import style from './auth.module.css';
 
 const ForgotPassword: FC = () => {
   const dispatch = useAppDispatch();
-  const [form, setForm] = useState<{ email: string }>({ email: "" });
+  const [form, setForm] = useState<{ email: string }>({ email: '' });
   const navigate = useNavigate();
 
   const handleChangeForm = (e: ChangeEvent<HTMLInputElement>) => {
@@ -17,7 +17,7 @@ const ForgotPassword: FC = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(onForgotPassword(form.email)).then(({ payload }) => {
-      if (payload) navigate("/reset-password");
+      if (payload) navigate('/reset-password');
     });
   };
 
@@ -25,25 +25,25 @@ const ForgotPassword: FC = () => {
     <div className={`${style.auth} pt-30`}>
       <Logo />
       <form className={style.form} onSubmit={handleSubmit}>
-        <h2 className="text text_type_main-medium pt-20">Восстановление пароля</h2>
+        <h2 className='text text_type_main-medium pt-20'>Восстановление пароля</h2>
         <Input
-          type={"text"}
-          placeholder={"Укажите e-mail"}
+          type={'text'}
+          placeholder={'Укажите e-mail'}
           onChange={handleChangeForm}
           value={form.email}
-          name={"email"}
+          name={'email'}
           error={false}
-          errorText={"Ошибка"}
-          size={"default"}
+          errorText={'Ошибка'}
+          size={'default'}
         />
-        <Button type="primary" size="medium">
+        <Button type='primary' size='medium'>
           Восстановить
         </Button>
       </form>
       <div>
-        <p className="text text_type_main-default text_color_inactive">
+        <p className='text text_type_main-default text_color_inactive'>
           Вспомнили пароль?
-          <Link to="/login" className={style.link + " pl-3"}>
+          <Link to='/login' className={style.link + ' pl-3'}>
             Войти
           </Link>
         </p>

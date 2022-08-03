@@ -1,18 +1,18 @@
-import { FC } from "react";
-import { NavLink, Outlet } from "react-router-dom";
-import { onLogout } from "../../services/actions/user";
-import { useAppDispatch } from "../../services/store";
-import { onActiveLink } from "../../utils/onActiveLink";
-import style from "./profile.module.css";
+import { FC } from 'react';
+import { NavLink, Outlet } from 'react-router-dom';
+import { onLogout } from './../../services/actions/user';
+import { useAppDispatch } from './../../services/store';
+import { onActiveLink } from './../../utils/onActiveLink';
+import style from './profile.module.css';
 
 const Profile: FC = () => {
   const dispatch = useAppDispatch();
   const handleClickLogout = () => {
-    const refreshToken = sessionStorage.getItem("refreshToken");
+    const refreshToken = sessionStorage.getItem('refreshToken');
     if (refreshToken) dispatch(onLogout(refreshToken));
   };
 
-  const styleLink = "text text_type_main-medium";
+  const styleLink = 'text text_type_main-medium';
 
   return (
     <div className={style.profile}>
@@ -20,18 +20,18 @@ const Profile: FC = () => {
         <nav>
           <ul className={`${style.list}`}>
             <li className={style.item}>
-              <NavLink to="" className={`${style.link} ${styleLink}`} style={onActiveLink} end>
+              <NavLink to='' className={`${style.link} ${styleLink}`} style={onActiveLink} end>
                 Профиль
               </NavLink>
             </li>
             <li className={style.item}>
-              <NavLink to="orders" className={`${style.link} ${styleLink}`} style={onActiveLink}>
+              <NavLink to='orders' className={`${style.link} ${styleLink}`} style={onActiveLink}>
                 История заказов
               </NavLink>
             </li>
             <li className={style.item}>
               <NavLink
-                to="/login"
+                to='/login'
                 className={`${style.link} ${styleLink}`}
                 onClick={handleClickLogout}
                 style={onActiveLink}

@@ -1,8 +1,8 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import api from "../../utils/api";
-import { TCaseReducerIngredients } from "../../utils/types";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import api from './../../utils/api';
+import { TCaseReducerIngredients } from './../../utils/types';
 
-export const fetchIngredients = createAsyncThunk("ingredients/fetchIngredients", async () => {
+export const fetchIngredients = createAsyncThunk('ingredients/fetchIngredients', async () => {
   const response = await api.getIngredients();
   if (response.success) {
     return response.data;

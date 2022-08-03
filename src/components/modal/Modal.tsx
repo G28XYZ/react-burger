@@ -1,16 +1,16 @@
-import { FC, useCallback, useEffect, useState } from "react";
-import ReactDOM from "react-dom";
-import style from "./modal.module.css";
-import ModalOverlay from "../modal-overlay/ModalOverlay";
-import { IModalProps, TCallbackModalCloseByEsc } from "../../utils/types";
+import { FC, useCallback, useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
+import style from './modal.module.css';
+import ModalOverlay from './../modal-overlay/ModalOverlay';
+import { IModalProps, TCallbackModalCloseByEsc } from './../../utils/types';
 
-const modal = document.getElementById("react-modals") as HTMLElement;
+const modal = document.getElementById('react-modals') as HTMLElement;
 
 const Modal: FC<IModalProps> = ({ children, onCloseModal }) => {
   const [popupClass, setPopupClass] = useState<string>(style.popup);
   const handleCloseModalByEsc = useCallback<TCallbackModalCloseByEsc>(
     (e) => {
-      if (e.code === "Escape") {
+      if (e.code === 'Escape') {
         onCloseModal();
       }
     },
@@ -19,9 +19,9 @@ const Modal: FC<IModalProps> = ({ children, onCloseModal }) => {
 
   useEffect(() => {
     setPopupClass(style.popup_opened);
-    document.addEventListener("keydown", handleCloseModalByEsc);
+    document.addEventListener('keydown', handleCloseModalByEsc);
     return () => {
-      document.removeEventListener("keydown", handleCloseModalByEsc);
+      document.removeEventListener('keydown', handleCloseModalByEsc);
       setPopupClass(style.popup);
     };
   }, [handleCloseModalByEsc]);

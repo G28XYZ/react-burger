@@ -1,8 +1,8 @@
-import { FC } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { IFetchOrderItem, IFetchOrdersData } from "../../utils/types";
-import style from "./order-feed.module.scss";
-import OrderFeedComponent from "./OrderFeedComponent";
+import { FC } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { IFetchOrderItem, IFetchOrdersData } from './../../utils/types';
+import style from './order-feed.module.scss';
+import OrderFeedComponent from './OrderFeedComponent';
 
 const OrderFeed: FC<{ orderFeedData: IFetchOrdersData; route: string }> = ({ orderFeedData, route }) => {
   const location = useLocation();

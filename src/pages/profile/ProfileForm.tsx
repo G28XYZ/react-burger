@@ -1,11 +1,11 @@
-import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ChangeEvent, FC, useCallback, useEffect, useState } from "react";
-import { useAppSelector } from "../../services/store";
-import style from "./profile.module.css";
+import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
+import { useAppSelector } from './../../services/store';
+import style from './profile.module.css';
 
 const ProfileForm: FC = () => {
   const { name, email } = useAppSelector((state) => state.user);
-  const [form, setForm] = useState<{ [key: string]: string }>({ email, password: "", name });
+  const [form, setForm] = useState<{ [key: string]: string }>({ email, password: '', name });
 
   const handleChangeForm = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -18,37 +18,37 @@ const ProfileForm: FC = () => {
   return (
     <form className={`${style.form} pt-20`}>
       <Input
-        type={"text"}
-        placeholder={"Имя"}
+        type={'text'}
+        placeholder={'Имя'}
         onChange={handleChangeForm}
-        icon={"EditIcon"}
+        icon={'EditIcon'}
         value={form.name}
-        name={"name"}
+        name={'name'}
         error={false}
-        errorText={"Ошибка"}
-        size={"default"}
+        errorText={'Ошибка'}
+        size={'default'}
       />
       <Input
-        type={"text"}
-        placeholder={"E-mail"}
+        type={'text'}
+        placeholder={'E-mail'}
         onChange={handleChangeForm}
-        icon={"EditIcon"}
+        icon={'EditIcon'}
         value={form.email}
-        name={"email"}
+        name={'email'}
         error={false}
-        errorText={"Ошибка"}
-        size={"default"}
+        errorText={'Ошибка'}
+        size={'default'}
       />
       <Input
-        type={"password"}
-        placeholder={"Пароль"}
+        type={'password'}
+        placeholder={'Пароль'}
         onChange={handleChangeForm}
-        icon={"EditIcon"}
+        icon={'EditIcon'}
         value={form.password}
-        name={"password"}
+        name={'password'}
         error={false}
-        errorText={"Ошибка"}
-        size={"default"}
+        errorText={'Ошибка'}
+        size={'default'}
       />
     </form>
   );

@@ -1,11 +1,11 @@
-import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { CSSProperties, FC, useState } from "react";
-import { useAppSelector } from "../../services/store";
-import { statusList } from "../../utils/constants";
-import { formatDateOrder } from "../../utils/formatDateOrder";
-import { getIngredientByParameter } from "../../utils/getIngredientByParameter";
-import { IFetchOrderItem, Ingredient } from "../../utils/types";
-import style from "./order-feed.module.scss";
+import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { CSSProperties, FC, useState } from 'react';
+import { useAppSelector } from './../../services/store';
+import { statusList } from './../../utils/constants';
+import { formatDateOrder } from './../../utils/formatDateOrder';
+import { getIngredientByParameter } from './../../utils/getIngredientByParameter';
+import { IFetchOrderItem, Ingredient } from './../../utils/types';
+import style from './order-feed.module.scss';
 
 const OrderFeedComponent: FC<{ order: IFetchOrderItem; route: string }> = ({ order, route }) => {
   const { ingredients } = useAppSelector((state) => state.ingredients);
@@ -13,11 +13,11 @@ const OrderFeedComponent: FC<{ order: IFetchOrderItem; route: string }> = ({ ord
   const countIngredientsInOrder = order.ingredients.length;
 
   const getPrice = (ingredientId: string): number => {
-    return getIngredientByParameter("_id", ingredientId, ingredients as Ingredient[])?.price || 0;
+    return getIngredientByParameter('_id', ingredientId, ingredients as Ingredient[])?.price || 0;
   };
 
   const getImage = (ingredientId: string): string => {
-    return getIngredientByParameter("_id", ingredientId, ingredients as Ingredient[])?.image_mobile || "";
+    return getIngredientByParameter('_id', ingredientId, ingredients as Ingredient[])?.image_mobile || '';
   };
 
   const MoreOverlayElement = () => {
@@ -32,14 +32,14 @@ const OrderFeedComponent: FC<{ order: IFetchOrderItem; route: string }> = ({ ord
     <li
       key={order._id}
       className={`${style.orderItem}`}
-      style={{ "--ingredientCount": order.ingredients.length } as CSSProperties}
+      style={{ '--ingredientCount': order.ingredients.length } as CSSProperties}
     >
       <div className={`${style.orderHeader}`}>
-        <p className="text text_type_digits-default">#{order.number}</p>
-        <p className="text text_type_main-default text_color_inactive">{formatDateOrder(order.updatedAt)}</p>
+        <p className='text text_type_digits-default'>#{order.number}</p>
+        <p className='text text_type_main-default text_color_inactive'>{formatDateOrder(order.updatedAt)}</p>
       </div>
-      <h3 className="text text_type_main-medium">{order.name}</h3>
-      {route === "/profile/orders" && <p className={`${""} text text_type_main-default`}>{statusList[order.status]}</p>}
+      <h3 className='text text_type_main-medium'>{order.name}</h3>
+      {route === '/profile/orders' && <p className={`${''} text text_type_main-default`}>{statusList[order.status]}</p>}
       <div className={`${style.orderInfo}`}>
         <div className={style.orderImages}>
           {order.ingredients.slice(0, totalCount).map((ingredientId: string, i: number) => (
@@ -51,7 +51,7 @@ const OrderFeedComponent: FC<{ order: IFetchOrderItem; route: string }> = ({ ord
         </div>
         <p className={`${style.price} text text_type_digits-default`}>
           {order.ingredients.reduce((price: number, id: string) => price + getPrice(id), 0)}
-          <CurrencyIcon type="primary" />
+          <CurrencyIcon type='primary' />
         </p>
       </div>
     </li>

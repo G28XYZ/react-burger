@@ -1,5 +1,5 @@
 import { createAction } from "@reduxjs/toolkit";
-import { IFetchOrdersData } from "../../utils/types";
+import { IFetchOrdersData } from "./../../utils/types";
 
 export type Data = {
   type: "DATA";

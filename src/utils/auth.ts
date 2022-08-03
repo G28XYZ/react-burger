@@ -1,4 +1,4 @@
-import { apiAddress } from "./constants";
+import { apiAddress } from './constants';
 
 class Auth {
   _address: string;
@@ -7,7 +7,7 @@ class Auth {
   constructor(address: string) {
     this._address = address;
     this._headers = {
-      "Content-type": "application/json",
+      'Content-type': 'application/json',
     };
   }
 
@@ -17,78 +17,78 @@ class Auth {
 
   async login(form: {}) {
     return await fetch(`${this._address}/auth/login`, {
-      method: "POST",
+      method: 'POST',
       headers: this._headers,
-      credentials: "same-origin",
+      credentials: 'same-origin',
       body: JSON.stringify(form),
     }).then(this._handleResponse);
   }
 
   async register(form: {}) {
     return await fetch(`${this._address}/auth/register`, {
-      method: "POST",
+      method: 'POST',
       headers: this._headers,
-      credentials: "same-origin",
+      credentials: 'same-origin',
       body: JSON.stringify(form),
     }).then(this._handleResponse);
   }
 
   async logout(token: string) {
     return await fetch(`${this._address}/auth/logout`, {
-      method: "POST",
+      method: 'POST',
       headers: this._headers,
-      credentials: "same-origin",
+      credentials: 'same-origin',
       body: JSON.stringify({ token }),
     }).then(this._handleResponse);
   }
 
   async forgotPassword(email: string) {
     return await fetch(`${this._address}/password-reset`, {
-      method: "POST",
+      method: 'POST',
       headers: this._headers,
-      credentials: "same-origin",
+      credentials: 'same-origin',
       body: JSON.stringify({ email }),
     }).then(this._handleResponse);
   }
 
   async resetPassword(password: string, token: string) {
     return await fetch(`${this._address}/password-reset/reset`, {
-      method: "POST",
+      method: 'POST',
       headers: this._headers,
-      credentials: "same-origin",
+      credentials: 'same-origin',
       body: JSON.stringify({ password, token }),
     }).then(this._handleResponse);
   }
 
   async refreshToken(token: string) {
     return await fetch(`${this._address}/auth/token`, {
-      method: "POST",
-      mode: "cors",
-      cache: "no-cache",
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
       headers: this._headers,
-      credentials: "same-origin",
+      credentials: 'same-origin',
       body: JSON.stringify({ token }),
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
     }).then(this._handleResponse);
   }
 
   async getUser(token: string) {
     return await fetch(`${this._address}/auth/user`, {
-      method: "GET",
-      credentials: "same-origin",
+      method: 'GET',
+      credentials: 'same-origin',
       headers: {
         ...this._headers,
-        Authorization: "Bearer " + token,
+        Authorization: 'Bearer ' + token,
       },
     }).then(this._handleResponse);
   }
 
   async editUser(form: {}) {
     return await fetch(`${this._address}/auth/user`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: this._headers,
-      credentials: "same-origin",
+      credentials: 'same-origin',
       body: JSON.stringify(form),
     }).then(this._handleResponse);
   }

@@ -1,5 +1,5 @@
-import { FC } from "react";
-import style from "./modal-overlay.module.css";
+import { FC } from 'react';
+import style from './modal-overlay.module.css';
 
 const ModalOverlay: FC<{
   onCloseModal: () => void;
