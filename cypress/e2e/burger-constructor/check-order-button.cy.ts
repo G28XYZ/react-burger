@@ -47,4 +47,8 @@ describe('Проверка состояний кнопки Оформить за
       cy.get('[class^=order-info_title__]').should('not.empty')
     })
   });
+  it('Закрытие модального окна', () => {
+    cy.get('[class^=modal_container__]').find('[class^=modal_close__]').click();
+    cy.get('#react-modals').find('div').should('have.length', 0);
+  })
 });

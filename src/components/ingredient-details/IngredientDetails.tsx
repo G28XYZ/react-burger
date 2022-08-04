@@ -22,7 +22,7 @@ const IngredientDetails: FC = () => {
     <div className={`${style.modal} ${!background && 'pt-30'}`}>
       <h2 className='text text_type_main-large'>Детали ингредиента</h2>
       <img src={ingredient.image_large} alt={ingredient.name} />
-      <p className='text text_type_main-medium  pb-5'>{ingredient.name}</p>
+      <p className='name text text_type_main-medium  pb-5'>{ingredient.name}</p>
       <ul className={style.structure + ' text text_type_main-default text_color_inactive'}>
         {structureNames.map((element: string[]) => {
           const key = element[0] as keyof Ingredient;
