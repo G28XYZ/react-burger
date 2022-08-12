@@ -1,7 +1,7 @@
-import { createSlice, SliceCaseReducers } from '@reduxjs/toolkit';
-import { setCookie } from './../../utils/setCookie';
-import { setSessionStorage } from './../../utils/setSessionStorage';
-import { IStateUser } from './../../utils/types';
+import { createSlice, SliceCaseReducers } from "@reduxjs/toolkit";
+import { setCookie } from "./../../utils/setCookie";
+import { setSessionStorage } from "./../../utils/setSessionStorage";
+import { IStateUser } from "./../../utils/types";
 import {
   onForgotPassword,
   onGetUser,
@@ -10,27 +10,27 @@ import {
   onRefreshToken,
   onRegister,
   onResetPassword,
-} from './../actions/user';
+} from "./../actions/user";
 
-const initialState = {
-  name: '',
-  email: '',
+export const initialState = {
+  name: "",
+  email: "",
   loggedIn: false,
 };
 
 export const userSlice = createSlice<IStateUser, SliceCaseReducers<IStateUser>>({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(onLogin.fulfilled, (state, action) => {
       const { accessToken, refreshToken, success, user } = action.payload;
-      const token = accessToken.replace('Bearer ', '');
+      const token = accessToken.replace("Bearer ", "");
       if (token) {
-        setCookie('token', token, {});
-        setCookie('refreshToken', refreshToken, {});
-        setSessionStorage('token', token);
-        setSessionStorage('refreshToken', refreshToken);
+        setCookie("token", token, {});
+        setCookie("refreshToken", refreshToken, {});
+        setSessionStorage("token", token);
+        setSessionStorage("refreshToken", refreshToken);
         state.name = user.name;
         state.email = user.email;
         state.loggedIn = success;
@@ -41,12 +41,12 @@ export const userSlice = createSlice<IStateUser, SliceCaseReducers<IStateUser>>(
 
     builder.addCase(onRegister.fulfilled, (state, action) => {
       const { accessToken, refreshToken, success, user } = action.payload;
-      const token = accessToken.replace('Bearer ', '');
+      const token = accessToken.replace("Bearer ", "");
       if (token) {
-        setCookie('token', token, {});
-        setCookie('refreshToken', refreshToken, {});
-        setSessionStorage('token', token);
-        setSessionStorage('refreshToken', refreshToken);
+        setCookie("token", token, {});
+        setCookie("refreshToken", refreshToken, {});
+        setSessionStorage("token", token);
+        setSessionStorage("refreshToken", refreshToken);
         state.name = user.name;
         state.email = user.email;
         state.loggedIn = success;
@@ -62,20 +62,20 @@ export const userSlice = createSlice<IStateUser, SliceCaseReducers<IStateUser>>(
         state.name = user.name;
         state.loggedIn = true;
       } else {
-        state.email = '';
-        state.name = '';
+        state.email = "";
+        state.name = "";
         state.loggedIn = false;
       }
     });
 
     builder.addCase(onRefreshToken.fulfilled, (state, action) => {
       const { accessToken, refreshToken, success } = action.payload;
-      const token = accessToken.replace('Bearer ', '');
+      const token = accessToken.replace("Bearer ", "");
       if (token) {
-        setCookie('token', token, {});
-        setCookie('refreshToken', refreshToken, {});
-        setSessionStorage('token', token);
-        setSessionStorage('refreshToken', refreshToken);
+        setCookie("token", token, {});
+        setCookie("refreshToken", refreshToken, {});
+        setSessionStorage("token", token);
+        setSessionStorage("refreshToken", refreshToken);
         state.loggedIn = success;
       } else {
         state.loggedIn = false;
@@ -86,13 +86,13 @@ export const userSlice = createSlice<IStateUser, SliceCaseReducers<IStateUser>>(
       const { success } = action.payload;
       if (success) {
         sessionStorage.clear();
-        setCookie('token', '', {});
-        setCookie('refreshToken', '', {});
+        setCookie("token", "", {});
+        setCookie("refreshToken", "", {});
         state.loggedIn = false;
-        state.name = '';
-        state.email = '';
+        state.name = "";
+        state.email = "";
       } else {
-        console.log('Ошибка выхода из системы');
+        console.log("Ошибка выхода из системы");
       }
     });
 
@@ -101,7 +101,7 @@ export const userSlice = createSlice<IStateUser, SliceCaseReducers<IStateUser>>(
       if (success) {
         console.log(message);
       } else {
-        console.log('Ошибка восстановления пароля');
+        console.log("Ошибка восстановления пароля");
       }
     });
 
@@ -110,7 +110,7 @@ export const userSlice = createSlice<IStateUser, SliceCaseReducers<IStateUser>>(
       if (success) {
         console.log(message);
       } else {
-        console.log('Ошибка сброса пароля');
+        console.log("Ошибка сброса пароля");
       }
     });
   },
