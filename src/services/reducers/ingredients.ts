@@ -39,7 +39,7 @@ export const ingredientsSlice = createSlice<IStateIngredients, SliceCaseReducers
         return object;
       }, {});
 
-      state.ingredients = action.payload;
+      state.ingredients = action.payload.data;
       state.loading = true;
     });
   },
