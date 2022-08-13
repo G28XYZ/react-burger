@@ -1,10 +1,10 @@
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
-import { orderSlice } from "../services/reducers/order";
-import { initialState as orderState } from "../services/reducers/order";
-import api from "../utils/api";
-import { onRegisterOrder } from "../services/actions/order";
-import { initialBun } from "../utils/constants";
+import { orderSlice } from "../order";
+import { initialState as orderState } from "../order";
+import api from "../../../utils/api";
+import { onRegisterOrder } from "../../actions/order";
+import { initialBun } from "../../../utils/constants";
 
 global.fetch = require("jest-fetch-mock");
 

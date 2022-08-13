@@ -79,16 +79,14 @@ const App: FC = () => {
 
         <Route path="" element={<SocketConnectRouter socketUrl={`${wssAddress}/all`} />}>
           <Route path="feed/" element={<Feed />}>
-            <Route path="" element={<ProtectedRoute />}>
-              <Route path=":id" element={data.success && <OrderDetails orderFeedData={data} />} />
-            </Route>
+            <Route path=":id" element={data.success && <OrderDetails orderFeedData={data} />} />
           </Route>
         </Route>
 
+        <Route path="" element={<SocketConnectRouter socketUrl={`${wssAddress}?token=${accessToken}`} />}>
+          <Route path="profile/orders/:id" element={data.success && <OrderDetails orderFeedData={data} />} />
+        </Route>
         <Route path="/" element={<ProtectedRoute />}>
-          <Route path="" element={<SocketConnectRouter socketUrl={`${wssAddress}?token=${accessToken}`} />}>
-            <Route path="profile/orders/:id" element={data.success && <OrderDetails orderFeedData={data} />} />
-          </Route>
           <Route path="profile" element={<Profile />}>
             <Route path="" element={<ProfileForm />} />
             <Route path="" element={<SocketConnectRouter socketUrl={`${wssAddress}?token=${accessToken}`} />}>

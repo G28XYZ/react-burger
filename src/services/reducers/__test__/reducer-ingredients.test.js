@@ -1,9 +1,9 @@
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
-import { ingredientsSlice } from "../services/reducers/ingredients";
-import { initialState as ingredientsState } from "../services/reducers/ingredients";
-import api from "../utils/api";
-import { fetchIngredients } from "../services/actions/ingredients";
+import { ingredientsSlice } from "../ingredients";
+import { initialState as ingredientsState } from "../ingredients";
+import api from "../../../utils/api";
+import { fetchIngredients } from "../../actions/ingredients";
 
 global.fetch = require("jest-fetch-mock");
 

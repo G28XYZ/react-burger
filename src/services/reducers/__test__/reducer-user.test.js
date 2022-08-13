@@ -1,9 +1,9 @@
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
-import { userSlice } from "../services/reducers/user";
-import { initialState as userState } from "../services/reducers/user";
-import auth from "../utils/auth";
-import { onLogin } from "../services/actions/user";
+import { userSlice } from "../user";
+import { initialState as userState } from "../user";
+import auth from "../../../utils/auth";
+import { onLogin } from "../../actions/user";
 
 describe("Redux store and actions", () => {
   beforeEach(() => {
