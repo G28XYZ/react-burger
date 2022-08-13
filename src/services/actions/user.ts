@@ -1,9 +1,9 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import auth from './../../utils/auth';
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import auth from "./../../utils/auth";
 
-export const onLogin = createAsyncThunk('user/onLogin', async (form: {}) => {
+export const onLogin = createAsyncThunk("user/onLogin", async (form: {}) => {
   const response = await auth.login(form);
-  if (response.success) {
+  if (response.success || response.result === "OK") {
     return response;
   } else {
     console.log(response);
@@ -11,7 +11,7 @@ export const onLogin = createAsyncThunk('user/onLogin', async (form: {}) => {
   }
 });
 
-export const onRegister = createAsyncThunk('user/onRegister', async (form: {}) => {
+export const onRegister = createAsyncThunk("user/onRegister", async (form: {}) => {
   const response = await auth.register(form);
   if (response.success) {
     return response;
@@ -21,7 +21,7 @@ export const onRegister = createAsyncThunk('user/onRegister', async (form: {}) =
   }
 });
 
-export const onForgotPassword = createAsyncThunk('user/onForgotPassword', async (email: string) => {
+export const onForgotPassword = createAsyncThunk("user/onForgotPassword", async (email: string) => {
   const response = await auth.forgotPassword(email);
   if (response.success) {
     return response;
@@ -32,7 +32,7 @@ export const onForgotPassword = createAsyncThunk('user/onForgotPassword', async 
 });
 
 export const onResetPassword = createAsyncThunk(
-  'user/onResetPassword',
+  "user/onResetPassword",
   async ({ password, token }: { [key: string]: string }) => {
     const response = await auth.resetPassword(password, token);
     if (response.success) {
@@ -44,7 +44,7 @@ export const onResetPassword = createAsyncThunk(
   }
 );
 
-export const onRefreshToken = createAsyncThunk('user/onRefreshToken', async (token: string) => {
+export const onRefreshToken = createAsyncThunk("user/onRefreshToken", async (token: string) => {
   const response = await auth.refreshToken(token);
   if (response.success) {
     return response;
@@ -54,7 +54,7 @@ export const onRefreshToken = createAsyncThunk('user/onRefreshToken', async (tok
   }
 });
 
-export const onGetUser = createAsyncThunk('user/onGetUser', async (token: string) => {
+export const onGetUser = createAsyncThunk("user/onGetUser", async (token: string) => {
   const response = await auth.getUser(token);
   if (response.success) {
     return response;
@@ -64,7 +64,7 @@ export const onGetUser = createAsyncThunk('user/onGetUser', async (token: string
   }
 });
 
-export const onLogout = createAsyncThunk('user/onLogout', async (token: string) => {
+export const onLogout = createAsyncThunk("user/onLogout", async (token: string) => {
   const response = await auth.logout(token);
   if (response.success) {
     return response;
